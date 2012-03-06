@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25dip"
+                android:layout_marginTop="25dip"
+                android:text="@string/main_title"
+                android:textColor="@color/headline"
+                android:textSize="24.5sp" />
+
+            <TableLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tableLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:shrinkColumns="*"
+                android:stretchColumns="*" >
+
+                <TableRow
+                    android:id="@+id/tableRow4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="25dip"
+                        android:layout_marginTop="25dip"
+                        android:hint="@string/number_holder"
+                        android:textColor="@color/headline"
+                        android:textSize="24.5sp" />
+                </TableRow>
+                
+                
+                <TableRow
+                    android:id="@+id/Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+	
+                      <TextView
+                        android:id="@+id/TextView04"
+                        android:gravity="center_horizontal"
+                        
+                        android:textStyle="bold" >
+                    </TextView>
+                    <TextView
+                        android:id="@+id/SentTitle"
+                        android:gravity="center_horizontal"
+                        android:text="Sent"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/ReceivedTitle"
+                        android:gravity="center_horizontal"
+                        android:text="Received"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+	<TableRow
+                    android:id="@+id/MessagesRow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+	
+                      <TextView
+                        android:id="@+id/MessagesTitle"
+                        android:gravity="center_horizontal"
+                        android:text="Messages"
+                        android:textStyle="bold" >
+                    </TextView>
+                    <TextView
+                        android:id="@+id/MessagesSent"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/MessagesReceived"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+
+                                <TableRow
+                    android:id="@+id/KissesRow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+	
+                      <TextView
+                        android:id="@+id/KissesTitle"
+                        android:gravity="center_horizontal"
+                        android:text="Kisses"
+                        android:textStyle="bold" >
+                    </TextView>
+                    <TextView
+                        android:id="@+id/KissesSent"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/KissesReceived"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+                                              <TableRow
+                    android:id="@+id/QuestionsRow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+	
+                      <TextView
+                        android:id="@+id/QuestionsTitle"
+                        android:gravity="center_horizontal"
+                        android:text="Questions"
+                        android:textStyle="bold" >
+                    </TextView>
+                    <TextView
+                        android:id="@+id/QuestionsSent"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/QuestionsReceived"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/do_contact_picker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="doLaunchContactPicker"
+        android:text="@string/pick_a_contact" />
+
+</LinearLayout>
