@@ -9,7 +9,6 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,39 +67,109 @@ public class Tugging extends Activity {
                         cursor.close();  
                     }  
                     
-                    TextView phoneEntry = (TextView) findViewById(R.id.phone_number);  
-                    phoneEntry.setText(phone); 
-                    
+        
                     
                  // START THE STAT ENGINE!
-                    Uri uriSMSURI = Uri.parse("content://sms");
+                    Uri uriSMSURI = Uri.parse("content://sms"); //access the sms db
                     Cursor cur = getContentResolver().query(uriSMSURI, null,
                     		null, null, null);
                     // set the rat to be analysed
                     String rat = phone;
 
                     // set the data to be collected
-                    //Integer sent = 0;
-                    //Integer received = 0;
+ 
                     Integer total = 0;
-
-                    // TODO add the scanning algo
-                      while (cur.moveToNext()) {
-                    	  
-                    	  if (rat.equals(cur.getString(2))) {
-                    		  total++;
-                    		  Log.i(rat,"Match!");
-                    	  } else {
-                    		  Log.d(rat,"No match to rat");
-                    	  }
-                      };
-
+                    Integer sent = 0;
+                    Integer received = 0;
+                    Integer kissesSent = 0;
+                    Integer kissesReceived = 0;
+                    Integer questionsSent = 0;
+                    Integer questionsReceived = 0;
+                    
+                   
+                    
+                    while (cur.moveToNext()) {
+                  	  
+                  	  
+                  	  if (rat.equals(cur.getString(2))) {
+                  		  total++;
+                  		  //messages sent
+                  		  if (cur.getInt(8) == 2) {
+                  			  sent++;
+                  			  
+                      		  //kisses sent
+                      		  if (cur.getString(11).indexOf(" x ") > 0 || cur.getString(11).indexOf(" x") > 0){
+                      			  kissesSent++;
+                      		  }
+                      		  //question-marks sent
+                      		  if (cur.getString(11).indexOf("?") > 0) {
+                      			  questionsSent++;
+                      		  }
+                  		  } else if (cur.getInt(8) == 1) { //messages received
+                  			  received++;
+                  			Log.d(rat, "Message Received: " + cur.getString(11));
+                      		  //kisses received
+                      		  if (cur.getString(11).indexOf(" x ") > 0 || cur.getString(11).indexOf(" x") > 0){
+                      			  kissesReceived++;
+                      		  }
+                      		  //question-marks received
+                      		  if (cur.getString(11).indexOf("?") > 0) {
+                      			  questionsReceived++;
+                      			Log.d(rat, "Question Received");
+                      		  }
+                  		  } else {
+                  			  //TODO uh oh
+                  			  Log.d(rat, "No match to rat");
+                  		  }
+                  		  
+ 
+                  	  } else {
+                  		  //log no texts match to person here
+                  	  }
+                  	    
+                    }
+                      
+                      
+                      
+                      
                     // TODO present the data nicely
 
                     //Total texts
+                     
                       TextView totalTexts = (TextView) findViewById(R.id.total_texts);
                       String total_report = Integer.toString(total); //TODO add more words
                       totalTexts.setText(total_report);
+                    
+                    //Messages Row
+                      TextView messagesSent = (TextView) findViewById(R.id.MessagesSent);
+                      String sent_count = Integer.toString(sent);
+                      messagesSent.setText(sent_count);
+                      
+                      TextView messagesReceived = (TextView) findViewById(R.id.MessagesReceived);
+                      String received_count = Integer.toString(received);
+                      messagesReceived.setText(received_count);
+                    
+                    //Questions Row
+                      TextView questionsSentCounter = (TextView) findViewById(R.id.QuestionsSent);
+                      String questions_sent = Integer.toString(questionsSent);
+                      questionsSentCounter.setText(questions_sent);
+                      
+                      TextView questionsReceivedCounter = (TextView) findViewById(R.id.QuestionsReceived);
+                      String questions_received = Integer.toString(questionsReceived);
+                      questionsReceivedCounter.setText(questions_received);
+                      
+                    //Kisses Row
+                      TextView kissesSentCounter = (TextView) findViewById(R.id.KissesSent);
+                      String kisses_sent = Integer.toString(kissesSent);
+                      kissesSentCounter.setText(kisses_sent);
+                      
+                      TextView kissesReceivedCounter = (TextView) findViewById(R.id.KissesReceived);
+                      String kisses_received = Integer.toString(kissesReceived);
+                      kissesReceivedCounter.setText(kisses_received);
+                      
+                   
+                      
+                      
                     
                     
                     if (phone.length() == 0) {  
