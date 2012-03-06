@@ -71,6 +71,38 @@ public class Tugging extends Activity {
                     TextView phoneEntry = (TextView) findViewById(R.id.phone_number);  
                     phoneEntry.setText(phone); 
                     
+                    
+                 // START THE STAT ENGINE!
+                    Uri uriSMSURI = Uri.parse("content://sms");
+                    Cursor cur = getContentResolver().query(uriSMSURI, null,
+                    		null, null, null);
+                    // set the rat to be analysed
+                    String rat = phone;
+
+                    // set the data to be collected
+                    //Integer sent = 0;
+                    //Integer received = 0;
+                    Integer total = 0;
+
+                    // TODO add the scanning algo
+                      while (cur.moveToNext()) {
+                    	  
+                    	  if (rat.equals(cur.getString(2))) {
+                    		  total++;
+                    		  Log.i(rat,"Match!");
+                    	  } else {
+                    		  Log.d(rat,"No match to rat");
+                    	  }
+                      };
+
+                    // TODO present the data nicely
+
+                    //Total texts
+                      TextView totalTexts = (TextView) findViewById(R.id.total_texts);
+                      String total_report = Integer.toString(total); //TODO add more words
+                      totalTexts.setText(total_report);
+                    
+                    
                     if (phone.length() == 0) {  
                         Toast.makeText(this, "No phone found for contact.",  
                                 Toast.LENGTH_LONG).show();  
