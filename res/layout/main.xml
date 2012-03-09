@@ -40,7 +40,17 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" >
-
+					
+                          <TextView
+                        android:id="@+id/test_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="25dip"
+                        android:layout_marginTop="25dip"
+                        
+                        android:textColor="@color/headline"
+                        android:textSize="24.5sp" />
                     <TextView
                         android:id="@+id/total_texts"
                         android:layout_width="wrap_content"
@@ -160,6 +170,33 @@
                         android:textStyle="bold" >
                     </TextView>
                 </TableRow>
+                  <TableRow
+                    android:id="@+id/DoublesRow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+	
+                      <TextView
+                        android:id="@+id/DoublesTitle"
+                        android:gravity="center_horizontal"
+                        android:text="Double-Texts"
+                        android:textStyle="bold" >
+                    </TextView>
+                    <TextView
+                        android:id="@+id/DoublesSent"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/DoublesReceived"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+                                              
             </TableLayout>
         </LinearLayout>
     </ScrollView>

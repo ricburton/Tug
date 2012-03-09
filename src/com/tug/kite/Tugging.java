@@ -1,5 +1,7 @@
 package com.tug.kite;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -95,6 +97,16 @@ public class Tugging extends Activity {
 					Integer kissesReceived = 0;
 					Integer questionsSent = 0;
 					Integer questionsReceived = 0;
+					
+					// declare the ArrayList of reply-time integers
+					Integer lastMessageStatus = 0; // sent = 2, received = 1
+					Integer lastMessageTime = 0;
+					ArrayList<Integer> replySpeeds = new ArrayList<Integer>();
+					ArrayList<Integer> sendSpeeds = new ArrayList<Integer>();
+
+					// Double-texts
+					Integer sentDoubles = 0;
+					Integer receivedDoubles = 0;
 
 					while (cur.moveToNext()) {
 
@@ -115,26 +127,43 @@ public class Tugging extends Activity {
 						// set the rat to be analysed
 						String rat = phone;
 						// strip the last 9 digits
-						SubStringEx subRatter = new SubStringEx(); //new SubStringEx object from the class
-						String cleanRat = subRatter.getLastnCharacters(rat,9);
-						
+						SubStringEx subRatter = new SubStringEx(); // new
+																	// SubStringEx
+																	// object
+																	// from the
+																	// class
+						String cleanRat = subRatter.getLastnCharacters(rat, 9);
+
 						// get the raw number of the message
 						String num = cur.getString(2);
 						// string the last 9 digits
-						SubStringEx subNumber = new SubStringEx(); //TODO this could be code-bloat?
-						//can you just use the method and not need a new SubStringEx object?
-						
+						SubStringEx subNumber = new SubStringEx(); // TODO this
+																	// could be
+																	// code-bloat?
+						// can you just use the method and not need a new
+						// SubStringEx object?
+
 						String cleanNum = subNumber.getLastnCharacters(num, 9);
-						
-						
 
 						if (cleanRat.equals(cleanNum)) {
+							Integer messageStatus = cur.getInt(8);
+							Integer replyTime = cur.getInt(4);
 							total++;
-
 							// messages sent
-							if (cur.getInt(8) == 2) {
+							if (messageStatus == 2) {
 								sent++;
+								Log.d(rat, "Message Sent: " + cur.getString(11));
 
+								// see if this is a reply or a follow-up text
+								if (lastMessageStatus == 2) { 
+									sentDoubles++;
+								}
+								else if (lastMessageStatus == 1) {
+									Integer sendDiff =  lastMessageTime - replyTime;
+									sendSpeeds.add(sendDiff);
+									Log.d("Difference in time", sendDiff.toString());
+								}
+								 
 								// kisses sent
 								if (cur.getString(11).indexOf(" x ") > 0
 										|| cur.getString(11).indexOf(" x") > 0) {
@@ -144,9 +173,20 @@ public class Tugging extends Activity {
 								if (cur.getString(11).indexOf("?") > 0) {
 									questionsSent++;
 								}
-							} else if (cur.getInt(8) == 1) { // messages
+							} else if (messageStatus == 1) { // messages
 																// received
 								received++;
+
+								// see if this a reply or a follow-up text
+								if (lastMessageStatus == 1) {
+									receivedDoubles++;
+								} else if (lastMessageStatus == 2) {
+									Integer replyDiff =  lastMessageTime - replyTime;
+									replySpeeds.add(replyDiff);
+									Log.d("Difference in time", replyDiff.toString());
+								}
+								 
+
 								Log.d(rat,
 										"Message Received: "
 												+ cur.getString(11));
@@ -161,53 +201,58 @@ public class Tugging extends Activity {
 									Log.d(rat, "Question Received");
 								}
 							} else {
-								// TODO uh oh
-								Log.d(rat, "No match to rat");
+
+								Log.d(rat, "Not sent or received. Odd");
 							}
 
+							// set the LastMessageStatus for next loop
+							lastMessageStatus = messageStatus;
+							lastMessageTime = replyTime;
 						} else {
 							// log no texts match to person here
+							Log.d(rat, "Not a match to rat.");
 						}
 
 					}
 
-					// TODO present the data nicely
+					Log.i("Sent Doubles", sentDoubles.toString());
+					Log.i("Received Doubles", receivedDoubles.toString());
+					Log.i("Send Speeds", sendSpeeds.toString());
+					Log.i("Reply Speeds", replySpeeds.toString());
 
 					// Total texts
 
 					TextView totalTexts = (TextView) findViewById(R.id.total_texts);
-					String total_report = Integer.toString(total); // TODO add
-																	// more
-																	// words
-					totalTexts.setText(total_report);
+					totalTexts.setText("Messages: " + total.toString());
 
 					// Messages Row
 					TextView messagesSent = (TextView) findViewById(R.id.MessagesSent);
-					String sent_count = Integer.toString(sent);
-					messagesSent.setText(sent_count);
+					messagesSent.setText(sent.toString());
 
 					TextView messagesReceived = (TextView) findViewById(R.id.MessagesReceived);
-					String received_count = Integer.toString(received);
-					messagesReceived.setText(received_count);
+					messagesReceived.setText(received.toString());
 
 					// Questions Row
 					TextView questionsSentCounter = (TextView) findViewById(R.id.QuestionsSent);
-					String questions_sent = Integer.toString(questionsSent);
-					questionsSentCounter.setText(questions_sent);
+					questionsSentCounter.setText(questionsSent.toString());
 
 					TextView questionsReceivedCounter = (TextView) findViewById(R.id.QuestionsReceived);
-					String questions_received = Integer
-							.toString(questionsReceived);
-					questionsReceivedCounter.setText(questions_received);
+					questionsReceivedCounter.setText(questionsReceived
+							.toString());
 
 					// Kisses Row
 					TextView kissesSentCounter = (TextView) findViewById(R.id.KissesSent);
-					String kisses_sent = Integer.toString(kissesSent);
-					kissesSentCounter.setText(kisses_sent);
+					kissesSentCounter.setText(kissesSent.toString());
 
 					TextView kissesReceivedCounter = (TextView) findViewById(R.id.KissesReceived);
-					String kisses_received = Integer.toString(kissesReceived);
-					kissesReceivedCounter.setText(kisses_received);
+					kissesReceivedCounter.setText(kissesReceived.toString());
+
+					// Doubles Row
+					TextView doublesSentCounter = (TextView) findViewById(R.id.DoublesSent);
+					doublesSentCounter.setText(sentDoubles.toString());
+
+					TextView doublesReceivedCounter = (TextView) findViewById(R.id.DoublesReceived);
+					doublesReceivedCounter.setText(receivedDoubles.toString());
 
 					if (phone.length() == 0) {
 						Toast.makeText(this, "No phone found for contact.",
