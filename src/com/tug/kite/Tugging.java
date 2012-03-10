@@ -237,8 +237,7 @@ public class Tugging extends Activity {
 					questionsSentCounter.setText(questionsSent.toString());
 
 					TextView questionsReceivedCounter = (TextView) findViewById(R.id.QuestionsReceived);
-					questionsReceivedCounter.setText(questionsReceived
-							.toString());
+					questionsReceivedCounter.setText(questionsReceived.toString());
 
 					// Kisses Row
 					TextView kissesSentCounter = (TextView) findViewById(R.id.KissesSent);
