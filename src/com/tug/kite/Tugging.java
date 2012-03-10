@@ -2,15 +2,23 @@ package com.tug.kite;
 
 import java.util.ArrayList;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphView.GraphViewSeries;
+import com.jjoe64.graphview.GraphView.LegendAlign;
+import com.jjoe64.graphview.LineGraphView;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -219,6 +227,46 @@ public class Tugging extends Activity {
 					Log.i("Received Doubles", receivedDoubles.toString());
 					Log.i("Send Speeds", sendSpeeds.toString());
 					Log.i("Reply Speeds", replySpeeds.toString());
+					
+					//GRAPHING TIME
+					
+					//replySpeeds
+					
+					Integer replyNum = replySpeeds.size();
+					GraphViewData[] replyData = new GraphViewData[replyNum];
+					
+					Log.i("About to spin data in", "DATA GOING IN");
+					for(int i=0;i<replyNum;i++) {
+						replyData[i] = new GraphViewData(i, replySpeeds.get(i));
+						Log.i("pushing reply data", replySpeeds.get(i).toString());
+					}
+					
+					GraphViewSeries seriesReplies = new GraphViewSeries("Reply Speeds", Color.rgb(200, 50, 00), replyData);  
+					
+					/** //sendSpeeds
+					Integer sendNum = replySpeeds.size();
+					GraphViewData[] sendData = new GraphViewData[sendNum];
+					
+					for(int i=0;i<sendNum;i++) {
+						sendData[i] = new GraphViewData(i, sendSpeeds.get(i));
+						Log.i("pushing reply data", sendSpeeds.get(i).toString());
+					}
+					
+					GraphViewSeries seriesSent = new GraphViewSeries("Reply Speeds", Color.rgb(200, 50, 00), sendData);  
+					
+					*/
+					LinearLayout graphBox = (LinearLayout) findViewById(R.id.graph1);
+			        GraphView graphView = new LineGraphView(this , "Reply Speeds");
+
+			        graphView.addSeries(seriesReplies);
+			     // set legend  
+			        graphView.setShowLegend(true);  
+			        graphView.setLegendAlign(LegendAlign.BOTTOM); 
+			        graphView.setLegendWidth(200);
+			       
+			        Log.d("Update Graph", "About to update...");
+			        
+			        graphBox.addView(graphView);
 
 					// Total texts
 
