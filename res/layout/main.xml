@@ -24,14 +24,13 @@
                 android:text="@string/main_title"
                 android:textColor="@color/headline"
                 android:textSize="24.5sp" />
-			
-            
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			android:layout_width="fill_parent"
-			android:layout_height="250dip"
-			android:id="@+id/graph1" />
-            
-            
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/graph1"
+                android:layout_width="fill_parent"
+                android:layout_height="250dip" />
+
             <TableLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/tableLayout1"
@@ -40,24 +39,22 @@
                 android:shrinkColumns="*"
                 android:stretchColumns="*" >
 
-  
-                
-                     <TableRow
+                <TableRow
                     android:id="@+id/tableRow4"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" >
-					
-                          <TextView
+
+                    <TextView
                         android:id="@+id/test_data"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="25dip"
                         android:layout_marginTop="25dip"
-                        
                         android:textColor="@color/headline"
                         android:textSize="24.5sp" />
+
                     <TextView
                         android:id="@+id/total_texts"
                         android:layout_width="wrap_content"
@@ -65,25 +62,22 @@
                         android:layout_gravity="center"
                         android:layout_marginBottom="25dip"
                         android:layout_marginTop="25dip"
-                        
                         android:textColor="@color/headline"
                         android:textSize="24.5sp" />
                 </TableRow>
-                
-                
-                
+
                 <TableRow
                     android:id="@+id/Header"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" >
-	
-                      <TextView
+
+                    <TextView
                         android:id="@+id/TextView04"
                         android:gravity="center_horizontal"
-                        
                         android:textStyle="bold" >
                     </TextView>
+
                     <TextView
                         android:id="@+id/SentTitle"
                         android:gravity="center_horizontal"
@@ -98,18 +92,20 @@
                         android:textStyle="bold" >
                     </TextView>
                 </TableRow>
-	<TableRow
+
+                <TableRow
                     android:id="@+id/MessagesRow"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" >
-	
-                      <TextView
+
+                    <TextView
                         android:id="@+id/MessagesTitle"
                         android:gravity="center_horizontal"
                         android:text="Messages"
                         android:textStyle="bold" >
                     </TextView>
+
                     <TextView
                         android:id="@+id/MessagesSent"
                         android:gravity="center_horizontal"
@@ -125,18 +121,75 @@
                     </TextView>
                 </TableRow>
 
-                                <TableRow
+                <TableRow
+                    android:id="@+id/AverageRow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/AverageTitle"
+                        android:gravity="center_horizontal"
+                        android:text="Avg. Reply Speed"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/AverageSent"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/AverageReceived"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/MedianRow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/MedianTitle"
+                        android:gravity="center_horizontal"
+                        android:text="Median Reply Speed"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/MedianSent"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/MedianReceived"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+
+                <TableRow
                     android:id="@+id/KissesRow"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" >
-	
-                      <TextView
+
+                    <TextView
                         android:id="@+id/KissesTitle"
                         android:gravity="center_horizontal"
                         android:text="Kisses"
                         android:textStyle="bold" >
                     </TextView>
+
                     <TextView
                         android:id="@+id/KissesSent"
                         android:gravity="center_horizontal"
@@ -151,18 +204,20 @@
                         android:textStyle="bold" >
                     </TextView>
                 </TableRow>
-                                              <TableRow
+
+                <TableRow
                     android:id="@+id/QuestionsRow"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" >
-	
-                      <TextView
+
+                    <TextView
                         android:id="@+id/QuestionsTitle"
                         android:gravity="center_horizontal"
                         android:text="Questions"
                         android:textStyle="bold" >
                     </TextView>
+
                     <TextView
                         android:id="@+id/QuestionsSent"
                         android:gravity="center_horizontal"
@@ -177,18 +232,20 @@
                         android:textStyle="bold" >
                     </TextView>
                 </TableRow>
-                  <TableRow
+
+                <TableRow
                     android:id="@+id/DoublesRow"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal" >
-	
-                      <TextView
+
+                    <TextView
                         android:id="@+id/DoublesTitle"
                         android:gravity="center_horizontal"
                         android:text="Double-Texts"
                         android:textStyle="bold" >
                     </TextView>
+
                     <TextView
                         android:id="@+id/DoublesSent"
                         android:gravity="center_horizontal"
@@ -203,7 +260,6 @@
                         android:textStyle="bold" >
                     </TextView>
                 </TableRow>
-                                              
             </TableLayout>
         </LinearLayout>
     </ScrollView>

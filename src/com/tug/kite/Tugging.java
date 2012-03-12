@@ -1,6 +1,7 @@
 package com.tug.kite;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
@@ -8,6 +9,7 @@ import com.jjoe64.graphview.GraphView.GraphViewSeries;
 import com.jjoe64.graphview.GraphView.LegendAlign;
 import com.jjoe64.graphview.LineGraphView;
 
+import android.R.string;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -52,6 +54,66 @@ public class Tugging extends Activity {
 			return inputString.substring(startIndex);
 		}
 	}
+
+	// This method calculates the mean
+	public static double findMean(ArrayList<Integer> anArray) {
+		ArrayList<Integer> myArray = anArray;
+		double arraySum = 0;
+		double arrayAverage = 0;
+		for (int x = 0; x < myArray.size() - 1; x++)
+			arraySum += myArray.get(x);
+		arrayAverage = arraySum / myArray.size();
+		return arrayAverage;
+	}
+
+	public static double findMedian(ArrayList<Integer> anArray){
+		ArrayList<Integer> myArray = anArray;
+		Collections.sort(myArray);
+		int arrayLength = 0;
+		double arrayMedian = 0;
+		int currentIndex = 0;
+		arrayLength = myArray.size();
+		if (arrayLength % 2 != 0) {
+			currentIndex = ((arrayLength / 2) + 1);
+			arrayMedian = myArray.get(currentIndex - 1);
+		} else {
+			int indexOne = (arrayLength / 2);
+			int indexTwo = arrayLength / 2 + 1;
+			double arraysSum = myArray.get(indexOne - 1)
+					+ myArray.get(indexTwo - 1);
+			arrayMedian = arraysSum / 2;
+		}
+		return arrayMedian;
+	}
+
+	public static String returnTime(Double milliSeconds) {
+		// int i = (int)myDouble;
+
+		Double pure = milliSeconds;
+		Integer diff = (int) Math.round(pure);
+
+		Integer diffSecs = diff / 1000;
+		Integer diffMin = diff / (60 * 1000); // minutes
+		Integer diffHours = diff / (60 * 60 * 1000); // hours
+		Integer diffDays = diff / (24 * 60 * 60 * 1000);
+
+		String naturalTime = "";
+
+		if (diffSecs < 60) {
+			naturalTime = diffSecs.toString() + " secs";
+		} else if (diffMin > 1 && diffHours < 1) {
+			naturalTime = diffMin.toString() + " mins";
+		} else if (diffHours > 1 && diffDays < 1) {
+			naturalTime = diffHours.toString() + " hrs";
+		} else if (diffDays > 1) {
+			naturalTime = diffDays.toString() + " days";
+		}
+		return naturalTime;
+
+	}
+
+	// TODO error handling for email input doesn't work
+	// TODO small arrays cause problems e.g. Merel
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -101,11 +163,12 @@ public class Tugging extends Activity {
 					Integer total = 0;
 					Integer sent = 0;
 					Integer received = 0;
+
 					Integer kissesSent = 0;
 					Integer kissesReceived = 0;
 					Integer questionsSent = 0;
 					Integer questionsReceived = 0;
-					
+
 					// declare the ArrayList of reply-time integers
 					Integer lastMessageStatus = 0; // sent = 2, received = 1
 					Integer lastMessageTime = 0;
@@ -115,6 +178,8 @@ public class Tugging extends Activity {
 					// Double-texts
 					Integer sentDoubles = 0;
 					Integer receivedDoubles = 0;
+
+					Integer timesRun = 0;
 
 					while (cur.moveToNext()) {
 
@@ -163,15 +228,16 @@ public class Tugging extends Activity {
 								Log.d(rat, "Message Sent: " + cur.getString(11));
 
 								// see if this is a reply or a follow-up text
-								if (lastMessageStatus == 2) { 
+								if (lastMessageStatus == 2) {
 									sentDoubles++;
-								}
-								else if (lastMessageStatus == 1) {
-									Integer sendDiff =  lastMessageTime - replyTime;
+								} else if (lastMessageStatus == 1) {
+									Integer sendDiff = lastMessageTime
+											- replyTime;
 									sendSpeeds.add(sendDiff);
-									Log.d("Difference in time", sendDiff.toString());
+									Log.d("Difference in time",
+											sendDiff.toString());
 								}
-								 
+
 								// kisses sent
 								if (cur.getString(11).indexOf(" x ") > 0
 										|| cur.getString(11).indexOf(" x") > 0) {
@@ -189,11 +255,12 @@ public class Tugging extends Activity {
 								if (lastMessageStatus == 1) {
 									receivedDoubles++;
 								} else if (lastMessageStatus == 2) {
-									Integer replyDiff =  lastMessageTime - replyTime;
+									Integer replyDiff = lastMessageTime
+											- replyTime;
 									replySpeeds.add(replyDiff);
-									Log.d("Difference in time", replyDiff.toString());
+									Log.d("Difference in time",
+											replyDiff.toString());
 								}
-								 
 
 								Log.d(rat,
 										"Message Received: "
@@ -208,6 +275,7 @@ public class Tugging extends Activity {
 									questionsReceived++;
 									Log.d(rat, "Question Received");
 								}
+
 							} else {
 
 								Log.d(rat, "Not sent or received. Odd");
@@ -227,47 +295,73 @@ public class Tugging extends Activity {
 					Log.i("Received Doubles", receivedDoubles.toString());
 					Log.i("Send Speeds", sendSpeeds.toString());
 					Log.i("Reply Speeds", replySpeeds.toString());
-					
-					//GRAPHING TIME
-					
-					//replySpeeds
-					
+
+					timesRun++;
+
+					// GRAPHING TIME
+
+					// replySpeeds
+
 					Integer replyNum = replySpeeds.size();
 					GraphViewData[] replyData = new GraphViewData[replyNum];
-					
+
 					Log.i("About to spin data in", "DATA GOING IN");
-					for(int i=0;i<replyNum;i++) {
+					for (int i = 0; i < replyNum; i++) {
 						replyData[i] = new GraphViewData(i, replySpeeds.get(i));
-						Log.i("pushing reply data", replySpeeds.get(i).toString());
+						Log.i("pushing reply data", replySpeeds.get(i)
+								.toString());
 					}
-					
-					GraphViewSeries seriesReplies = new GraphViewSeries("Reply Speeds", Color.rgb(200, 50, 00), replyData);  
-					
-					/** //sendSpeeds
-					Integer sendNum = replySpeeds.size();
+
+					GraphViewSeries seriesReplies = new GraphViewSeries(
+							"Reply Speeds", Color.rgb(200, 50, 00), replyData);
+
+					// sendSpeeds
+					Integer sendNum = sendSpeeds.size();
 					GraphViewData[] sendData = new GraphViewData[sendNum];
-					
-					for(int i=0;i<sendNum;i++) {
+
+					for (int i = 0; i < sendNum; i++) {
 						sendData[i] = new GraphViewData(i, sendSpeeds.get(i));
-						Log.i("pushing reply data", sendSpeeds.get(i).toString());
+						Log.i("pushing reply data", sendSpeeds.get(i)
+								.toString());
 					}
-					
-					GraphViewSeries seriesSent = new GraphViewSeries("Reply Speeds", Color.rgb(200, 50, 00), sendData);  
-					
-					*/
+
+					GraphViewSeries seriesSent = new GraphViewSeries(
+							"Reply Speeds", Color.rgb(150, 50, 00), sendData);
+
 					LinearLayout graphBox = (LinearLayout) findViewById(R.id.graph1);
-			        GraphView graphView = new LineGraphView(this , "Reply Speeds");
 
-			        graphView.addSeries(seriesReplies);
-			     // set legend  
-			        graphView.setShowLegend(true);  
-			        graphView.setLegendAlign(LegendAlign.BOTTOM); 
-			        graphView.setLegendWidth(200);
-			       
-			        Log.d("Update Graph", "About to update...");
-			        
-			        graphBox.addView(graphView);
+					GraphView graphView = new LineGraphView(this,
+							"Reply Speeds");
 
+					if (timesRun > 1) {
+						graphBox.removeAllViews();
+					}
+
+					graphView.addSeries(seriesReplies);
+					graphView.addSeries(seriesSent);
+					// set legend
+					graphView.setShowLegend(true);
+					graphView.setLegendAlign(LegendAlign.BOTTOM);
+					graphView.setLegendWidth(200);
+
+					Log.d("Update Graph", "About to update...");
+
+					graphBox.addView(graphView); // TODO fix graph updating
+
+					// Average Calculating
+					Double averageSentSpeedRaw = findMean(sendSpeeds);
+					Double averageReceivedSpeedRaw = findMean(replySpeeds);
+
+					String averageSentSpeed = returnTime(averageSentSpeedRaw);
+					String averageReceivedSpeed = returnTime(averageReceivedSpeedRaw);
+					
+					//Median Calculating
+					Double medianSentSpeedRaw = findMedian(sendSpeeds);
+					Double medianReceivedSpeedRaw = findMedian(replySpeeds);
+					
+					String medianSentSpeed = returnTime(medianSentSpeedRaw);
+					String medianReceivedSpeed = returnTime(medianReceivedSpeedRaw);
+						
 					// Total texts
 
 					TextView totalTexts = (TextView) findViewById(R.id.total_texts);
@@ -279,13 +373,28 @@ public class Tugging extends Activity {
 
 					TextView messagesReceived = (TextView) findViewById(R.id.MessagesReceived);
 					messagesReceived.setText(received.toString());
+					
+					// Average Row
+					TextView averageSent = (TextView) findViewById(R.id.AverageSent);
+					averageSent.setText(averageSentSpeed);
+
+					TextView averageReceived = (TextView) findViewById(R.id.AverageReceived);
+					averageReceived.setText(averageReceivedSpeed);
+					
+					//Median Row
+					TextView medianSent = (TextView) findViewById(R.id.MedianSent);
+					medianSent.setText(medianSentSpeed);
+					
+					TextView medianReceived = (TextView) findViewById(R.id.MedianReceived);
+					medianReceived.setText(medianReceivedSpeed);
 
 					// Questions Row
 					TextView questionsSentCounter = (TextView) findViewById(R.id.QuestionsSent);
 					questionsSentCounter.setText(questionsSent.toString());
 
 					TextView questionsReceivedCounter = (TextView) findViewById(R.id.QuestionsReceived);
-					questionsReceivedCounter.setText(questionsReceived.toString());
+					questionsReceivedCounter.setText(questionsReceived
+							.toString());
 
 					// Kisses Row
 					TextView kissesSentCounter = (TextView) findViewById(R.id.KissesSent);
