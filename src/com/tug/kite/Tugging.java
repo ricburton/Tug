@@ -168,6 +168,18 @@ public class Tugging extends Activity {
 					Integer kissesReceived = 0;
 					Integer questionsSent = 0;
 					Integer questionsReceived = 0;
+					
+					Integer receivedQuarterCount = 0;
+					Integer receivedHourCount = 0;
+					Integer receivedDayCount = 0;
+					Integer receivedWeekCount = 0;
+					Integer receivedWeekPlusCount = 0;
+					
+					Integer sendQuarterCount = 0;
+					Integer sendHourCount = 0;
+					Integer sendDayCount = 0;
+					Integer sendWeekCount = 0;
+					Integer sendWeekPlusCount = 0;
 
 					// declare the ArrayList of reply-time integers
 					Integer lastMessageStatus = 0; // sent = 2, received = 1
@@ -307,26 +319,69 @@ public class Tugging extends Activity {
 
 					Log.i("About to spin data in", "DATA GOING IN");
 					for (int i = 0; i < replyNum; i++) {
+						
+						//push data into graph's line array
 						replyData[i] = new GraphViewData(i, replySpeeds.get(i));
 						Log.i("pushing reply data", replySpeeds.get(i)
 								.toString());
+						
+						//count delay categories
+						Integer diff = (int) Math.round(replySpeeds.get(i));
+						Integer diffMin = diff / (60 * 1000); // minutes
+						Integer diffHours = diff / (60 * 60 * 1000); // hours
+						Integer diffDays = diff / (24 * 60 * 60 * 1000);
+						
+						if (diffMin < 15) {
+							receivedQuarterCount++;
+						} else if (diffMin > 15 && diffMin < 60) {
+							receivedHourCount++;
+						} else if (diffHours > 1 && diffHours < 24) {
+							receivedDayCount++;
+						} else if (diffDays > 1 && diffDays < 7) {
+							receivedWeekCount++;
+						} else if (diffDays > 7) {
+							receivedWeekPlusCount++;
+						}
+						
+						
 					}
 
 					GraphViewSeries seriesReplies = new GraphViewSeries(
-							"Reply Speeds", Color.rgb(200, 50, 00), replyData);
+							"Replying speeds", Color.rgb(200, 50, 00), replyData);
 
 					// sendSpeeds
 					Integer sendNum = sendSpeeds.size();
 					GraphViewData[] sendData = new GraphViewData[sendNum];
 
 					for (int i = 0; i < sendNum; i++) {
+						//push data into graph's array
 						sendData[i] = new GraphViewData(i, sendSpeeds.get(i));
-						Log.i("pushing reply data", sendSpeeds.get(i)
+						Log.i("pushing send data", sendSpeeds.get(i)
 								.toString());
+						
+						//count delay categories
+						Integer diff = (int) Math.round(sendSpeeds.get(i));
+						Integer diffMin = diff / (60 * 1000); // minutes
+						Integer diffHours = diff / (60 * 60 * 1000); // hours
+						Integer diffDays = diff / (24 * 60 * 60 * 1000);
+						
+						if (diffMin < 15) {
+							sendQuarterCount++;
+						} else if (diffMin > 15 && diffMin < 60) {
+							sendHourCount++;
+						} else if (diffHours > 1 && diffHours < 24) {
+							sendDayCount++;
+						} else if (diffDays > 1 && diffDays < 7) {
+							sendWeekCount++;
+						} else if (diffDays > 7) {
+							sendWeekPlusCount++;
+						}
+						
+						
 					}
 
 					GraphViewSeries seriesSent = new GraphViewSeries(
-							"Reply Speeds", Color.rgb(150, 50, 00), sendData);
+							"Sending speeds", Color.rgb(0,184,0), sendData);
 
 					LinearLayout graphBox = (LinearLayout) findViewById(R.id.graph1);
 
@@ -361,11 +416,38 @@ public class Tugging extends Activity {
 					
 					String medianSentSpeed = returnTime(medianSentSpeedRaw);
 					String medianReceivedSpeed = returnTime(medianReceivedSpeedRaw);
+					
+					//Construct count sentences
+					String sendSpeedSummary = "You have sent ";
+					if (sendQuarterCount == 1) {
+						sendSpeedSummary += "1 reply within 15 minutes";
+					} else if (sendQuarterCount > 1) {
 						
-					// Total texts
-
-					TextView totalTexts = (TextView) findViewById(R.id.total_texts);
-					totalTexts.setText("Messages: " + total.toString());
+						sendSpeedSummary += sendQuarterCount.toString() + " replies with 15 minutes";
+					}
+					
+					if (sendHourCount == 1) {
+						sendSpeedSummary += ", 1 reply within an hour";
+					} else if (sendHourCount > 1) {
+						sendSpeedSummary += ", " + sendHourCount.toString() + " replies within an hour";
+					}
+					
+					if (sendDayCount == 1) {
+						sendSpeedSummary += ", 1 reply within a day";
+					} else if (sendDayCount > 1) {
+						sendSpeedSummary += ", " + sendHourCount.toString() + " replies within a day";
+					}
+					
+					sendSpeedSummary += ".";
+							
+					
+					// Push the data to the view
+					
+					//Sending summary
+					TextView sendSummary = (TextView) findViewById(R.id.sendSummary);
+					sendSummary.setText(sendSpeedSummary);
+					
+					
 
 					// Messages Row
 					TextView messagesSent = (TextView) findViewById(R.id.MessagesSent);

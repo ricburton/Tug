@@ -2,4 +2,5 @@
 <resources>
     <color name="background">#ffffff</color>
     <color name="headline">#000000</color>
+    <color name="stars">#000000</color>
 </resources>
