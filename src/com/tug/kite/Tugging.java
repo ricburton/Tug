@@ -3,6 +3,7 @@ package com.tug.kite;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphView.GraphViewSeries;
@@ -16,6 +17,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.util.Log;
@@ -66,7 +68,7 @@ public class Tugging extends Activity {
 		return arrayAverage;
 	}
 
-	public static double findMedian(ArrayList<Integer> anArray){
+	public static double findMedian(ArrayList<Integer> anArray) {
 		ArrayList<Integer> myArray = anArray;
 		Collections.sort(myArray);
 		int arrayLength = 0;
@@ -168,13 +170,13 @@ public class Tugging extends Activity {
 					Integer kissesReceived = 0;
 					Integer questionsSent = 0;
 					Integer questionsReceived = 0;
-					
+
 					Integer receivedQuarterCount = 0;
 					Integer receivedHourCount = 0;
 					Integer receivedDayCount = 0;
 					Integer receivedWeekCount = 0;
 					Integer receivedWeekPlusCount = 0;
-					
+
 					Integer sendQuarterCount = 0;
 					Integer sendHourCount = 0;
 					Integer sendDayCount = 0;
@@ -319,18 +321,18 @@ public class Tugging extends Activity {
 
 					Log.i("About to spin data in", "DATA GOING IN");
 					for (int i = 0; i < replyNum; i++) {
-						
-						//push data into graph's line array
+
+						// push data into graph's line array
 						replyData[i] = new GraphViewData(i, replySpeeds.get(i));
 						Log.i("pushing reply data", replySpeeds.get(i)
 								.toString());
-						
-						//count delay categories
+
+						// count delay categories
 						Integer diff = (int) Math.round(replySpeeds.get(i));
 						Integer diffMin = diff / (60 * 1000); // minutes
 						Integer diffHours = diff / (60 * 60 * 1000); // hours
 						Integer diffDays = diff / (24 * 60 * 60 * 1000);
-						
+
 						if (diffMin < 15) {
 							receivedQuarterCount++;
 						} else if (diffMin > 15 && diffMin < 60) {
@@ -342,29 +344,28 @@ public class Tugging extends Activity {
 						} else if (diffDays > 7) {
 							receivedWeekPlusCount++;
 						}
-						
-						
+
 					}
 
 					GraphViewSeries seriesReplies = new GraphViewSeries(
-							"Replying speeds", Color.rgb(200, 50, 00), replyData);
+							"Replying speeds", Color.rgb(200, 50, 00),
+							replyData);
 
 					// sendSpeeds
 					Integer sendNum = sendSpeeds.size();
 					GraphViewData[] sendData = new GraphViewData[sendNum];
 
 					for (int i = 0; i < sendNum; i++) {
-						//push data into graph's array
+						// push data into graph's array
 						sendData[i] = new GraphViewData(i, sendSpeeds.get(i));
-						Log.i("pushing send data", sendSpeeds.get(i)
-								.toString());
-						
-						//count delay categories
+						Log.i("pushing send data", sendSpeeds.get(i).toString());
+
+						// count delay categories
 						Integer diff = (int) Math.round(sendSpeeds.get(i));
 						Integer diffMin = diff / (60 * 1000); // minutes
 						Integer diffHours = diff / (60 * 60 * 1000); // hours
 						Integer diffDays = diff / (24 * 60 * 60 * 1000);
-						
+
 						if (diffMin < 15) {
 							sendQuarterCount++;
 						} else if (diffMin > 15 && diffMin < 60) {
@@ -376,20 +377,19 @@ public class Tugging extends Activity {
 						} else if (diffDays > 7) {
 							sendWeekPlusCount++;
 						}
-						
-						
+
 					}
 
 					GraphViewSeries seriesSent = new GraphViewSeries(
-							"Sending speeds", Color.rgb(0,184,0), sendData);
+							"Sending speeds", Color.rgb(0, 184, 0), sendData);
 
-					LinearLayout graphBox = (LinearLayout) findViewById(R.id.graph1);
+					// LinearLayout graphBox = (LinearLayout)
+					// findViewById(R.id.graph1);
 
-					GraphView graphView = new LineGraphView(this,
-							"Reply Speeds");
+					GraphView graphView = new BarGraphView(this, "Reply Speeds");
 
 					if (timesRun > 1) {
-						graphBox.removeAllViews();
+						// graphBox.removeAllViews();
 					}
 
 					graphView.addSeries(seriesReplies);
@@ -401,7 +401,7 @@ public class Tugging extends Activity {
 
 					Log.d("Update Graph", "About to update...");
 
-					graphBox.addView(graphView); // TODO fix graph updating
+					// graphBox.addView(graphView); // TODO fix graph updating
 
 					// Average Calculating
 					Double averageSentSpeedRaw = findMean(sendSpeeds);
@@ -409,45 +409,82 @@ public class Tugging extends Activity {
 
 					String averageSentSpeed = returnTime(averageSentSpeedRaw);
 					String averageReceivedSpeed = returnTime(averageReceivedSpeedRaw);
-					
-					//Median Calculating
+
+					// Median Calculating
 					Double medianSentSpeedRaw = findMedian(sendSpeeds);
 					Double medianReceivedSpeedRaw = findMedian(replySpeeds);
-					
+
 					String medianSentSpeed = returnTime(medianSentSpeedRaw);
 					String medianReceivedSpeed = returnTime(medianReceivedSpeedRaw);
-					
-					//Construct count sentences
-					String sendSpeedSummary = "You have sent ";
-					if (sendQuarterCount == 1) {
-						sendSpeedSummary += "1 reply within 15 minutes";
-					} else if (sendQuarterCount > 1) {
-						
-						sendSpeedSummary += sendQuarterCount.toString() + " replies with 15 minutes";
-					}
-					
-					if (sendHourCount == 1) {
-						sendSpeedSummary += ", 1 reply within an hour";
-					} else if (sendHourCount > 1) {
-						sendSpeedSummary += ", " + sendHourCount.toString() + " replies within an hour";
-					}
-					
-					if (sendDayCount == 1) {
-						sendSpeedSummary += ", 1 reply within a day";
-					} else if (sendDayCount > 1) {
-						sendSpeedSummary += ", " + sendHourCount.toString() + " replies within a day";
-					}
-					
-					sendSpeedSummary += ".";
-							
-					
+
 					// Push the data to the view
+
+					// Score-cards!
+
 					
-					//Sending summary
-					TextView sendSummary = (TextView) findViewById(R.id.sendSummary);
-					sendSummary.setText(sendSpeedSummary);
+
 					
-					
+					final int topNum = sent; // the total number
+					final TextView sentScore = (TextView) findViewById(R.id.sentScore);
+					// ...
+					// when you want to start the counting start the thread
+					// bellow.
+					new Thread(new Runnable() {
+						int counter = 0;
+						public void run() {
+							while (counter < topNum) {
+								try {
+									Thread.sleep(20);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								sentScore.post(new Runnable() {
+
+									public void run() {
+										sentScore.setText("" + counter);
+
+									}
+									
+								});
+								counter++;
+							}
+							
+						}
+
+					}).start();
+
+					long freezeTime = SystemClock.uptimeMillis();
+					/**
+					 * for (int i = 0; i < sent; i++) { if
+					 * ((SystemClock.uptimeMillis() - freezeTime) > 500) {
+					 * sentScore.setText(sent.toString()); } }
+					 * 
+					 * int count = 0; while (count != sent) { if
+					 * ((SystemClock.uptimeMillis() - freezeTime) > 500) {
+					 * count++; sentScore.setText("" + count); } }
+					 */
+
+					/**
+					 * final long start = mStartTime; long millis =
+					 * SystemClock.uptimeMillis() - start; int seconds = (int)
+					 * (millis / 1000); int minutes = seconds / 60; seconds =
+					 * seconds % 60;
+					 * 
+					 * if (seconds < 10) { mTimeLabel.setText("" + minutes +
+					 * ":0" + seconds); } else { mTimeLabel.setText("" + minutes
+					 * + ":" + seconds); }
+					 * 
+					 * mHandler.postAtTime(this, start + (((minutes * 60) +
+					 * seconds + 1) * 1000));
+					 * 
+					 * for (int i = 0; i < sent; i++) { // try {
+					 * Thread.sleep(500);
+					 * 
+					 * } catch (InterruptedException ie) { sentScore.setText(i);
+					 * } }
+					 * 
+					 */
 
 					// Messages Row
 					TextView messagesSent = (TextView) findViewById(R.id.MessagesSent);
@@ -455,18 +492,18 @@ public class Tugging extends Activity {
 
 					TextView messagesReceived = (TextView) findViewById(R.id.MessagesReceived);
 					messagesReceived.setText(received.toString());
-					
+
 					// Average Row
 					TextView averageSent = (TextView) findViewById(R.id.AverageSent);
 					averageSent.setText(averageSentSpeed);
 
 					TextView averageReceived = (TextView) findViewById(R.id.AverageReceived);
 					averageReceived.setText(averageReceivedSpeed);
-					
-					//Median Row
+
+					// Median Row
 					TextView medianSent = (TextView) findViewById(R.id.MedianSent);
 					medianSent.setText(medianSentSpeed);
-					
+
 					TextView medianReceived = (TextView) findViewById(R.id.MedianReceived);
 					medianReceived.setText(medianReceivedSpeed);
 

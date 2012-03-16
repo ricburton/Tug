@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/main_header_selector"
-    android:orientation="vertical" >
+
+    android:background="@drawable/back_repeat"
+    android:orientation="vertical" 
+    android:padding="3dip">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -15,8 +17,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-          
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -27,44 +27,169 @@
                 android:textColor="@color/headline"
                 android:textSize="24.5sp" />
 
-            <TextView
-                android:id="@+id/sendSummary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="5dip"
-                android:layout_marginTop="5dip"
-                android:text="You have received..."
-                android:textColor="@color/headline"
-                android:textSize="14.5sp" />
-
-            <SeekBar
+           <!--   <SeekBar
                 android:id="@+id/seekBar1"
                 android:layout_width="fill_parent"
-                android:progress="70"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:progress="70" />
 
             <ProgressBar
                 android:id="@+id/progressBar1"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:progress="50"
-                android:secondaryProgress="70"
-                android:paddingLeft="10dip"
+                android:layout_weight="0.46"
                 android:max="150"
+                android:paddingLeft="10dip"
                 android:paddingRight="10dip"
-                android:layout_weight="0.46" />
-            
-            <RatingBar
-                    android:id="@+id/ratingBar1"
-                    
-                    android:progress="50"
-                    android:max="150"
-                   	android:isIndicator="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                android:progress="50"
+                android:secondaryProgress="70" /> -->
+			 <TableRow
+                    android:id="@+id/Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
 
+                    <TextView
+                        android:id="@+id/TextView04"
+                        android:gravity="center"
+                        android:text="Your Tug score:"
+                        android:textColor="#ffffff"
+                        android:textSize="25dip"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+
+			 <RatingBar
+			     android:id="@+id/ratingBar1"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content"
+			     android:isIndicator="true"
+			     android:max="150"
+			     android:progress="50" />
+
+             <TableRow
+                    android:id="@+id/Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/TextView04"
+                        android:gravity="center"
+                        android:text="Wow, you are a bit keen..."
+                        android:textColor="#ffffff"
+                        android:textSize="15dip"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+            
+               <TableRow
+                    android:id="@+id/Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/TextView04"
+                        android:gravity="center"
+                        android:text="Total messages"
+                        android:textColor="#ffffff"
+                        android:textSize="25dip"
+                        android:textStyle="bold" >
+                    </TextView>
+                </TableRow>
+            
+
+            <TableLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tableLayout8"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+                 
+                <TableRow android:id="@+id/Headerz" 
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/sentScore"
+                        android:background="@drawable/flipscore"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="#000000"
+                        android:textSize="55dip"
+                        android:textStyle="bold"
+                        android:layout_marginRight="15dip"
+                        android:width="50dp" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/TextView08"
+                        android:background="@drawable/flipscore"
+                        android:gravity="center"
+                        android:text="7"
+                        android:textColor="#000000"
+                        android:layout_marginLeft="15dip"
+                        android:textSize="55dip"
+                        android:textStyle="bold"
+                        android:width="100dp" >
+                    </TextView>
+                </TableRow>
+				
+                 <TableRow android:id="@+id/Headerz" 
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/TextView99"
+                        android:background="@drawable/flipscore"
+                        android:gravity="center"
+                        android:text="7"
+                        android:textColor="#000000"
+                        android:textSize="55dip"
+                        android:textStyle="bold"
+                        android:layout_marginRight="15dip"
+                        android:width="50dp" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/TextView08"
+                        android:background="@drawable/flipscore"
+                        android:gravity="center"
+                        android:text="7"
+                        android:textColor="#000000"
+                        android:layout_marginLeft="15dip"
+                        android:textSize="55dip"
+                        android:textStyle="bold"
+                        android:width="100dp" >
+                    </TextView>
+                </TableRow>
+                 <TableRow android:id="@+id/Headerz" 
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/TextView99"
+                        android:background="@drawable/flipscore"
+                        android:gravity="center"
+                        android:text="7"
+                        android:textColor="#000000"
+                        android:textSize="55dip"
+                        android:textStyle="bold"
+                        android:layout_marginRight="15dip"
+                        android:width="50dp" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/TextView08"
+                        android:background="@drawable/flipscore"
+                        android:gravity="center"
+                        android:text="7"
+                        android:textColor="#000000"
+                        android:layout_marginLeft="15dip"
+                        android:textSize="55dip"
+                        android:textStyle="bold"
+                        android:width="100dp" >
+                    </TextView>
+                </TableRow>
+            
+            </TableLayout>
+
+            <!--
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/graph1"
@@ -72,20 +197,24 @@
                 android:layout_height="250dip" >
                 
             </LinearLayout>
+            -->
 
             <TableLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/tableLayout1"
-                android:background="@drawable/curved_table"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:background="@drawable/curved_table"
                 android:shrinkColumns="*"
                 android:stretchColumns="*" >
-				<!--  style="@style/rows"-->
+
+                <!-- style="@style/rows" -->
+
                 <TableRow
-                 	
                     android:id="@+id/Header"
-                    >
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
 
                     <TextView
                         android:id="@+id/TextView04"
@@ -118,6 +247,7 @@
                         android:id="@+id/MessagesTitle"
                         android:gravity="center_horizontal"
                         android:text="Messages"
+                        android:textColor="#000000"
                         android:textStyle="bold" >
                     </TextView>
 
@@ -277,15 +407,13 @@
                 </TableRow>
             </TableLayout>
         </LinearLayout>
-
     </ScrollView>
 
     <Button
         android:id="@+id/do_contact_picker"
         android:layout_width="fill_parent"
-        android:layout_marginTop="5dip"
-        
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
         android:onClick="doLaunchContactPicker"
         android:text="@string/pick_a_contact" />
 

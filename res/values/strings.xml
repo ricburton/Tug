@@ -2,8 +2,7 @@
 <resources>
 
     <string name="app_name">TUG</string>
-    <string name="main_title">See if someone likes you.</string>
-    <string name="number_holder">07777999111</string>
+    <string name="main_title">Who is winning the game?</string>
     <string name="pick_a_contact">Choose someone to scan</string>
 
 </resources>

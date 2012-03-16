@@ -16,46 +16,50 @@ public final class R {
         public static final int stars=0x7f040002;
     }
     public static final class drawable {
-        public static final int curved_table=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int main_header_selector=0x7f020002;
+        public static final int back=0x7f020000;
+        public static final int back_repeat=0x7f020001;
+        public static final int curved_table=0x7f020002;
+        public static final int flipscore=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int main_header_selector=0x7f020005;
     }
     public static final class id {
-        public static final int AverageReceived=0x7f070011;
-        public static final int AverageRow=0x7f07000e;
-        public static final int AverageSent=0x7f070010;
-        public static final int AverageTitle=0x7f07000f;
-        public static final int DoublesReceived=0x7f070021;
-        public static final int DoublesRow=0x7f07001e;
-        public static final int DoublesSent=0x7f070020;
-        public static final int DoublesTitle=0x7f07001f;
-        public static final int Header=0x7f070006;
-        public static final int KissesReceived=0x7f070019;
-        public static final int KissesRow=0x7f070016;
-        public static final int KissesSent=0x7f070018;
-        public static final int KissesTitle=0x7f070017;
-        public static final int MedianReceived=0x7f070015;
-        public static final int MedianRow=0x7f070012;
-        public static final int MedianSent=0x7f070014;
-        public static final int MedianTitle=0x7f070013;
-        public static final int MessagesReceived=0x7f07000d;
-        public static final int MessagesRow=0x7f07000a;
-        public static final int MessagesSent=0x7f07000c;
-        public static final int MessagesTitle=0x7f07000b;
-        public static final int QuestionsReceived=0x7f07001d;
-        public static final int QuestionsRow=0x7f07001a;
-        public static final int QuestionsSent=0x7f07001c;
-        public static final int QuestionsTitle=0x7f07001b;
-        public static final int ReceivedTitle=0x7f070009;
-        public static final int SentTitle=0x7f070008;
-        public static final int TextView04=0x7f070007;
-        public static final int do_contact_picker=0x7f070022;
-        public static final int graph1=0x7f070004;
-        public static final int progressBar1=0x7f070002;
-        public static final int ratingBar1=0x7f070003;
-        public static final int seekBar1=0x7f070001;
-        public static final int sendSummary=0x7f070000;
-        public static final int tableLayout1=0x7f070005;
+        public static final int AverageReceived=0x7f070012;
+        public static final int AverageRow=0x7f07000f;
+        public static final int AverageSent=0x7f070011;
+        public static final int AverageTitle=0x7f070010;
+        public static final int DoublesReceived=0x7f070022;
+        public static final int DoublesRow=0x7f07001f;
+        public static final int DoublesSent=0x7f070021;
+        public static final int DoublesTitle=0x7f070020;
+        public static final int Header=0x7f070000;
+        public static final int Headerz=0x7f070004;
+        public static final int KissesReceived=0x7f07001a;
+        public static final int KissesRow=0x7f070017;
+        public static final int KissesSent=0x7f070019;
+        public static final int KissesTitle=0x7f070018;
+        public static final int MedianReceived=0x7f070016;
+        public static final int MedianRow=0x7f070013;
+        public static final int MedianSent=0x7f070015;
+        public static final int MedianTitle=0x7f070014;
+        public static final int MessagesReceived=0x7f07000e;
+        public static final int MessagesRow=0x7f07000b;
+        public static final int MessagesSent=0x7f07000d;
+        public static final int MessagesTitle=0x7f07000c;
+        public static final int QuestionsReceived=0x7f07001e;
+        public static final int QuestionsRow=0x7f07001b;
+        public static final int QuestionsSent=0x7f07001d;
+        public static final int QuestionsTitle=0x7f07001c;
+        public static final int ReceivedTitle=0x7f07000a;
+        public static final int SentTitle=0x7f070009;
+        public static final int TextView04=0x7f070001;
+        public static final int TextView08=0x7f070006;
+        public static final int TextView99=0x7f070007;
+        public static final int do_contact_picker=0x7f070023;
+        public static final int ratingBar1=0x7f070002;
+        public static final int sentScore=0x7f070005;
+        public static final int tableLayout1=0x7f070008;
+        public static final int tableLayout8=0x7f070003;
     }
     public static final class layout {
         public static final int main=0x7f030000;
@@ -63,8 +67,7 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f050000;
         public static final int main_title=0x7f050001;
-        public static final int number_holder=0x7f050002;
-        public static final int pick_a_contact=0x7f050003;
+        public static final int pick_a_contact=0x7f050002;
     }
     public static final class style {
         public static final int rows=0x7f060000;
