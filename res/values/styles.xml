@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-     <style name="rows">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+
+    <style name="scoreboard">
+        <item name="android:background">@drawable/flipscore</item>
         <item name="android:textColor">#000000</item>
-        
-		<item name="android:layout_margin">2dip</item>
-		<item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">55dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">10dip</item>
+        <item name="android:layout_marginRight">10dip</item>
+        <item name="android:text">@string/zero</item>
+        <item name="android:gravity">center</item>
     </style>
     
+    <style name="timeboard">
+     
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">35dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">10dip</item>
+        <item name="android:layout_marginRight">10dip</item>
+        <item name="android:text">@string/zero</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="count_title">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">25dip</item>
+         <item name="android:gravity">center</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_span">6</item>
+    </style>
+    
+    <style name="title_row">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_width">fill_parent</item>
+   
+        
+    </style>
+
 </resources>
 
-<!--  
 
-android:background="#00ff00" android:layout_margin="2dip"
-
-android:gravity="center_horizontal" 
-    
-     <style name="rows" parent="@android:style/TextAppearance.Medium">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">#00FF00</item>
-        <item name="android:typeface">monospace</item>
-    </style>
-    
-
--->
+<!-- android:gravity="center_horizontal"
+                 			android:width="match_parent" -->

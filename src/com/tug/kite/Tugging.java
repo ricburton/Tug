@@ -57,6 +57,50 @@ public class Tugging extends Activity {
 		}
 	}
 
+	// The method below creates the counter and pushes it to the view.
+	public void countUp(final TextView flipScore, final int topNum,
+			final int speedNum) {
+
+		new Thread(new Runnable() {
+			int counter = 0;
+
+			public void run() {
+
+				// start the counter animation off
+				while (counter < topNum) {
+					try {
+						Thread.sleep(speedNum);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					flipScore.post(new Runnable() {
+
+						public void run() {
+
+							//change font-size for ridic numbers
+							//TODO fix distortion
+							if (counter > 99) {
+								flipScore.setTextSize(45);
+							}
+							if (counter > 999) {
+								flipScore.setTextSize(35);
+							}
+
+							flipScore.setText("" + counter);
+
+						}
+
+					});
+					counter++;
+				}
+
+			}
+
+		}).start();
+
+	}
+
 	// This method calculates the mean
 	public static double findMean(ArrayList<Integer> anArray) {
 		ArrayList<Integer> myArray = anArray;
@@ -89,7 +133,6 @@ public class Tugging extends Activity {
 	}
 
 	public static String returnTime(Double milliSeconds) {
-		// int i = (int)myDouble;
 
 		Double pure = milliSeconds;
 		Integer diff = (int) Math.round(pure);
@@ -196,41 +239,28 @@ public class Tugging extends Activity {
 					Integer timesRun = 0;
 
 					while (cur.moveToNext()) {
+						
+						if (phone.length() == 0) {
+							Toast.makeText(this, "No phone found for contact.",
+									Toast.LENGTH_LONG).show();
+						}
 
-						// TODO look at the number outside the first zero.
-						// Matching the number +27 (84) 5543262 to 0845543262 to
-						// +27845543262
-						// That should be done from end to beginning
-
-						/**
-						 * String ssn ="123456789"; SubStringEx subEx = new
-						 * SubStringEx(); String last4Digits =
-						 * subEx.getLastnCharacters(ssn,4);
-						 * System.out.println("Last 4 digits are " +
-						 * last4Digits); //will print 6789
-						 * 
-						 */
+					
+						// Number-matching is done from end to beginning with 7 figures
 
 						// set the rat to be analysed
 						String rat = phone;
 						// strip the last 9 digits
-						SubStringEx subRatter = new SubStringEx(); // new
-																	// SubStringEx
-																	// object
-																	// from the
-																	// class
-						String cleanRat = subRatter.getLastnCharacters(rat, 9);
+						SubStringEx subRatter = new SubStringEx(); 
+						String cleanRat = subRatter.getLastnCharacters(rat, 7);
 
 						// get the raw number of the message
 						String num = cur.getString(2);
 						// string the last 9 digits
-						SubStringEx subNumber = new SubStringEx(); // TODO this
-																	// could be
-																	// code-bloat?
-						// can you just use the method and not need a new
-						// SubStringEx object?
+						SubStringEx subNumber = new SubStringEx(); //TODO bloat?
 
-						String cleanNum = subNumber.getLastnCharacters(num, 9);
+						String cleanNum = subNumber.getLastnCharacters(num, 7);
+						// 07851 888 999
 
 						if (cleanRat.equals(cleanNum)) {
 							Integer messageStatus = cur.getInt(8);
@@ -420,120 +450,60 @@ public class Tugging extends Activity {
 					// Push the data to the view
 
 					// Score-cards!
-
-					
-
-					
-					final int topNum = sent; // the total number
+					//TODO calculate counter end-times
 					final TextView sentScore = (TextView) findViewById(R.id.sentScore);
-					// ...
-					// when you want to start the counting start the thread
-					// bellow.
-					new Thread(new Runnable() {
-						int counter = 0;
-						public void run() {
-							while (counter < topNum) {
-								try {
-									Thread.sleep(20);
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								sentScore.post(new Runnable() {
+					countUp(sentScore, sent, 40);
 
-									public void run() {
-										sentScore.setText("" + counter);
-
-									}
-									
-								});
-								counter++;
-							}
-							
-						}
-
-					}).start();
-
-					long freezeTime = SystemClock.uptimeMillis();
-					/**
-					 * for (int i = 0; i < sent; i++) { if
-					 * ((SystemClock.uptimeMillis() - freezeTime) > 500) {
-					 * sentScore.setText(sent.toString()); } }
-					 * 
-					 * int count = 0; while (count != sent) { if
-					 * ((SystemClock.uptimeMillis() - freezeTime) > 500) {
-					 * count++; sentScore.setText("" + count); } }
-					 */
-
-					/**
-					 * final long start = mStartTime; long millis =
-					 * SystemClock.uptimeMillis() - start; int seconds = (int)
-					 * (millis / 1000); int minutes = seconds / 60; seconds =
-					 * seconds % 60;
-					 * 
-					 * if (seconds < 10) { mTimeLabel.setText("" + minutes +
-					 * ":0" + seconds); } else { mTimeLabel.setText("" + minutes
-					 * + ":" + seconds); }
-					 * 
-					 * mHandler.postAtTime(this, start + (((minutes * 60) +
-					 * seconds + 1) * 1000));
-					 * 
-					 * for (int i = 0; i < sent; i++) { // try {
-					 * Thread.sleep(500);
-					 * 
-					 * } catch (InterruptedException ie) { sentScore.setText(i);
-					 * } }
-					 * 
-					 */
-
-					// Messages Row
-					TextView messagesSent = (TextView) findViewById(R.id.MessagesSent);
-					messagesSent.setText(sent.toString());
-
-					TextView messagesReceived = (TextView) findViewById(R.id.MessagesReceived);
-					messagesReceived.setText(received.toString());
-
-					// Average Row
-					TextView averageSent = (TextView) findViewById(R.id.AverageSent);
-					averageSent.setText(averageSentSpeed);
-
-					TextView averageReceived = (TextView) findViewById(R.id.AverageReceived);
-					averageReceived.setText(averageReceivedSpeed);
-
-					// Median Row
-					TextView medianSent = (TextView) findViewById(R.id.MedianSent);
-					medianSent.setText(medianSentSpeed);
-
-					TextView medianReceived = (TextView) findViewById(R.id.MedianReceived);
-					medianReceived.setText(medianReceivedSpeed);
+					final TextView receivedScore = (TextView) findViewById(R.id.receivedScore);
+					countUp(receivedScore, received, 40);
 
 					// Questions Row
-					TextView questionsSentCounter = (TextView) findViewById(R.id.QuestionsSent);
-					questionsSentCounter.setText(questionsSent.toString());
+					TextView questionsSentCounter = (TextView) findViewById(R.id.questionsSent);
+					countUp(questionsSentCounter, questionsSent, 200);
 
-					TextView questionsReceivedCounter = (TextView) findViewById(R.id.QuestionsReceived);
-					questionsReceivedCounter.setText(questionsReceived
-							.toString());
+					TextView questionsReceivedCounter = (TextView) findViewById(R.id.questionsReceived);
+					countUp(questionsReceivedCounter, questionsReceived, 200);
 
-					// Kisses Row
-					TextView kissesSentCounter = (TextView) findViewById(R.id.KissesSent);
-					kissesSentCounter.setText(kissesSent.toString());
+					TextView kissesSentCounter = (TextView) findViewById(R.id.kissesSent);
+					countUp(kissesSentCounter, kissesSent, 200);
 
-					TextView kissesReceivedCounter = (TextView) findViewById(R.id.KissesReceived);
-					kissesReceivedCounter.setText(kissesReceived.toString());
+					TextView kissesReceivedCounter = (TextView) findViewById(R.id.kissesReceived);
+					countUp(kissesReceivedCounter, kissesReceived, 200);
 
 					// Doubles Row
-					TextView doublesSentCounter = (TextView) findViewById(R.id.DoublesSent);
-					doublesSentCounter.setText(sentDoubles.toString());
+					TextView doublesSentCounter = (TextView) findViewById(R.id.doublesSent);
+					countUp(doublesSentCounter, sentDoubles, 100);
 
-					TextView doublesReceivedCounter = (TextView) findViewById(R.id.DoublesReceived);
-					doublesReceivedCounter.setText(receivedDoubles.toString());
+					TextView doublesReceivedCounter = (TextView) findViewById(R.id.doublesReceived);
+					countUp(doublesReceivedCounter, receivedDoubles, 100);
 
-					if (phone.length() == 0) {
-						Toast.makeText(this, "No phone found for contact.",
-								Toast.LENGTH_LONG).show();
-					}
+					// Quarter Row
+					TextView quarterSent = (TextView) findViewById(R.id.quartersSent);
+					countUp(quarterSent, sendQuarterCount, 150);
 
+					TextView quarterReceived = (TextView) findViewById(R.id.quartersReceived);
+					countUp(quarterReceived, receivedQuarterCount, 150);
+
+					// Hour Row
+					TextView hourSent = (TextView) findViewById(R.id.hoursSent);
+					countUp(hourSent, sendHourCount, 150);
+
+					TextView hourReceived = (TextView) findViewById(R.id.hoursReceived);
+					countUp(hourReceived, receivedHourCount, 150);
+
+					// Day Row
+					TextView daySent = (TextView) findViewById(R.id.daysSent);
+					countUp(daySent, sendDayCount, 150);
+
+					TextView dayReceived = (TextView) findViewById(R.id.daysReceived);
+					countUp(dayReceived, receivedDayCount, 150);
+						
+					//Median Row
+					TextView medianSent = (TextView) findViewById(R.id.medianReceived);
+					medianSent.setText(medianSentSpeed);
+					
+					TextView medianReceived = (TextView) findViewById(R.id.medianReceived);
+					medianReceived.setText(medianReceivedSpeed);
 				}
 
 				break;
@@ -544,3 +514,6 @@ public class Tugging extends Activity {
 		}
 	}
 }
+
+// TODO crashes on lorna-volumes
+// TODO counts kisses incorrectly

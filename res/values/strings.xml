@@ -4,5 +4,16 @@
     <string name="app_name">TUG</string>
     <string name="main_title">Who is winning the game?</string>
     <string name="pick_a_contact">Choose someone to scan</string>
+    <string name="zero">0</string>
+    
+    <string name="total">All messages</string>
+    <string name="questions">Question marks</string>
+    <string name="kisses">Kisses</string>
+    <string name="doubles">Double-texts</string>
+    
+    <string name="quarters">Less than 15 mins</string>
+    <string name="hours">15&#8211;60 mins</string>
+    <string name="days">1&#8211;24 hours</string>
+    <string name="median">Median reply speed</string>
 
 </resources>

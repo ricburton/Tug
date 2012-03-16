@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-
     android:background="@drawable/back_repeat"
-    android:orientation="vertical" 
-    android:padding="3dip">
+    android:orientation="vertical"
+    android:padding="3dip" >
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -21,389 +20,231 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dip"
+                android:layout_marginBottom="8dip"
                 android:layout_marginTop="15dip"
                 android:text="@string/main_title"
                 android:textColor="@color/headline"
                 android:textSize="24.5sp" />
 
-           <!--   <SeekBar
-                android:id="@+id/seekBar1"
+              <!--
+            <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:progress="70" />
+                android:gravity="center_horizontal" >
 
-            <ProgressBar
-                android:id="@+id/progressBar1"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="fill_parent"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="8dip"
+                    android:layout_marginTop="10dip"
+                    android:text="You"
+                    android:textColor="@color/headline"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dip"
+                    android:layout_marginTop="10dip"
+                    android:text="vs."
+                    android:textColor="@color/headline"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="8dip"
+                    android:layout_marginTop="10dip"
+                    android:text="Elicha"
+                    android:textColor="@color/headline"
+                    android:textSize="20dip" />
+            </TableRow>
+
+          
+            <TextView
+                    android:id="@+id/TextView04"
+                    android:gravity="center"
+                    android:text="Your Tug score:"
+                    android:textColor="#ffffff"
+                    android:textSize="25dip"
+                    android:textStyle="bold" >
+                </TextView>
+            
+
+            <RatingBar
+                android:id="@+id/ratingBar1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.46"
+                android:isIndicator="true"
                 android:max="150"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip"
-                android:progress="50"
-                android:secondaryProgress="70" /> -->
-			 <TableRow
-                    android:id="@+id/Header"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
-
-                    <TextView
-                        android:id="@+id/TextView04"
-                        android:gravity="center"
-                        android:text="Your Tug score:"
-                        android:textColor="#ffffff"
-                        android:textSize="25dip"
-                        android:textStyle="bold" >
-                    </TextView>
-                </TableRow>
-
-			 <RatingBar
-			     android:id="@+id/ratingBar1"
-			     android:layout_width="wrap_content"
-			     android:layout_height="wrap_content"
-			     android:isIndicator="true"
-			     android:max="150"
-			     android:progress="50" />
-
-             <TableRow
-                    android:id="@+id/Header"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
-
-                    <TextView
-                        android:id="@+id/TextView04"
-                        android:gravity="center"
-                        android:text="Wow, you are a bit keen..."
-                        android:textColor="#ffffff"
-                        android:textSize="15dip"
-                        android:textStyle="bold" >
-                    </TextView>
-                </TableRow>
-            
-               <TableRow
-                    android:id="@+id/Header"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
-
-                    <TextView
-                        android:id="@+id/TextView04"
-                        android:gravity="center"
-                        android:text="Total messages"
-                        android:textColor="#ffffff"
-                        android:textSize="25dip"
-                        android:textStyle="bold" >
-                    </TextView>
-                </TableRow>
-            
-
-            <TableLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/tableLayout8"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
-                 
-                <TableRow android:id="@+id/Headerz" 
-                    android:gravity="center_horizontal">
-                    <TextView
-                        android:id="@+id/sentScore"
-                        android:background="@drawable/flipscore"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="#000000"
-                        android:textSize="55dip"
-                        android:textStyle="bold"
-                        android:layout_marginRight="15dip"
-                        android:width="50dp" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/TextView08"
-                        android:background="@drawable/flipscore"
-                        android:gravity="center"
-                        android:text="7"
-                        android:textColor="#000000"
-                        android:layout_marginLeft="15dip"
-                        android:textSize="55dip"
-                        android:textStyle="bold"
-                        android:width="100dp" >
-                    </TextView>
-                </TableRow>
-				
-                 <TableRow android:id="@+id/Headerz" 
-                    android:gravity="center_horizontal">
-                    <TextView
-                        android:id="@+id/TextView99"
-                        android:background="@drawable/flipscore"
-                        android:gravity="center"
-                        android:text="7"
-                        android:textColor="#000000"
-                        android:textSize="55dip"
-                        android:textStyle="bold"
-                        android:layout_marginRight="15dip"
-                        android:width="50dp" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/TextView08"
-                        android:background="@drawable/flipscore"
-                        android:gravity="center"
-                        android:text="7"
-                        android:textColor="#000000"
-                        android:layout_marginLeft="15dip"
-                        android:textSize="55dip"
-                        android:textStyle="bold"
-                        android:width="100dp" >
-                    </TextView>
-                </TableRow>
-                 <TableRow android:id="@+id/Headerz" 
-                    android:gravity="center_horizontal">
-                    <TextView
-                        android:id="@+id/TextView99"
-                        android:background="@drawable/flipscore"
-                        android:gravity="center"
-                        android:text="7"
-                        android:textColor="#000000"
-                        android:textSize="55dip"
-                        android:textStyle="bold"
-                        android:layout_marginRight="15dip"
-                        android:width="50dp" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/TextView08"
-                        android:background="@drawable/flipscore"
-                        android:gravity="center"
-                        android:text="7"
-                        android:textColor="#000000"
-                        android:layout_marginLeft="15dip"
-                        android:textSize="55dip"
-                        android:textStyle="bold"
-                        android:width="100dp" >
-                    </TextView>
-                </TableRow>
-            
-            </TableLayout>
-
-            <!--
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/graph1"
-                android:layout_width="fill_parent"
-                android:layout_height="250dip" >
-                
-            </LinearLayout>
+                android:progress="50" />
             -->
 
             <TableLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/tableLayout1"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/curved_table"
-                android:shrinkColumns="*"
-                android:stretchColumns="*" >
+                android:layout_height="fill_parent" >
 
-                <!-- style="@style/rows" -->
+                <!-- Totals -->
 
-                <TableRow
-                    android:id="@+id/Header"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
+                <TableRow style="@style/title_row" >
 
                     <TextView
-                        android:id="@+id/TextView04"
-                        android:gravity="center_horizontal"
-                        android:textStyle="bold" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/SentTitle"
-                        android:gravity="center_horizontal"
-                        android:text="Sent"
-                        android:textStyle="bold" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/ReceivedTitle"
-                        android:gravity="center_horizontal"
-                        android:text="Received"
-                        android:textStyle="bold" >
-                    </TextView>
+                        style="@style/count_title"
+                        android:text="@string/total" />
                 </TableRow>
 
-                <TableRow
-                    android:id="@+id/MessagesRow"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
+                <TableRow android:gravity="center_horizontal" >
 
                     <TextView
-                        android:id="@+id/MessagesTitle"
-                        android:gravity="center_horizontal"
-                        android:text="Messages"
-                        android:textColor="#000000"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/receivedScore"
+                        style="@style/scoreboard" />
 
                     <TextView
-                        android:id="@+id/MessagesSent"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/MessagesReceived"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/sentScore"
+                        style="@style/scoreboard" />
                 </TableRow>
 
-                <TableRow
-                    android:id="@+id/AverageRow"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
+                <!-- Questions -->
+
+                <TableRow style="@style/title_row" >
 
                     <TextView
-                        android:id="@+id/AverageTitle"
-                        android:gravity="center_horizontal"
-                        android:text="Avg. Reply Speed"
-                        android:textStyle="bold" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/AverageSent"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/AverageReceived"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        style="@style/count_title"
+                        android:text="@string/questions" />
                 </TableRow>
 
-                <TableRow
-                    android:id="@+id/MedianRow"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
+                <TableRow android:gravity="center_horizontal" >
 
                     <TextView
-                        android:id="@+id/MedianTitle"
-                        android:gravity="center_horizontal"
-                        android:text="Median Reply Speed"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/questionsSent"
+                        style="@style/scoreboard" />
 
                     <TextView
-                        android:id="@+id/MedianSent"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/questionsReceived"
+                        style="@style/scoreboard" />
+                </TableRow>
+                <!-- Kisses -->
+
+                <TableRow style="@style/title_row" >
 
                     <TextView
-                        android:id="@+id/MedianReceived"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        style="@style/count_title"
+                        android:text="@string/kisses" />
                 </TableRow>
 
-                <TableRow
-                    android:id="@+id/KissesRow"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
+                <TableRow android:gravity="center_horizontal" >
 
                     <TextView
-                        android:id="@+id/KissesTitle"
-                        android:gravity="center_horizontal"
-                        android:text="Kisses"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/kissesSent"
+                        style="@style/scoreboard" />
 
                     <TextView
-                        android:id="@+id/KissesSent"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/kissesReceived"
+                        style="@style/scoreboard" />
+                </TableRow>
+                <!-- Doubles -->
+
+                <TableRow style="@style/title_row" >
 
                     <TextView
-                        android:id="@+id/KissesReceived"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        style="@style/count_title"
+                        android:text="@string/doubles" />
                 </TableRow>
 
-                <TableRow
-                    android:id="@+id/QuestionsRow"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
+                <TableRow android:gravity="center_horizontal" >
 
                     <TextView
-                        android:id="@+id/QuestionsTitle"
-                        android:gravity="center_horizontal"
-                        android:text="Questions"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/doublesSent"
+                        style="@style/scoreboard" />
 
                     <TextView
-                        android:id="@+id/QuestionsSent"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/doublesReceived"
+                        style="@style/scoreboard" />
+                </TableRow>
+                
+                 <!-- Quarters -->
+
+                <TableRow style="@style/title_row" >
 
                     <TextView
-                        android:id="@+id/QuestionsReceived"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        style="@style/count_title"
+                        android:text="@string/quarters" />
                 </TableRow>
 
-                <TableRow
-                    android:id="@+id/DoublesRow"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
+                <TableRow android:gravity="center_horizontal" >
 
                     <TextView
-                        android:id="@+id/DoublesTitle"
-                        android:gravity="center_horizontal"
-                        android:text="Double-Texts"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/quartersSent"
+                        style="@style/scoreboard" />
 
                     <TextView
-                        android:id="@+id/DoublesSent"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        android:id="@+id/quartersReceived"
+                        style="@style/scoreboard" />
+                </TableRow>
+                
+                <!-- Hours -->
+
+                <TableRow style="@style/title_row" >
 
                     <TextView
-                        android:id="@+id/DoublesReceived"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textStyle="bold" >
-                    </TextView>
+                        style="@style/count_title"
+                        android:text="@string/hours" />
+                </TableRow>
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/hoursSent"
+                        style="@style/scoreboard" />
+
+                    <TextView
+                        android:id="@+id/hoursReceived"
+                        style="@style/scoreboard" />
+                </TableRow>
+                
+                <!-- Days -->
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:text="@string/days" />
+                </TableRow>
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/daysSent"
+                        style="@style/scoreboard" />
+
+                    <TextView
+                        android:id="@+id/daysReceived"
+                        style="@style/scoreboard" />
+                </TableRow>
+                
+                
+                 <!-- Mean -->
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:text="@string/median" />
+                </TableRow>
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/medianSent"
+                        style="@style/timeboard" />
+
+                    <TextView
+                        android:id="@+id/medianReceived"
+                        style="@style/timeboard" />
                 </TableRow>
             </TableLayout>
         </LinearLayout>
