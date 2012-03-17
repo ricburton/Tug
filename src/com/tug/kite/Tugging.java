@@ -41,7 +41,6 @@ public class Tugging extends Activity {
 	public void doLaunchContactPicker(View view) {
 		Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
 				Contacts.CONTENT_URI);
-		// TODO remove status bar and application name
 		startActivityForResult(contactPickerIntent, CONTACT_PICKER_RESULT);
 	}
 
@@ -57,7 +56,7 @@ public class Tugging extends Activity {
 		}
 	}
 
-	// The method below creates the counter and pushes it to the view.
+	// The method below creates the counter and pushes it to the view as a separate, runnable thread
 	public void countUp(final TextView flipScore, final int topNum,
 			final int speedNum) {
 
@@ -112,6 +111,7 @@ public class Tugging extends Activity {
 		return arrayAverage;
 	}
 
+	//this method finds the median
 	public static double findMedian(ArrayList<Integer> anArray) {
 		ArrayList<Integer> myArray = anArray;
 		Collections.sort(myArray);
@@ -132,6 +132,7 @@ public class Tugging extends Activity {
 		return arrayMedian;
 	}
 
+	//this method converts milliseconds into a nice string that can be printed
 	public static String returnTime(Double milliSeconds) {
 
 		Double pure = milliSeconds;
@@ -189,6 +190,8 @@ public class Tugging extends Activity {
 
 					} else {
 						Log.w(DEBUG_TAG, "No results");
+						
+						
 					}
 				} catch (Exception e) {
 					Log.e(DEBUG_TAG, "Failed to get phone data", e);
@@ -196,6 +199,11 @@ public class Tugging extends Activity {
 					if (cursor != null) {
 						cursor.close();
 					}
+					
+					if (phone.length() == 0) {
+						Toast.makeText(this, "No phone number found.",
+								Toast.LENGTH_LONG).show();
+					} else {
 
 					// START THE STAT ENGINE!
 					Uri uriSMSURI = Uri.parse("content://sms"); // access the
@@ -240,10 +248,7 @@ public class Tugging extends Activity {
 
 					while (cur.moveToNext()) {
 						
-						if (phone.length() == 0) {
-							Toast.makeText(this, "No phone found for contact.",
-									Toast.LENGTH_LONG).show();
-						}
+						
 
 					
 						// Number-matching is done from end to beginning with 7 figures
@@ -285,6 +290,8 @@ public class Tugging extends Activity {
 								// kisses sent
 								if (cur.getString(11).indexOf(" x ") > 0
 										|| cur.getString(11).indexOf(" x") > 0) {
+									
+									// TODO counts kisses incorrectly
 									kissesSent++;
 								}
 								// question-marks sent
@@ -334,11 +341,6 @@ public class Tugging extends Activity {
 						}
 
 					}
-
-					Log.i("Sent Doubles", sentDoubles.toString());
-					Log.i("Received Doubles", receivedDoubles.toString());
-					Log.i("Send Speeds", sendSpeeds.toString());
-					Log.i("Reply Speeds", replySpeeds.toString());
 
 					timesRun++;
 
@@ -499,11 +501,13 @@ public class Tugging extends Activity {
 					countUp(dayReceived, receivedDayCount, 150);
 						
 					//Median Row
-					TextView medianSent = (TextView) findViewById(R.id.medianReceived);
+					TextView medianSent = (TextView) findViewById(R.id.medianSent);
 					medianSent.setText(medianSentSpeed);
 					
 					TextView medianReceived = (TextView) findViewById(R.id.medianReceived);
+					//TODO - fix expanding cell-size on this
 					medianReceived.setText(medianReceivedSpeed);
+				}
 				}
 
 				break;
@@ -515,5 +519,3 @@ public class Tugging extends Activity {
 	}
 }
 
-// TODO crashes on lorna-volumes
-// TODO counts kisses incorrectly
