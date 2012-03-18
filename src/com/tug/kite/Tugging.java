@@ -229,17 +229,21 @@ public class Tugging extends Activity {
 						Integer smileysSent = 0;
 						Integer smileyReceived = 0;
 
+						Integer sendQuarterCount = 0;
+						Integer sendHourCount = 0;
+						Integer sendDayCount = 0;
+						Integer sendWeekCount = 0;
+						Integer sendWeekPlusCount = 0;					
+						
 						Integer receivedQuarterCount = 0;
 						Integer receivedHourCount = 0;
 						Integer receivedDayCount = 0;
 						Integer receivedWeekCount = 0;
 						Integer receivedWeekPlusCount = 0;
-
-						Integer sendQuarterCount = 0;
-						Integer sendHourCount = 0;
-						Integer sendDayCount = 0;
-						Integer sendWeekCount = 0;
-						Integer sendWeekPlusCount = 0;
+						
+						//Text-length monitoring
+						ArrayList<Integer> sentLengths = new ArrayList<Integer>();
+						ArrayList<Integer> receivedLengths = new ArrayList<Integer>();
 
 						// declare the ArrayList of reply-time integers
 						Integer lastMessageStatus = 0; // sent = 2, received = 1
@@ -275,13 +279,18 @@ public class Tugging extends Activity {
 							if (cleanRat.equals(cleanNum)) {
 								Integer messageStatus = cur.getInt(8);
 								Integer replyTime = cur.getInt(4);
+								String message = cur.getString(11);
 								total++;
+								
 								// messages sent
 								if (messageStatus == 2) {
 									sent++;
+									//length of message
+									sentLengths.add(message.length());
+									
 									Log.d(rat,
 											"Message Sent: "
-													+ cur.getString(11));
+													+ message);
 
 									// see if this is a reply or a double
 									
@@ -296,21 +305,21 @@ public class Tugging extends Activity {
 									}
 
 									// kisses sent
-									if (cur.getString(11).indexOf(" x ") > 0
-											|| cur.getString(11).indexOf(" x") > 0) {
+									if (message.indexOf(" x ") > 0
+											|| message.indexOf(" x") > 0) {
 
 										// TODO counts kisses incorrectly
 										kissesSent++;
 									}
 									// question-marks sent
-									if (cur.getString(11).indexOf("?") > 0) {
+									if (message.indexOf("?") > 0) {
 										questionsSent++;
 									}
 									//smiley's sent
 									String[] smileys = {":)", ";)", ":P", ":D", ";D"};
 									for(int i = 0; i < smileys.length; i++) {
 										
-										if (cur.getString(11).indexOf(smileys[i]) > 0) {
+										if (message.indexOf(smileys[i]) > 0) {
 											smileysSent++;
 											
 										}
@@ -321,7 +330,7 @@ public class Tugging extends Activity {
 								} else if (messageStatus == 1) { // messages
 																	// received
 									received++;
-
+									receivedLengths.add(message.length());
 									// see if this a reply or a follow-up text
 									if (lastMessageStatus == 1) {
 										receivedDoubles++;
@@ -335,14 +344,14 @@ public class Tugging extends Activity {
 
 									Log.d(rat,
 											"Message Received: "
-													+ cur.getString(11));
+													+ message);
 									// kisses received
-									if (cur.getString(11).indexOf(" x ") > 0
-											|| cur.getString(11).indexOf(" x") > 0) {
+									if (message.indexOf(" x ") > 0
+											|| message.indexOf(" x") > 0) {
 										kissesReceived++;
 									}
 									// question-marks received
-									if (cur.getString(11).indexOf("?") > 0) {
+									if (message.indexOf("?") > 0) {
 										questionsReceived++;
 										Log.d(rat, "Question Received");
 									}
@@ -350,7 +359,7 @@ public class Tugging extends Activity {
 									String[] smileys = {":)", ";)", ":P", ":D", ";D"};
 									for(int i = 0; i < smileys.length; i++) {
 										
-										if (cur.getString(11).indexOf(smileys[i]) > 0) {
+										if (message.indexOf(smileys[i]) > 0) {
 											smileyReceived++;
 											
 										}
