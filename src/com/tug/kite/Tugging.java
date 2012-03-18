@@ -1,5 +1,6 @@
 package com.tug.kite;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,19 +11,17 @@ import com.jjoe64.graphview.GraphView.GraphViewSeries;
 import com.jjoe64.graphview.GraphView.LegendAlign;
 import com.jjoe64.graphview.LineGraphView;
 
-import android.R.string;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.CommonDataKinds.Nickname;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +55,8 @@ public class Tugging extends Activity {
 		}
 	}
 
-	// The method below creates the counter and pushes it to the view as a separate, runnable thread
+	// The method below creates the counter and pushes it to the view as a
+	// separate, runnable thread
 	public void countUp(final TextView flipScore, final int topNum,
 			final int speedNum) {
 
@@ -64,21 +64,21 @@ public class Tugging extends Activity {
 			int counter = 0;
 
 			public void run() {
-
+				flipScore.setText("0");
 				// start the counter animation off
 				while (counter < topNum) {
 					try {
 						Thread.sleep(speedNum);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+
 						e.printStackTrace();
 					}
 					flipScore.post(new Runnable() {
 
 						public void run() {
 
-							//change font-size for ridic numbers
-							//TODO fix distortion
+							// change font-size for ridic numbers
+							// TODO fix distortion
 							if (counter > 99) {
 								flipScore.setTextSize(45);
 							}
@@ -111,7 +111,7 @@ public class Tugging extends Activity {
 		return arrayAverage;
 	}
 
-	//this method finds the median
+	// this method finds the median
 	public static double findMedian(ArrayList<Integer> anArray) {
 		ArrayList<Integer> myArray = anArray;
 		Collections.sort(myArray);
@@ -132,7 +132,7 @@ public class Tugging extends Activity {
 		return arrayMedian;
 	}
 
-	//this method converts milliseconds into a nice string that can be printed
+	// this method converts milliseconds into a nice string that can be printed
 	public static String returnTime(Double milliSeconds) {
 
 		Double pure = milliSeconds;
@@ -158,8 +158,7 @@ public class Tugging extends Activity {
 
 	}
 
-	// TODO error handling for email input doesn't work
-	// TODO small arrays cause problems e.g. Merel
+	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -168,6 +167,7 @@ public class Tugging extends Activity {
 			case CONTACT_PICKER_RESULT:
 				Cursor cursor = null;
 				String phone = "";
+				String name = "";
 				try {
 					Uri result = data.getData();
 					Log.v(DEBUG_TAG,
@@ -182,16 +182,19 @@ public class Tugging extends Activity {
 							null);
 
 					int phoneIdx = cursor.getColumnIndex(Phone.DATA);
+					int nameIdx = cursor.getColumnIndex(Phone.DISPLAY_NAME);
 
 					// let's just get the first phone
 					if (cursor.moveToFirst()) {
 						phone = cursor.getString(phoneIdx);
+						name = cursor.getString(nameIdx);
 						Log.v(DEBUG_TAG, "Got phone: " + phone);
+						Log.v(DEBUG_TAG, "Got name:" + name);
+						//TODO change rat search into an array to allow for multiple numbers
 
 					} else {
 						Log.w(DEBUG_TAG, "No results");
-						
-						
+
 					}
 				} catch (Exception e) {
 					Log.e(DEBUG_TAG, "Failed to get phone data", e);
@@ -200,314 +203,375 @@ public class Tugging extends Activity {
 						cursor.close();
 					}
 					
+					//if the number cannot be found let the user know and stop the stat engine running
 					if (phone.length() == 0) {
 						Toast.makeText(this, "No phone number found.",
 								Toast.LENGTH_LONG).show();
 					} else {
 
-					// START THE STAT ENGINE!
-					Uri uriSMSURI = Uri.parse("content://sms"); // access the
-																// sms db
-					Cursor cur = getContentResolver().query(uriSMSURI, null,
-							null, null, null);
+						// START THE STAT ENGINE!
+						Uri uriSMSURI = Uri.parse("content://sms"); // access
+																	// the
+																	// sms db
+						Cursor cur = getContentResolver().query(uriSMSURI,
+								null, null, null, null);
 
-					// set the data to be collected
+						// set the data to be collected
 
-					Integer total = 0;
-					Integer sent = 0;
-					Integer received = 0;
+						Integer total = 0;
+						Integer sent = 0;
+						Integer received = 0;
 
-					Integer kissesSent = 0;
-					Integer kissesReceived = 0;
-					Integer questionsSent = 0;
-					Integer questionsReceived = 0;
+						Integer kissesSent = 0;
+						Integer kissesReceived = 0;
+						Integer questionsSent = 0;
+						Integer questionsReceived = 0;
+						Integer smileysSent = 0;
+						Integer smileyReceived = 0;
 
-					Integer receivedQuarterCount = 0;
-					Integer receivedHourCount = 0;
-					Integer receivedDayCount = 0;
-					Integer receivedWeekCount = 0;
-					Integer receivedWeekPlusCount = 0;
+						Integer receivedQuarterCount = 0;
+						Integer receivedHourCount = 0;
+						Integer receivedDayCount = 0;
+						Integer receivedWeekCount = 0;
+						Integer receivedWeekPlusCount = 0;
 
-					Integer sendQuarterCount = 0;
-					Integer sendHourCount = 0;
-					Integer sendDayCount = 0;
-					Integer sendWeekCount = 0;
-					Integer sendWeekPlusCount = 0;
+						Integer sendQuarterCount = 0;
+						Integer sendHourCount = 0;
+						Integer sendDayCount = 0;
+						Integer sendWeekCount = 0;
+						Integer sendWeekPlusCount = 0;
 
-					// declare the ArrayList of reply-time integers
-					Integer lastMessageStatus = 0; // sent = 2, received = 1
-					Integer lastMessageTime = 0;
-					ArrayList<Integer> replySpeeds = new ArrayList<Integer>();
-					ArrayList<Integer> sendSpeeds = new ArrayList<Integer>();
+						// declare the ArrayList of reply-time integers
+						Integer lastMessageStatus = 0; // sent = 2, received = 1
+						Integer lastMessageTime = 0;
+						ArrayList<Integer> replySpeeds = new ArrayList<Integer>();
+						ArrayList<Integer> sendSpeeds = new ArrayList<Integer>();
 
-					// Double-texts
-					Integer sentDoubles = 0;
-					Integer receivedDoubles = 0;
+						// Double-texts
+						Integer sentDoubles = 0;
+						Integer receivedDoubles = 0;
 
-					Integer timesRun = 0;
+						Integer timesRun = 0;
 
-					while (cur.moveToNext()) {
-						
-						
+						while (cur.moveToNext()) {
 
-					
-						// Number-matching is done from end to beginning with 7 figures
+							// Number-matching is done from end to beginning
+							// with 7 figures
 
-						// set the rat to be analysed
-						String rat = phone;
-						// strip the last 9 digits
-						SubStringEx subRatter = new SubStringEx(); 
-						String cleanRat = subRatter.getLastnCharacters(rat, 7);
+							// set the rat to be analysed
+							String rat = phone;
+							// strip the last 9 digits
+							SubStringEx subRatter = new SubStringEx();
+							String cleanRat = subRatter.getLastnCharacters(rat,
+									7);
 
-						// get the raw number of the message
-						String num = cur.getString(2);
-						// string the last 9 digits
-						SubStringEx subNumber = new SubStringEx(); //TODO bloat?
+							// get the raw number of the message
+							String num = cur.getString(2);
+							// string the last 9 digits
+							SubStringEx subNumber = new SubStringEx();
 
-						String cleanNum = subNumber.getLastnCharacters(num, 7);
-						// 07851 888 999
+							String cleanNum = subNumber.getLastnCharacters(num, 7);
 
-						if (cleanRat.equals(cleanNum)) {
-							Integer messageStatus = cur.getInt(8);
-							Integer replyTime = cur.getInt(4);
-							total++;
-							// messages sent
-							if (messageStatus == 2) {
-								sent++;
-								Log.d(rat, "Message Sent: " + cur.getString(11));
+							if (cleanRat.equals(cleanNum)) {
+								Integer messageStatus = cur.getInt(8);
+								Integer replyTime = cur.getInt(4);
+								total++;
+								// messages sent
+								if (messageStatus == 2) {
+									sent++;
+									Log.d(rat,
+											"Message Sent: "
+													+ cur.getString(11));
 
-								// see if this is a reply or a follow-up text
-								if (lastMessageStatus == 2) {
-									sentDoubles++;
-								} else if (lastMessageStatus == 1) {
-									Integer sendDiff = lastMessageTime
-											- replyTime;
-									sendSpeeds.add(sendDiff);
-									Log.d("Difference in time",
-											sendDiff.toString());
-								}
-
-								// kisses sent
-								if (cur.getString(11).indexOf(" x ") > 0
-										|| cur.getString(11).indexOf(" x") > 0) {
+									// see if this is a reply or a double
 									
-									// TODO counts kisses incorrectly
-									kissesSent++;
-								}
-								// question-marks sent
-								if (cur.getString(11).indexOf("?") > 0) {
-									questionsSent++;
-								}
-							} else if (messageStatus == 1) { // messages
-																// received
-								received++;
+									if (lastMessageStatus == 2) {
+										sentDoubles++;
+									} else if (lastMessageStatus == 1) {
+										Integer sendDiff = lastMessageTime
+												- replyTime;
+										sendSpeeds.add(sendDiff);
+										Log.d("Difference in time",
+												sendDiff.toString());
+									}
 
-								// see if this a reply or a follow-up text
-								if (lastMessageStatus == 1) {
-									receivedDoubles++;
-								} else if (lastMessageStatus == 2) {
-									Integer replyDiff = lastMessageTime
-											- replyTime;
-									replySpeeds.add(replyDiff);
-									Log.d("Difference in time",
-											replyDiff.toString());
+									// kisses sent
+									if (cur.getString(11).indexOf(" x ") > 0
+											|| cur.getString(11).indexOf(" x") > 0) {
+
+										// TODO counts kisses incorrectly
+										kissesSent++;
+									}
+									// question-marks sent
+									if (cur.getString(11).indexOf("?") > 0) {
+										questionsSent++;
+									}
+									//smiley's sent
+									String[] smileys = {":)", ";)", ":P", ":D", ";D"};
+									for(int i = 0; i < smileys.length; i++) {
+										
+										if (cur.getString(11).indexOf(smileys[i]) > 0) {
+											smileysSent++;
+											
+										}
+									}
+									
+									
+									
+								} else if (messageStatus == 1) { // messages
+																	// received
+									received++;
+
+									// see if this a reply or a follow-up text
+									if (lastMessageStatus == 1) {
+										receivedDoubles++;
+									} else if (lastMessageStatus == 2) {
+										Integer replyDiff = lastMessageTime
+												- replyTime;
+										replySpeeds.add(replyDiff);
+										Log.d("Difference in time",
+												replyDiff.toString());
+									}
+
+									Log.d(rat,
+											"Message Received: "
+													+ cur.getString(11));
+									// kisses received
+									if (cur.getString(11).indexOf(" x ") > 0
+											|| cur.getString(11).indexOf(" x") > 0) {
+										kissesReceived++;
+									}
+									// question-marks received
+									if (cur.getString(11).indexOf("?") > 0) {
+										questionsReceived++;
+										Log.d(rat, "Question Received");
+									}
+									//smiley's received
+									String[] smileys = {":)", ";)", ":P", ":D", ";D"};
+									for(int i = 0; i < smileys.length; i++) {
+										
+										if (cur.getString(11).indexOf(smileys[i]) > 0) {
+											smileyReceived++;
+											
+										}
+									}
+									
+
+								} else {
+
+									Log.d(rat, "Not sent or received. Odd");
 								}
 
-								Log.d(rat,
-										"Message Received: "
-												+ cur.getString(11));
-								// kisses received
-								if (cur.getString(11).indexOf(" x ") > 0
-										|| cur.getString(11).indexOf(" x") > 0) {
-									kissesReceived++;
-								}
-								// question-marks received
-								if (cur.getString(11).indexOf("?") > 0) {
-									questionsReceived++;
-									Log.d(rat, "Question Received");
-								}
-
+								// set the LastMessageStatus for next loop
+								lastMessageStatus = messageStatus;
+								lastMessageTime = replyTime;
 							} else {
-
-								Log.d(rat, "Not sent or received. Odd");
+								// log no texts match to person here
+								Log.d(rat, "Not a match to rat.");
 							}
 
-							// set the LastMessageStatus for next loop
-							lastMessageStatus = messageStatus;
-							lastMessageTime = replyTime;
+						}
+
+						// if there's fewer than 5 messages, throw an error
+						if (total == 0) {
+							Toast.makeText(this, "No messages found.",
+									Toast.LENGTH_LONG).show();
+						} else if (total == 1) { 
+							Toast.makeText(this, "1 message is not enough",
+									Toast.LENGTH_LONG).show();
 						} else {
-							// log no texts match to person here
-							Log.d(rat, "Not a match to rat.");
+
+							timesRun++;
+
+							// GRAPHING TIME
+
+							// replySpeeds
+
+							Integer replyNum = replySpeeds.size();
+							GraphViewData[] replyData = new GraphViewData[replyNum];
+
+							Log.i("About to spin data in", "DATA GOING IN");
+							for (int i = 0; i < replyNum; i++) {
+
+								// push data into graph's line array
+								replyData[i] = new GraphViewData(i,
+										replySpeeds.get(i));
+								Log.i("pushing reply data", replySpeeds.get(i)
+										.toString());
+
+								// count delay categories
+								Integer diff = (int) Math.round(replySpeeds
+										.get(i));
+								Integer diffMin = diff / (60 * 1000); // minutes
+								Integer diffHours = diff / (60 * 60 * 1000); // hours
+								Integer diffDays = diff / (24 * 60 * 60 * 1000);
+
+								if (diffMin < 15) {
+									receivedQuarterCount++;
+								} else if (diffMin > 15 && diffMin < 60) {
+									receivedHourCount++;
+								} else if (diffHours > 1 && diffHours < 24) {
+									receivedDayCount++;
+								} else if (diffDays > 1 && diffDays < 7) {
+									receivedWeekCount++;
+								} else if (diffDays > 7) {
+									receivedWeekPlusCount++;
+								}
+
+							}
+
+							GraphViewSeries seriesReplies = new GraphViewSeries(
+									"Replying speeds", Color.rgb(200, 50, 00),
+									replyData);
+
+							// sendSpeeds
+							Integer sendNum = sendSpeeds.size();
+							GraphViewData[] sendData = new GraphViewData[sendNum];
+
+							for (int i = 0; i < sendNum; i++) {
+								// push data into graph's array
+								sendData[i] = new GraphViewData(i,
+										sendSpeeds.get(i));
+								Log.i("pushing send data", sendSpeeds.get(i)
+										.toString());
+
+								// count delay categories
+								Integer diff = (int) Math.round(sendSpeeds
+										.get(i));
+								Integer diffMin = diff / (60 * 1000); // minutes
+								Integer diffHours = diff / (60 * 60 * 1000); // hours
+								Integer diffDays = diff / (24 * 60 * 60 * 1000);
+
+								if (diffMin < 15) {
+									sendQuarterCount++;
+								} else if (diffMin > 15 && diffMin < 60) {
+									sendHourCount++;
+								} else if (diffHours > 1 && diffHours < 24) {
+									sendDayCount++;
+								} else if (diffDays > 1 && diffDays < 7) {
+									sendWeekCount++;
+								} else if (diffDays > 7) {
+									sendWeekPlusCount++;
+								}
+
+							}
+
+							GraphViewSeries seriesSent = new GraphViewSeries(
+									"Sending speeds", Color.rgb(0, 184, 0),
+									sendData);
+
+							// LinearLayout graphBox = (LinearLayout)
+							// findViewById(R.id.graph1);
+
+							GraphView graphView = new BarGraphView(this,
+									"Reply Speeds");
+
+							if (timesRun > 1) {
+								// graphBox.removeAllViews();
+							}
+
+							graphView.addSeries(seriesReplies);
+							graphView.addSeries(seriesSent);
+							// set legend
+							graphView.setShowLegend(true);
+							graphView.setLegendAlign(LegendAlign.BOTTOM);
+							graphView.setLegendWidth(200);
+
+							Log.d("Update Graph", "About to update...");
+
+							// graphBox.addView(graphView); // TODO fix graph
+							// updating
+
+							// Average Calculating
+							Double averageSentSpeedRaw = findMean(sendSpeeds);
+							Double averageReceivedSpeedRaw = findMean(replySpeeds);
+
+							String averageSentSpeed = returnTime(averageSentSpeedRaw);
+							String averageReceivedSpeed = returnTime(averageReceivedSpeedRaw);
+
+							// Median Calculating
+							Double medianSentSpeedRaw = findMedian(sendSpeeds);
+							Double medianReceivedSpeedRaw = findMedian(replySpeeds);
+
+							String medianSentSpeed = returnTime(medianSentSpeedRaw);
+							String medianReceivedSpeed = returnTime(medianReceivedSpeedRaw);
+
+							// Push the data to the view
+
+							// Name of adversary
+							TextView nameOfRat = (TextView) findViewById(R.id.ratName);
+							nameOfRat.setText(name);
+							
+							// Score-cards!
+							// TODO calculate counter end-times
+							final TextView sentScore = (TextView) findViewById(R.id.sentScore);
+							countUp(sentScore, sent, 40);
+
+							final TextView receivedScore = (TextView) findViewById(R.id.receivedScore);
+							countUp(receivedScore, received, 40);
+
+							// Questions Row
+							TextView questionsSentCounter = (TextView) findViewById(R.id.questionsSent);
+							countUp(questionsSentCounter, questionsSent, 200);
+
+							TextView questionsReceivedCounter = (TextView) findViewById(R.id.questionsReceived);
+							countUp(questionsReceivedCounter,
+									questionsReceived, 200);
+							
+							//Kisses Row
+							TextView kissesSentCounter = (TextView) findViewById(R.id.kissesSent);
+							countUp(kissesSentCounter, kissesSent, 200);
+
+							TextView kissesReceivedCounter = (TextView) findViewById(R.id.kissesReceived);
+							countUp(kissesReceivedCounter, kissesReceived, 200);
+							
+							//Smileys Row
+							TextView smileysSentCounter = (TextView) findViewById(R.id.smileysSent);
+							countUp(smileysSentCounter, smileysSent, 200);
+
+							TextView smileysReceivedCounter = (TextView) findViewById(R.id.smileysReceived);
+							countUp(smileysReceivedCounter, smileyReceived, 200);
+
+							// Doubles Row
+							TextView doublesSentCounter = (TextView) findViewById(R.id.doublesSent);
+							countUp(doublesSentCounter, sentDoubles, 100);
+
+							TextView doublesReceivedCounter = (TextView) findViewById(R.id.doublesReceived);
+							countUp(doublesReceivedCounter, receivedDoubles,
+									100);
+
+							// Quarter Row
+							TextView quarterSent = (TextView) findViewById(R.id.quartersSent);
+							countUp(quarterSent, sendQuarterCount, 150);
+
+							TextView quarterReceived = (TextView) findViewById(R.id.quartersReceived);
+							countUp(quarterReceived, receivedQuarterCount, 150);
+
+							// Hour Row
+							TextView hourSent = (TextView) findViewById(R.id.hoursSent);
+							countUp(hourSent, sendHourCount, 150);
+
+							TextView hourReceived = (TextView) findViewById(R.id.hoursReceived);
+							countUp(hourReceived, receivedHourCount, 150);
+
+							// Day Row
+							TextView daySent = (TextView) findViewById(R.id.daysSent);
+							countUp(daySent, sendDayCount, 150);
+
+							TextView dayReceived = (TextView) findViewById(R.id.daysReceived);
+							countUp(dayReceived, receivedDayCount, 150);
+
+							// Median Row
+							TextView medianSent = (TextView) findViewById(R.id.medianSent);
+							medianSent.setText(medianSentSpeed);
+
+							TextView medianReceived = (TextView) findViewById(R.id.medianReceived);
+							// TODO - fix expanding cell-size on this
+							medianReceived.setText(medianReceivedSpeed);
+							
+							Log.i("Smileys:", smileysSent.toString());
 						}
-
 					}
-
-					timesRun++;
-
-					// GRAPHING TIME
-
-					// replySpeeds
-
-					Integer replyNum = replySpeeds.size();
-					GraphViewData[] replyData = new GraphViewData[replyNum];
-
-					Log.i("About to spin data in", "DATA GOING IN");
-					for (int i = 0; i < replyNum; i++) {
-
-						// push data into graph's line array
-						replyData[i] = new GraphViewData(i, replySpeeds.get(i));
-						Log.i("pushing reply data", replySpeeds.get(i)
-								.toString());
-
-						// count delay categories
-						Integer diff = (int) Math.round(replySpeeds.get(i));
-						Integer diffMin = diff / (60 * 1000); // minutes
-						Integer diffHours = diff / (60 * 60 * 1000); // hours
-						Integer diffDays = diff / (24 * 60 * 60 * 1000);
-
-						if (diffMin < 15) {
-							receivedQuarterCount++;
-						} else if (diffMin > 15 && diffMin < 60) {
-							receivedHourCount++;
-						} else if (diffHours > 1 && diffHours < 24) {
-							receivedDayCount++;
-						} else if (diffDays > 1 && diffDays < 7) {
-							receivedWeekCount++;
-						} else if (diffDays > 7) {
-							receivedWeekPlusCount++;
-						}
-
-					}
-
-					GraphViewSeries seriesReplies = new GraphViewSeries(
-							"Replying speeds", Color.rgb(200, 50, 00),
-							replyData);
-
-					// sendSpeeds
-					Integer sendNum = sendSpeeds.size();
-					GraphViewData[] sendData = new GraphViewData[sendNum];
-
-					for (int i = 0; i < sendNum; i++) {
-						// push data into graph's array
-						sendData[i] = new GraphViewData(i, sendSpeeds.get(i));
-						Log.i("pushing send data", sendSpeeds.get(i).toString());
-
-						// count delay categories
-						Integer diff = (int) Math.round(sendSpeeds.get(i));
-						Integer diffMin = diff / (60 * 1000); // minutes
-						Integer diffHours = diff / (60 * 60 * 1000); // hours
-						Integer diffDays = diff / (24 * 60 * 60 * 1000);
-
-						if (diffMin < 15) {
-							sendQuarterCount++;
-						} else if (diffMin > 15 && diffMin < 60) {
-							sendHourCount++;
-						} else if (diffHours > 1 && diffHours < 24) {
-							sendDayCount++;
-						} else if (diffDays > 1 && diffDays < 7) {
-							sendWeekCount++;
-						} else if (diffDays > 7) {
-							sendWeekPlusCount++;
-						}
-
-					}
-
-					GraphViewSeries seriesSent = new GraphViewSeries(
-							"Sending speeds", Color.rgb(0, 184, 0), sendData);
-
-					// LinearLayout graphBox = (LinearLayout)
-					// findViewById(R.id.graph1);
-
-					GraphView graphView = new BarGraphView(this, "Reply Speeds");
-
-					if (timesRun > 1) {
-						// graphBox.removeAllViews();
-					}
-
-					graphView.addSeries(seriesReplies);
-					graphView.addSeries(seriesSent);
-					// set legend
-					graphView.setShowLegend(true);
-					graphView.setLegendAlign(LegendAlign.BOTTOM);
-					graphView.setLegendWidth(200);
-
-					Log.d("Update Graph", "About to update...");
-
-					// graphBox.addView(graphView); // TODO fix graph updating
-
-					// Average Calculating
-					Double averageSentSpeedRaw = findMean(sendSpeeds);
-					Double averageReceivedSpeedRaw = findMean(replySpeeds);
-
-					String averageSentSpeed = returnTime(averageSentSpeedRaw);
-					String averageReceivedSpeed = returnTime(averageReceivedSpeedRaw);
-
-					// Median Calculating
-					Double medianSentSpeedRaw = findMedian(sendSpeeds);
-					Double medianReceivedSpeedRaw = findMedian(replySpeeds);
-
-					String medianSentSpeed = returnTime(medianSentSpeedRaw);
-					String medianReceivedSpeed = returnTime(medianReceivedSpeedRaw);
-
-					// Push the data to the view
-
-					// Score-cards!
-					//TODO calculate counter end-times
-					final TextView sentScore = (TextView) findViewById(R.id.sentScore);
-					countUp(sentScore, sent, 40);
-
-					final TextView receivedScore = (TextView) findViewById(R.id.receivedScore);
-					countUp(receivedScore, received, 40);
-
-					// Questions Row
-					TextView questionsSentCounter = (TextView) findViewById(R.id.questionsSent);
-					countUp(questionsSentCounter, questionsSent, 200);
-
-					TextView questionsReceivedCounter = (TextView) findViewById(R.id.questionsReceived);
-					countUp(questionsReceivedCounter, questionsReceived, 200);
-
-					TextView kissesSentCounter = (TextView) findViewById(R.id.kissesSent);
-					countUp(kissesSentCounter, kissesSent, 200);
-
-					TextView kissesReceivedCounter = (TextView) findViewById(R.id.kissesReceived);
-					countUp(kissesReceivedCounter, kissesReceived, 200);
-
-					// Doubles Row
-					TextView doublesSentCounter = (TextView) findViewById(R.id.doublesSent);
-					countUp(doublesSentCounter, sentDoubles, 100);
-
-					TextView doublesReceivedCounter = (TextView) findViewById(R.id.doublesReceived);
-					countUp(doublesReceivedCounter, receivedDoubles, 100);
-
-					// Quarter Row
-					TextView quarterSent = (TextView) findViewById(R.id.quartersSent);
-					countUp(quarterSent, sendQuarterCount, 150);
-
-					TextView quarterReceived = (TextView) findViewById(R.id.quartersReceived);
-					countUp(quarterReceived, receivedQuarterCount, 150);
-
-					// Hour Row
-					TextView hourSent = (TextView) findViewById(R.id.hoursSent);
-					countUp(hourSent, sendHourCount, 150);
-
-					TextView hourReceived = (TextView) findViewById(R.id.hoursReceived);
-					countUp(hourReceived, receivedHourCount, 150);
-
-					// Day Row
-					TextView daySent = (TextView) findViewById(R.id.daysSent);
-					countUp(daySent, sendDayCount, 150);
-
-					TextView dayReceived = (TextView) findViewById(R.id.daysReceived);
-					countUp(dayReceived, receivedDayCount, 150);
-						
-					//Median Row
-					TextView medianSent = (TextView) findViewById(R.id.medianSent);
-					medianSent.setText(medianSentSpeed);
-					
-					TextView medianReceived = (TextView) findViewById(R.id.medianReceived);
-					//TODO - fix expanding cell-size on this
-					medianReceived.setText(medianReceivedSpeed);
-				}
 				}
 
 				break;
@@ -518,4 +582,3 @@ public class Tugging extends Activity {
 		}
 	}
 }
-

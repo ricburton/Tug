@@ -25,22 +25,27 @@
                 android:text="@string/main_title"
                 android:textColor="@color/headline"
                 android:textSize="24.5sp" />
-
-              <!--
+			
+             <TableLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >     
+            
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dip"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="8dip"
                     android:layout_marginTop="10dip"
                     android:text="You"
+                    android:textStyle="bold"
                     android:textColor="@color/headline"
-                    android:textSize="20dip" />
+                    android:textSize="24dip" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -53,16 +58,72 @@
                     android:textSize="20dip" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ratName" 
+                    android:layout_width="100dip"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="8dip"
                     android:layout_marginTop="10dip"
-                    android:text="Elicha"
+                    android:textStyle="bold"
+                    android:text="who?"
                     android:textColor="@color/headline"
-                    android:textSize="20dip" />
+                    android:textSize="24dip" />
             </TableRow>
+            </TableLayout>
+            
+            
+            
+                    <TableLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+                 <!-- Mean -->
 
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        
+                        android:text="@string/median" />
+
+                </TableRow>
+                
+                 <!--  <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:layout_width="fill_parent"
+                        android:text="@string/total" />
+                </TableRow>-->
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/medianReceived"
+                        style="@style/timeboard" 
+                        android:layout_width="130dip"/>
+
+                    <TextView
+                        android:id="@+id/medianSent"
+                        style="@style/timeboard"
+                        android:layout_width="130dip"
+                         />
+                </TableRow>
+
+               <!--   <TableRow  >
+
+                    <TextView
+                        android:id="@+id/medianSent"
+                        style="@style/timeboard" />
+
+                    <TextView
+                        android:id="@+id/medianReceived"
+                        style="@style/timeboard" />
+                </TableRow>-->
+            </TableLayout>
+            
+                
+            <!--
           
             <TextView
                     android:id="@+id/TextView04"
@@ -100,11 +161,11 @@
                 <TableRow android:gravity="center_horizontal" >
 
                     <TextView
-                        android:id="@+id/receivedScore"
+                        android:id="@+id/sentScore"
                         style="@style/scoreboard" />
 
                     <TextView
-                        android:id="@+id/sentScore"
+                        android:id="@+id/receivedScore"
                         style="@style/scoreboard" />
                 </TableRow>
 
@@ -146,6 +207,27 @@
                         android:id="@+id/kissesReceived"
                         style="@style/scoreboard" />
                 </TableRow>
+                
+                <!-- Smileys -->
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:text="@string/smileys" />
+                </TableRow>
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/smileysSent"
+                        style="@style/scoreboard" />
+
+                    <TextView
+                        android:id="@+id/smileysReceived"
+                        style="@style/scoreboard" />
+                </TableRow>
+                
                 <!-- Doubles -->
 
                 <TableRow style="@style/title_row" >
@@ -225,28 +307,8 @@
                         android:id="@+id/daysReceived"
                         style="@style/scoreboard" />
                 </TableRow>
+                </TableLayout>	
                 
-                
-                 <!-- Mean -->
-
-                <TableRow style="@style/title_row" >
-
-                    <TextView
-                        style="@style/count_title"
-                        android:text="@string/median" />
-                </TableRow>
-
-                <TableRow android:gravity="center_horizontal" >
-
-                    <TextView
-                        android:id="@+id/medianSent"
-                        style="@style/timeboard" />
-
-                    <TextView
-                        android:id="@+id/medianReceived"
-                        style="@style/timeboard" />
-                </TableRow>
-            </TableLayout>
         </LinearLayout>
     </ScrollView>
 

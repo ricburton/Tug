@@ -24,45 +24,49 @@ public final class R {
         public static final int main_header_selector=0x7f020005;
     }
     public static final class id {
-        public static final int daysReceived=0x7f07000d;
-        public static final int daysSent=0x7f07000c;
-        public static final int do_contact_picker=0x7f070010;
-        public static final int doublesReceived=0x7f070007;
-        public static final int doublesSent=0x7f070006;
-        public static final int hoursReceived=0x7f07000b;
-        public static final int hoursSent=0x7f07000a;
-        public static final int kissesReceived=0x7f070005;
-        public static final int kissesSent=0x7f070004;
-        public static final int medianReceived=0x7f07000f;
-        public static final int medianSent=0x7f07000e;
-        public static final int quartersReceived=0x7f070009;
-        public static final int quartersSent=0x7f070008;
-        public static final int questionsReceived=0x7f070003;
-        public static final int questionsSent=0x7f070002;
-        public static final int receivedScore=0x7f070000;
-        public static final int sentScore=0x7f070001;
+        public static final int daysReceived=0x7f070012;
+        public static final int daysSent=0x7f070011;
+        public static final int do_contact_picker=0x7f070013;
+        public static final int doublesReceived=0x7f07000c;
+        public static final int doublesSent=0x7f07000b;
+        public static final int hoursReceived=0x7f070010;
+        public static final int hoursSent=0x7f07000f;
+        public static final int kissesReceived=0x7f070008;
+        public static final int kissesSent=0x7f070007;
+        public static final int medianReceived=0x7f070001;
+        public static final int medianSent=0x7f070002;
+        public static final int quartersReceived=0x7f07000e;
+        public static final int quartersSent=0x7f07000d;
+        public static final int questionsReceived=0x7f070006;
+        public static final int questionsSent=0x7f070005;
+        public static final int ratName=0x7f070000;
+        public static final int receivedScore=0x7f070004;
+        public static final int sentScore=0x7f070003;
+        public static final int smileysReceived=0x7f07000a;
+        public static final int smileysSent=0x7f070009;
     }
     public static final class layout {
         public static final int main=0x7f030000;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
-        public static final int days=0x7f05000a;
-        public static final int doubles=0x7f050007;
-        public static final int hours=0x7f050009;
+        public static final int days=0x7f05000b;
+        public static final int doubles=0x7f050008;
+        public static final int hours=0x7f05000a;
         public static final int kisses=0x7f050006;
         public static final int main_title=0x7f050001;
-        public static final int median=0x7f05000b;
+        public static final int median=0x7f05000c;
         public static final int pick_a_contact=0x7f050002;
-        public static final int quarters=0x7f050008;
+        public static final int quarters=0x7f050009;
         public static final int questions=0x7f050005;
+        public static final int smileys=0x7f050007;
         public static final int total=0x7f050004;
         public static final int zero=0x7f050003;
     }
     public static final class style {
-        public static final int count_title=0x7f060002;
+        public static final int count_title=0x7f060001;
         public static final int scoreboard=0x7f060000;
-        public static final int timeboard=0x7f060001;
+        public static final int timeboard=0x7f060002;
         public static final int title_row=0x7f060003;
     }
 }
