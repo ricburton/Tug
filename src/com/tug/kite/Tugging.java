@@ -44,15 +44,13 @@ public class Tugging extends Activity {
 	}
 
 	// The method below is used for matching the last characters of the string
-	public class SubStringEx {
-		public String getLastnCharacters(String inputString, int subStringLength) {
-			int length = inputString.length();
-			if (length <= subStringLength) {
-				return inputString;
-			}
-			int startIndex = length - subStringLength;
-			return inputString.substring(startIndex);
+	public String getLastnCharacters(String inputString, int subStringLength) {
+		int length = inputString.length();
+		if (length <= subStringLength) {
+			return inputString;
 		}
+		int startIndex = length - subStringLength;
+		return inputString.substring(startIndex);
 	}
 
 	// The method below creates the counter and pushes it to the view as a
@@ -158,8 +156,6 @@ public class Tugging extends Activity {
 
 	}
 
-	
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
@@ -190,7 +186,8 @@ public class Tugging extends Activity {
 						name = cursor.getString(nameIdx);
 						Log.v(DEBUG_TAG, "Got phone: " + phone);
 						Log.v(DEBUG_TAG, "Got name:" + name);
-						//TODO change rat search into an array to allow for multiple numbers
+						// TODO change rat search into an array to allow for
+						// multiple numbers
 
 					} else {
 						Log.w(DEBUG_TAG, "No results");
@@ -202,8 +199,9 @@ public class Tugging extends Activity {
 					if (cursor != null) {
 						cursor.close();
 					}
-					
-					//if the number cannot be found let the user know and stop the stat engine running
+
+					// if the number cannot be found let the user know and stop
+					// the stat engine running
 					if (phone.length() == 0) {
 						Toast.makeText(this, "No phone number found.",
 								Toast.LENGTH_LONG).show();
@@ -233,15 +231,15 @@ public class Tugging extends Activity {
 						Integer sendHourCount = 0;
 						Integer sendDayCount = 0;
 						Integer sendWeekCount = 0;
-						Integer sendWeekPlusCount = 0;					
-						
+						Integer sendWeekPlusCount = 0;
+
 						Integer receivedQuarterCount = 0;
 						Integer receivedHourCount = 0;
 						Integer receivedDayCount = 0;
 						Integer receivedWeekCount = 0;
 						Integer receivedWeekPlusCount = 0;
-						
-						//Text-length monitoring
+
+						// Text-length monitoring
 						ArrayList<Integer> sentLengths = new ArrayList<Integer>();
 						ArrayList<Integer> receivedLengths = new ArrayList<Integer>();
 
@@ -255,143 +253,158 @@ public class Tugging extends Activity {
 						Integer sentDoubles = 0;
 						Integer receivedDoubles = 0;
 
+							
 						Integer timesRun = 0;
+						Integer draftCount = 0;
+						
+						String cleanPhone = getLastnCharacters(phone, 7);
 
 						while (cur.moveToNext()) {
 
 							// Number-matching is done from end to beginning
 							// with 7 figures
 
-							// set the rat to be analysed
-							String rat = phone;
-							// strip the last 9 digits
-							SubStringEx subRatter = new SubStringEx();
-							String cleanRat = subRatter.getLastnCharacters(rat,
-									7);
-
-							// get the raw number of the message
-							String num = cur.getString(2);
-							// string the last 9 digits
-							SubStringEx subNumber = new SubStringEx();
-
-							String cleanNum = subNumber.getLastnCharacters(num, 7);
-
-							if (cleanRat.equals(cleanNum)) {
-								Integer messageStatus = cur.getInt(8);
-								Integer replyTime = cur.getInt(4);
-								String message = cur.getString(11);
-								total++;
+							
+							//Log.i("Number of message/draft", num.toString());
+							if (cur.getString(2) != null) { // catch drafts this way?
 								
-								// messages sent
-								if (messageStatus == 2) {
-									sent++;
-									//length of message
-									sentLengths.add(message.length());
-									
-									Log.d(rat,
-											"Message Sent: "
-													+ message);
+								String num = cur.getString(2);
+								// TODO fix draft-handling
+								Integer messageStat = cur.getInt(8);
+								Log.d("message-type", messageStat.toString());
 
-									// see if this is a reply or a double
-									
-									if (lastMessageStatus == 2) {
-										sentDoubles++;
-									} else if (lastMessageStatus == 1) {
-										Integer sendDiff = lastMessageTime
-												- replyTime;
-										sendSpeeds.add(sendDiff);
-										Log.d("Difference in time",
-												sendDiff.toString());
-									}
+								String cleanNum = getLastnCharacters(num, 7);
 
-									// kisses sent
-									if (message.indexOf(" x ") > 0
-											|| message.indexOf(" x") > 0) {
+								Log.d(phone, "Debug: " + cleanPhone.toString()
+										+ " == " + cleanNum.toString());
 
-										// TODO counts kisses incorrectly
-										kissesSent++;
-									}
-									// question-marks sent
-									if (message.indexOf("?") > 0) {
-										questionsSent++;
-									}
-									//smiley's sent
-									String[] smileys = {":)", ";)", ":P", ":D", ";D"};
-									for(int i = 0; i < smileys.length; i++) {
-										
-										if (message.indexOf(smileys[i]) > 0) {
-											smileysSent++;
-											
+								if (cleanNum.equals(cleanPhone)) {
+									Integer messageStatus = cur.getInt(8);
+									Integer replyTime = cur.getInt(4);
+									String message = cur.getString(11);
+									total++;
+
+									// messages sent
+									if (messageStatus == 2) {
+										sent++;
+										// length of message
+										sentLengths.add(message.length());
+
+										Log.d(phone, "Message Sent: " + message);
+
+										// see if this is a reply or a double
+
+										if (lastMessageStatus == 2) {
+											sentDoubles++;
+										} else if (lastMessageStatus == 1) {
+											Integer sendDiff = lastMessageTime
+													- replyTime;
+											sendSpeeds.add(sendDiff);
+											Log.d("Difference in time",
+													sendDiff.toString());
 										}
-									}
-									
-									
-									
-								} else if (messageStatus == 1) { // messages
-																	// received
-									received++;
-									receivedLengths.add(message.length());
-									// see if this a reply or a follow-up text
-									if (lastMessageStatus == 1) {
-										receivedDoubles++;
-									} else if (lastMessageStatus == 2) {
-										Integer replyDiff = lastMessageTime
-												- replyTime;
-										replySpeeds.add(replyDiff);
-										Log.d("Difference in time",
-												replyDiff.toString());
-									}
 
-									Log.d(rat,
-											"Message Received: "
-													+ message);
-									// kisses received
-									if (message.indexOf(" x ") > 0
-											|| message.indexOf(" x") > 0) {
-										kissesReceived++;
-									}
-									// question-marks received
-									if (message.indexOf("?") > 0) {
-										questionsReceived++;
-										Log.d(rat, "Question Received");
-									}
-									//smiley's received
-									String[] smileys = {":)", ";)", ":P", ":D", ";D"};
-									for(int i = 0; i < smileys.length; i++) {
-										
-										if (message.indexOf(smileys[i]) > 0) {
-											smileyReceived++;
-											
+										// kisses sent
+										if (message.indexOf(" x ") > 0
+												|| message.indexOf(" x") > 0) {
+
+											// TODO counts kisses incorrectly
+											kissesSent++;
 										}
-									}
-									
+										// question-marks sent
+										if (message.indexOf("?") > 0) {
+											questionsSent++;
+										}
+										// smiley's sent
+										String[] smileys = { ":)", ";)", ":P",
+												":D", ";D" };
+										for (int i = 0; i < smileys.length; i++) {
 
+											if (message.indexOf(smileys[i]) > 0) {
+												smileysSent++;
+
+											}
+										}
+
+									} else if (messageStatus == 1) { // messages
+																		// received
+										received++;
+										receivedLengths.add(message.length());
+										// see if this a reply or a follow-up
+										// text
+										if (lastMessageStatus == 1) {
+											receivedDoubles++;
+										} else if (lastMessageStatus == 2) {
+											Integer replyDiff = lastMessageTime
+													- replyTime;
+											replySpeeds.add(replyDiff);
+											Log.d("Difference in time",
+													replyDiff.toString());
+										}
+
+										Log.d(phone, "Message Received: "
+												+ message);
+										// kisses received
+										if (message.indexOf(" x ") > 0
+												|| message.indexOf(" x") > 0) {
+											kissesReceived++;
+										}
+										// question-marks received
+										if (message.indexOf("?") > 0) {
+											questionsReceived++;
+											Log.d(phone, "Question Received");
+										}
+										// smiley's received
+										String[] smileys = { ":)", ";)", ":P",
+												":D", ";D" };
+										for (int i = 0; i < smileys.length; i++) {
+
+											if (message.indexOf(smileys[i]) > 0) {
+												smileyReceived++;
+
+											}
+										}
+
+									} else {
+
+										Log.d(phone,
+												"Not sent or received. Odd");
+									}
+
+									// set the LastMessageStatus for next loop
+									lastMessageStatus = messageStatus;
+									lastMessageTime = replyTime;
 								} else {
-
-									Log.d(rat, "Not sent or received. Odd");
+									// log no texts match to person here
+									Log.d(phone, "Not a match to rat.");
 								}
 
-								// set the LastMessageStatus for next loop
-								lastMessageStatus = messageStatus;
-								lastMessageTime = replyTime;
 							} else {
-								// log no texts match to person here
-								Log.d(rat, "Not a match to rat.");
+								Log.i("DRAFT", "This is a draft.");
+								
+								draftCount++;
 							}
-
+							
 						}
-
+						Log.i("Draft:", draftCount.toString());
+						
 						// if there's fewer than 5 messages, throw an error
 						if (total == 0) {
 							Toast.makeText(this, "No messages found.",
 									Toast.LENGTH_LONG).show();
-						} else if (total == 1) { 
+						} else if (total == 1) {
 							Toast.makeText(this, "1 message is not enough",
 									Toast.LENGTH_LONG).show();
+						} else if (total == 2) {
+							Toast.makeText(this, "2 messages are not enough",
+									Toast.LENGTH_LONG).show();	
+							
+							//TODO handle small sent or received better in graphing array
 						} else {
 
 							timesRun++;
-
+							
+							
 							// GRAPHING TIME
 
 							// replySpeeds
@@ -510,7 +523,7 @@ public class Tugging extends Activity {
 							// Name of adversary
 							TextView nameOfRat = (TextView) findViewById(R.id.ratName);
 							nameOfRat.setText(name);
-							
+
 							// Score-cards!
 							// TODO calculate counter end-times
 							final TextView sentScore = (TextView) findViewById(R.id.sentScore);
@@ -526,15 +539,15 @@ public class Tugging extends Activity {
 							TextView questionsReceivedCounter = (TextView) findViewById(R.id.questionsReceived);
 							countUp(questionsReceivedCounter,
 									questionsReceived, 200);
-							
-							//Kisses Row
+
+							// Kisses Row
 							TextView kissesSentCounter = (TextView) findViewById(R.id.kissesSent);
 							countUp(kissesSentCounter, kissesSent, 200);
 
 							TextView kissesReceivedCounter = (TextView) findViewById(R.id.kissesReceived);
 							countUp(kissesReceivedCounter, kissesReceived, 200);
-							
-							//Smileys Row
+
+							// Smileys Row
 							TextView smileysSentCounter = (TextView) findViewById(R.id.smileysSent);
 							countUp(smileysSentCounter, smileysSent, 200);
 
@@ -577,8 +590,9 @@ public class Tugging extends Activity {
 							TextView medianReceived = (TextView) findViewById(R.id.medianReceived);
 							// TODO - fix expanding cell-size on this
 							medianReceived.setText(medianReceivedSpeed);
+
 							
-							Log.i("Smileys:", smileysSent.toString());
+							
 						}
 					}
 				}
