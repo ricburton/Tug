@@ -53,6 +53,23 @@ public class Tugging extends Activity {
 		return inputString.substring(startIndex);
 	}
 
+	// The method below is for counting things like kisses and question-marks
+	public static int countOccurrences(String base, String searchFor) {
+
+		int len = searchFor.length();
+		int result = 0;
+		if (len > 0) {
+			int start = base.indexOf(searchFor);
+			while (start != -1) {
+				result++;
+				start = base.indexOf(searchFor, start + len);
+			}
+		}
+		
+		return result;
+
+	}
+
 	// The method below creates the counter and pushes it to the view as a
 	// separate, runnable thread
 	public void countUp(final TextView flipScore, final int topNum,
@@ -253,10 +270,9 @@ public class Tugging extends Activity {
 						Integer sentDoubles = 0;
 						Integer receivedDoubles = 0;
 
-							
 						Integer timesRun = 0;
 						Integer draftCount = 0;
-						
+
 						String cleanPhone = getLastnCharacters(phone, 7);
 
 						while (cur.moveToNext()) {
@@ -264,10 +280,10 @@ public class Tugging extends Activity {
 							// Number-matching is done from end to beginning
 							// with 7 figures
 
-							
-							//Log.i("Number of message/draft", num.toString());
-							if (cur.getString(2) != null) { // catch drafts this way?
-								
+							// Log.i("Number of message/draft", num.toString());
+							if (cur.getString(2) != null) { // catch drafts this
+															// way?
+
 								String num = cur.getString(2);
 								// TODO fix draft-handling
 								Integer messageStat = cur.getInt(8);
@@ -305,16 +321,10 @@ public class Tugging extends Activity {
 										}
 
 										// kisses sent
-										if (message.indexOf(" x ") > 0
-												|| message.indexOf(" x") > 0) {
+										kissesSent = kissesSent + countOccurrences(message, " x") + countOccurrences(message, " x ");
 
-											// TODO counts kisses incorrectly
-											kissesSent++;
-										}
-										// question-marks sent
-										if (message.indexOf("?") > 0) {
-											questionsSent++;
-										}
+										questionsSent = questionsSent + countOccurrences(
+												message, "?");
 										// smiley's sent
 										String[] smileys = { ":)", ";)", ":P",
 												":D", ";D" };
@@ -345,15 +355,11 @@ public class Tugging extends Activity {
 										Log.d(phone, "Message Received: "
 												+ message);
 										// kisses received
-										if (message.indexOf(" x ") > 0
-												|| message.indexOf(" x") > 0) {
-											kissesReceived++;
-										}
-										// question-marks received
-										if (message.indexOf("?") > 0) {
-											questionsReceived++;
-											Log.d(phone, "Question Received");
-										}
+										kissesReceived = kissesReceived + countOccurrences(message, " x") + countOccurrences(message, " x ");
+										
+										
+										questionsReceived = questionsReceived + countOccurrences(
+												message, "?");
 										// smiley's received
 										String[] smileys = { ":)", ";)", ":P",
 												":D", ";D" };
@@ -381,13 +387,13 @@ public class Tugging extends Activity {
 
 							} else {
 								Log.i("DRAFT", "This is a draft.");
-								
+
 								draftCount++;
 							}
-							
+
 						}
 						Log.i("Draft:", draftCount.toString());
-						
+
 						// if there's fewer than 5 messages, throw an error
 						if (total == 0) {
 							Toast.makeText(this, "No messages found.",
@@ -397,14 +403,14 @@ public class Tugging extends Activity {
 									Toast.LENGTH_LONG).show();
 						} else if (total == 2) {
 							Toast.makeText(this, "2 messages are not enough",
-									Toast.LENGTH_LONG).show();	
-							
-							//TODO handle small sent or received better in graphing array
+									Toast.LENGTH_LONG).show();
+
+							// TODO handle small sent or received better in
+							// graphing array
 						} else {
 
 							timesRun++;
-							
-							
+
 							// GRAPHING TIME
 
 							// replySpeeds
@@ -512,6 +518,8 @@ public class Tugging extends Activity {
 							String averageReceivedSpeed = returnTime(averageReceivedSpeedRaw);
 
 							// Median Calculating
+
+							// TODO fix calculations on small number of results
 							Double medianSentSpeedRaw = findMedian(sendSpeeds);
 							Double medianReceivedSpeedRaw = findMedian(replySpeeds);
 
@@ -591,8 +599,6 @@ public class Tugging extends Activity {
 							// TODO - fix expanding cell-size on this
 							medianReceived.setText(medianReceivedSpeed);
 
-							
-							
 						}
 					}
 				}
