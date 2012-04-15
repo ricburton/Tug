@@ -199,10 +199,21 @@ public class Tugging extends Activity {
 
 					// let's just get the first phone
 					if (cursor.moveToFirst()) {
+						
+name = cursor.getString(nameIdx);
+						
+					//	Toast.makeText(this, "Name: " + name,
+								//Toast.LENGTH_LONG).show();
+						
 						phone = cursor.getString(phoneIdx);
-						name = cursor.getString(nameIdx);
+						
+						//Toast.makeText(this, "Phone: " + phone,
+							//	Toast.LENGTH_LONG).show();
+						
+						
 						Log.v(DEBUG_TAG, "Got phone: " + phone);
 						Log.v(DEBUG_TAG, "Got name:" + name);
+						//TODO strip string down to first name
 						// TODO change rat search into an array to allow for
 						// multiple numbers
 
@@ -321,7 +332,7 @@ public class Tugging extends Activity {
 										}
 
 										// kisses sent
-										kissesSent = kissesSent + countOccurrences(message, " x") + countOccurrences(message, " x ");
+										kissesSent = kissesSent + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
 
 										questionsSent = questionsSent + countOccurrences(
 												message, "?");
@@ -355,7 +366,7 @@ public class Tugging extends Activity {
 										Log.d(phone, "Message Received: "
 												+ message);
 										// kisses received
-										kissesReceived = kissesReceived + countOccurrences(message, " x") + countOccurrences(message, " x ");
+										kissesReceived = kissesReceived + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
 										
 										
 										questionsReceived = questionsReceived + countOccurrences(
@@ -407,6 +418,13 @@ public class Tugging extends Activity {
 
 							// TODO handle small sent or received better in
 							// graphing array
+							
+						} else if (sent == 0) {
+							Toast.makeText(this, "You have sent no messages",
+									Toast.LENGTH_LONG).show();
+						} else if (received == 0) {
+							Toast.makeText(this, "You have received no messages",
+									Toast.LENGTH_LONG).show();
 						} else {
 
 							timesRun++;
