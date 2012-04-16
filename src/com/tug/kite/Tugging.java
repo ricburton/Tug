@@ -3,6 +3,7 @@ package com.tug.kite;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.regex.*;
 
 import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.GraphView;
@@ -70,6 +71,22 @@ public class Tugging extends Activity {
 
 	}
 
+	public static int countKisses(String searchText) {
+		int kisses = 0;
+		Pattern patternOneKiss = Pattern.compile("(\\p{Punct}|\\s)(?i)x(\\s|$)"); // (punctuation or whitespace) followed by x followed by (whitespace or end of line)
+		Pattern patternManyKiss = Pattern.compile("(?i)x{2,}"); // 2 or more 'x's after each other
+		Matcher matcherOneKiss = patternOneKiss.matcher(searchText);
+		Matcher matcherManyKiss = patternManyKiss.matcher(searchText);
+		
+		while (matcherOneKiss.find()) {
+		  kisses++;
+		}
+		while (matcherManyKiss.find()) {
+		  kisses = kisses + matcherManyKiss.end() - matcherManyKiss.start();
+		}
+		return kisses;
+	}
+	
 	// The method below creates the counter and pushes it to the view as a
 	// separate, runnable thread
 	public void countUp(final TextView flipScore, final int topNum,
@@ -332,7 +349,8 @@ name = cursor.getString(nameIdx);
 										}
 
 										// kisses sent
-										kissesSent = kissesSent + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
+										//kissesSent = kissesSent + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
+										kissesSent = kissesSent + countKisses(message);
 
 										questionsSent = questionsSent + countOccurrences(
 												message, "?");
@@ -366,7 +384,8 @@ name = cursor.getString(nameIdx);
 										Log.d(phone, "Message Received: "
 												+ message);
 										// kisses received
-										kissesReceived = kissesReceived + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
+										//kissesReceived = kissesReceived + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
+										kissesReceived = kissesReceived + countKisses(message);
 										
 										
 										questionsReceived = questionsReceived + countOccurrences(
