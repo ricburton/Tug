@@ -96,8 +96,13 @@ public class Tugging extends Activity {
 			int counter = 0;
 
 			public void run() {
-				flipScore.setText("0");
-				// start the counter animation off
+				flipScore.post(new Runnable() {
+					public void run() {
+						flipScore.setText("0");
+						flipScore.setTextSize(55);
+					    flipScore.setTextColor(Color.GRAY);
+					} 
+				});
 				while (counter < topNum) {
 					try {
 						Thread.sleep(speedNum);
@@ -125,6 +130,11 @@ public class Tugging extends Activity {
 					});
 					counter++;
 				}
+				flipScore.post(new Runnable() { 
+					public void run() {
+						flipScore.setTextColor(Color.BLACK);
+					}
+				});
 
 			}
 
@@ -568,65 +578,83 @@ name = cursor.getString(nameIdx);
 							// Name of adversary
 							TextView nameOfRat = (TextView) findViewById(R.id.ratName);
 							nameOfRat.setText(name);
+							
+							int larger;
+							int speed;
 
 							// Score-cards!
 							// TODO calculate counter end-times
+							larger = (sent < received) ? received : sent;
+							speed = 2000/(larger);
 							final TextView sentScore = (TextView) findViewById(R.id.sentScore);
-							countUp(sentScore, sent, 40);
+							countUp(sentScore, sent, speed);
 
 							final TextView receivedScore = (TextView) findViewById(R.id.receivedScore);
-							countUp(receivedScore, received, 40);
+							countUp(receivedScore, received, speed);
 
 							// Questions Row
+							larger = (questionsSent < questionsReceived) ? questionsReceived : questionsSent;
+							speed = 2500/(larger);
 							TextView questionsSentCounter = (TextView) findViewById(R.id.questionsSent);
-							countUp(questionsSentCounter, questionsSent, 200);
+							countUp(questionsSentCounter, questionsSent, speed);
 
 							TextView questionsReceivedCounter = (TextView) findViewById(R.id.questionsReceived);
-							countUp(questionsReceivedCounter,
-									questionsReceived, 200);
+							countUp(questionsReceivedCounter, questionsReceived, speed);
 
 							// Kisses Row
+							larger = (kissesSent < kissesReceived) ? kissesReceived : kissesSent;
+							speed = 3000/(larger);
 							TextView kissesSentCounter = (TextView) findViewById(R.id.kissesSent);
-							countUp(kissesSentCounter, kissesSent, 200);
+							countUp(kissesSentCounter, kissesSent, speed);
 
 							TextView kissesReceivedCounter = (TextView) findViewById(R.id.kissesReceived);
-							countUp(kissesReceivedCounter, kissesReceived, 200);
+							countUp(kissesReceivedCounter, kissesReceived, speed);
 
 							// Smileys Row
+							larger = (smileysSent < smileyReceived) ? smileyReceived : smileysSent;
+							speed = 3500/(larger);
 							TextView smileysSentCounter = (TextView) findViewById(R.id.smileysSent);
-							countUp(smileysSentCounter, smileysSent, 200);
+							countUp(smileysSentCounter, smileysSent, speed);
 
 							TextView smileysReceivedCounter = (TextView) findViewById(R.id.smileysReceived);
-							countUp(smileysReceivedCounter, smileyReceived, 200);
+							countUp(smileysReceivedCounter, smileyReceived, speed);
 
 							// Doubles Row
+							larger = (sentDoubles < receivedDoubles) ? receivedDoubles : sentDoubles;
+							speed = 4000/(larger);
 							TextView doublesSentCounter = (TextView) findViewById(R.id.doublesSent);
-							countUp(doublesSentCounter, sentDoubles, 100);
+							countUp(doublesSentCounter, sentDoubles, speed);
 
 							TextView doublesReceivedCounter = (TextView) findViewById(R.id.doublesReceived);
 							countUp(doublesReceivedCounter, receivedDoubles,
-									100);
+									speed);
 
 							// Quarter Row
+							larger = (sendQuarterCount < receivedQuarterCount) ? receivedQuarterCount : sendQuarterCount;
+							speed = 4500/(larger);
 							TextView quarterSent = (TextView) findViewById(R.id.quartersSent);
-							countUp(quarterSent, sendQuarterCount, 150);
+							countUp(quarterSent, sendQuarterCount, speed);
 
 							TextView quarterReceived = (TextView) findViewById(R.id.quartersReceived);
-							countUp(quarterReceived, receivedQuarterCount, 150);
+							countUp(quarterReceived, receivedQuarterCount, speed);
 
 							// Hour Row
+							larger = (sendHourCount < receivedHourCount) ? receivedHourCount : sendHourCount;
+							speed = 5000/(larger);
 							TextView hourSent = (TextView) findViewById(R.id.hoursSent);
-							countUp(hourSent, sendHourCount, 150);
+							countUp(hourSent, sendHourCount, speed);
 
 							TextView hourReceived = (TextView) findViewById(R.id.hoursReceived);
-							countUp(hourReceived, receivedHourCount, 150);
+							countUp(hourReceived, receivedHourCount, speed);
 
 							// Day Row
+							larger = (sendDayCount < receivedDayCount) ? receivedDayCount : sendDayCount;
+							speed = 5500/(larger);
 							TextView daySent = (TextView) findViewById(R.id.daysSent);
-							countUp(daySent, sendDayCount, 150);
+							countUp(daySent, sendDayCount, speed);
 
 							TextView dayReceived = (TextView) findViewById(R.id.daysReceived);
-							countUp(dayReceived, receivedDayCount, 150);
+							countUp(dayReceived, receivedDayCount, speed);
 
 							// Median Row
 							TextView medianSent = (TextView) findViewById(R.id.medianSent);
