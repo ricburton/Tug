@@ -585,7 +585,7 @@ name = cursor.getString(nameIdx);
 							// Score-cards!
 							// TODO calculate counter end-times
 							larger = (sent < received) ? received : sent;
-							speed = 2000/(larger);
+							speed = (larger > 0) ? 2000/(larger) : 0;
 							final TextView sentScore = (TextView) findViewById(R.id.sentScore);
 							countUp(sentScore, sent, speed);
 
@@ -594,7 +594,7 @@ name = cursor.getString(nameIdx);
 
 							// Questions Row
 							larger = (questionsSent < questionsReceived) ? questionsReceived : questionsSent;
-							speed = 2500/(larger);
+							speed = (larger > 0) ? 2500/(larger) : 0;
 							TextView questionsSentCounter = (TextView) findViewById(R.id.questionsSent);
 							countUp(questionsSentCounter, questionsSent, speed);
 
@@ -603,7 +603,7 @@ name = cursor.getString(nameIdx);
 
 							// Kisses Row
 							larger = (kissesSent < kissesReceived) ? kissesReceived : kissesSent;
-							speed = 3000/(larger);
+							speed = (larger > 0) ? 3000/(larger) : 0;
 							TextView kissesSentCounter = (TextView) findViewById(R.id.kissesSent);
 							countUp(kissesSentCounter, kissesSent, speed);
 
@@ -612,7 +612,7 @@ name = cursor.getString(nameIdx);
 
 							// Smileys Row
 							larger = (smileysSent < smileyReceived) ? smileyReceived : smileysSent;
-							speed = 3500/(larger);
+							speed = (larger > 0) ? 3500/(larger) : 0;
 							TextView smileysSentCounter = (TextView) findViewById(R.id.smileysSent);
 							countUp(smileysSentCounter, smileysSent, speed);
 
@@ -621,7 +621,7 @@ name = cursor.getString(nameIdx);
 
 							// Doubles Row
 							larger = (sentDoubles < receivedDoubles) ? receivedDoubles : sentDoubles;
-							speed = 4000/(larger);
+							speed = (larger > 0) ? 4000/(larger) : 0;
 							TextView doublesSentCounter = (TextView) findViewById(R.id.doublesSent);
 							countUp(doublesSentCounter, sentDoubles, speed);
 
@@ -631,7 +631,7 @@ name = cursor.getString(nameIdx);
 
 							// Quarter Row
 							larger = (sendQuarterCount < receivedQuarterCount) ? receivedQuarterCount : sendQuarterCount;
-							speed = 4500/(larger);
+							speed = (larger > 0) ? 4500/(larger) : 0;
 							TextView quarterSent = (TextView) findViewById(R.id.quartersSent);
 							countUp(quarterSent, sendQuarterCount, speed);
 
@@ -640,7 +640,7 @@ name = cursor.getString(nameIdx);
 
 							// Hour Row
 							larger = (sendHourCount < receivedHourCount) ? receivedHourCount : sendHourCount;
-							speed = 5000/(larger);
+							speed = (larger > 0) ? 5000/(larger) : 0;
 							TextView hourSent = (TextView) findViewById(R.id.hoursSent);
 							countUp(hourSent, sendHourCount, speed);
 
