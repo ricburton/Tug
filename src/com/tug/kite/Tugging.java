@@ -652,7 +652,7 @@ name = cursor.getString(nameIdx);
 
 							// Day Row
 							larger = (sendDayCount < receivedDayCount) ? receivedDayCount : sendDayCount;
-							speed = 5500/(larger);
+							speed = (larger > 0) ? 5500/(larger) : 0;
 							TextView daySent = (TextView) findViewById(R.id.daysSent);
 							countUp(daySent, sendDayCount, speed);
 
