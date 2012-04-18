@@ -397,11 +397,9 @@ name = cursor.getString(nameIdx);
 										Log.d(phone, "Message Received: "
 												+ message);
 										// kisses received
-<<<<<<< HEAD
-=======
 										//kissesReceived = kissesReceived + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
 										kissesReceived = kissesReceived + countKisses(message);
->>>>>>> 2df6983eb48b2f4309d8026b33df741765a3180f
+
 										
 										
 										questionsReceived = questionsReceived + countOccurrences(
