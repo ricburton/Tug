@@ -3,6 +3,7 @@ package com.tug.kite;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.regex.*;
 
 import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.GraphView;
@@ -70,6 +71,22 @@ public class Tugging extends Activity {
 
 	}
 
+	public static int countKisses(String searchText) {
+		int kisses = 0;
+		Pattern patternOneKiss = Pattern.compile("(\\p{Punct}|\\s)(?i)x(\\s|$)"); // (punctuation or whitespace) followed by x followed by (whitespace or end of line)
+		Pattern patternManyKiss = Pattern.compile("(?i)x{2,}"); // 2 or more 'x's after each other
+		Matcher matcherOneKiss = patternOneKiss.matcher(searchText);
+		Matcher matcherManyKiss = patternManyKiss.matcher(searchText);
+		
+		while (matcherOneKiss.find()) {
+		  kisses++;
+		}
+		while (matcherManyKiss.find()) {
+		  kisses = kisses + matcherManyKiss.end() - matcherManyKiss.start();
+		}
+		return kisses;
+	}
+	
 	// The method below creates the counter and pushes it to the view as a
 	// separate, runnable thread
 	public void countUp(final TextView flipScore, final int topNum,
@@ -79,8 +96,13 @@ public class Tugging extends Activity {
 			int counter = 0;
 
 			public void run() {
-				flipScore.setText("0");
-				// start the counter animation off
+				flipScore.post(new Runnable() {
+					public void run() {
+						flipScore.setText("0");
+						flipScore.setTextSize(55);
+					    flipScore.setTextColor(Color.GRAY);
+					} 
+				});
 				while (counter < topNum) {
 					try {
 						Thread.sleep(speedNum);
@@ -108,6 +130,11 @@ public class Tugging extends Activity {
 					});
 					counter++;
 				}
+				flipScore.post(new Runnable() { 
+					public void run() {
+						flipScore.setTextColor(Color.BLACK);
+					}
+				});
 
 			}
 
@@ -137,9 +164,12 @@ public class Tugging extends Activity {
 		if (arrayLength % 2 != 0) {
 			currentIndex = ((arrayLength / 2) + 1);
 			arrayMedian = myArray.get(currentIndex - 1);
+		} else if (arrayLength == 0) {
+			arrayMedian = 0; //temp fix
 		} else {
 			int indexOne = (arrayLength / 2);
 			int indexTwo = arrayLength / 2 + 1;
+			Log.d("MEDIAN", "indexone: " + indexOne + " indexTwo " + indexTwo);
 			double arraysSum = myArray.get(indexOne - 1)
 					+ myArray.get(indexTwo - 1);
 			arrayMedian = arraysSum / 2;
@@ -332,7 +362,8 @@ name = cursor.getString(nameIdx);
 										}
 
 										// kisses sent
-										kissesSent = kissesSent + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
+										//kissesSent = kissesSent + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
+										kissesSent = kissesSent + countKisses(message);
 
 										questionsSent = questionsSent + countOccurrences(
 												message, "?");
@@ -366,7 +397,11 @@ name = cursor.getString(nameIdx);
 										Log.d(phone, "Message Received: "
 												+ message);
 										// kisses received
-										kissesReceived = kissesReceived + countOccurrences(message, " x") + countOccurrences(message, " x ");
+<<<<<<< HEAD
+=======
+										//kissesReceived = kissesReceived + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
+										kissesReceived = kissesReceived + countKisses(message);
+>>>>>>> 2df6983eb48b2f4309d8026b33df741765a3180f
 										
 										
 										questionsReceived = questionsReceived + countOccurrences(
@@ -405,7 +440,7 @@ name = cursor.getString(nameIdx);
 						}
 						Log.i("Draft:", draftCount.toString());
 
-						// if there's fewer than 5 messages, throw an error
+						// if there's fewer than 2 messages, throw an error
 						if (total == 0) {
 							Toast.makeText(this, "No messages found.",
 									Toast.LENGTH_LONG).show();
@@ -549,65 +584,83 @@ name = cursor.getString(nameIdx);
 							// Name of adversary
 							TextView nameOfRat = (TextView) findViewById(R.id.ratName);
 							nameOfRat.setText(name);
+							
+							int larger;
+							int speed;
 
 							// Score-cards!
 							// TODO calculate counter end-times
+							larger = (sent < received) ? received : sent;
+							speed = (larger > 0) ? 2000/(larger) : 0;
 							final TextView sentScore = (TextView) findViewById(R.id.sentScore);
-							countUp(sentScore, sent, 40);
+							countUp(sentScore, sent, speed);
 
 							final TextView receivedScore = (TextView) findViewById(R.id.receivedScore);
-							countUp(receivedScore, received, 40);
+							countUp(receivedScore, received, speed);
 
 							// Questions Row
+							larger = (questionsSent < questionsReceived) ? questionsReceived : questionsSent;
+							speed = (larger > 0) ? 2500/(larger) : 0;
 							TextView questionsSentCounter = (TextView) findViewById(R.id.questionsSent);
-							countUp(questionsSentCounter, questionsSent, 200);
+							countUp(questionsSentCounter, questionsSent, speed);
 
 							TextView questionsReceivedCounter = (TextView) findViewById(R.id.questionsReceived);
-							countUp(questionsReceivedCounter,
-									questionsReceived, 200);
+							countUp(questionsReceivedCounter, questionsReceived, speed);
 
 							// Kisses Row
+							larger = (kissesSent < kissesReceived) ? kissesReceived : kissesSent;
+							speed = (larger > 0) ? 3000/(larger) : 0;
 							TextView kissesSentCounter = (TextView) findViewById(R.id.kissesSent);
-							countUp(kissesSentCounter, kissesSent, 200);
+							countUp(kissesSentCounter, kissesSent, speed);
 
 							TextView kissesReceivedCounter = (TextView) findViewById(R.id.kissesReceived);
-							countUp(kissesReceivedCounter, kissesReceived, 200);
+							countUp(kissesReceivedCounter, kissesReceived, speed);
 
 							// Smileys Row
+							larger = (smileysSent < smileyReceived) ? smileyReceived : smileysSent;
+							speed = (larger > 0) ? 3500/(larger) : 0;
 							TextView smileysSentCounter = (TextView) findViewById(R.id.smileysSent);
-							countUp(smileysSentCounter, smileysSent, 200);
+							countUp(smileysSentCounter, smileysSent, speed);
 
 							TextView smileysReceivedCounter = (TextView) findViewById(R.id.smileysReceived);
-							countUp(smileysReceivedCounter, smileyReceived, 200);
+							countUp(smileysReceivedCounter, smileyReceived, speed);
 
 							// Doubles Row
+							larger = (sentDoubles < receivedDoubles) ? receivedDoubles : sentDoubles;
+							speed = (larger > 0) ? 4000/(larger) : 0;
 							TextView doublesSentCounter = (TextView) findViewById(R.id.doublesSent);
-							countUp(doublesSentCounter, sentDoubles, 100);
+							countUp(doublesSentCounter, sentDoubles, speed);
 
 							TextView doublesReceivedCounter = (TextView) findViewById(R.id.doublesReceived);
 							countUp(doublesReceivedCounter, receivedDoubles,
-									100);
+									speed);
 
 							// Quarter Row
+							larger = (sendQuarterCount < receivedQuarterCount) ? receivedQuarterCount : sendQuarterCount;
+							speed = (larger > 0) ? 4500/(larger) : 0;
 							TextView quarterSent = (TextView) findViewById(R.id.quartersSent);
-							countUp(quarterSent, sendQuarterCount, 150);
+							countUp(quarterSent, sendQuarterCount, speed);
 
 							TextView quarterReceived = (TextView) findViewById(R.id.quartersReceived);
-							countUp(quarterReceived, receivedQuarterCount, 150);
+							countUp(quarterReceived, receivedQuarterCount, speed);
 
 							// Hour Row
+							larger = (sendHourCount < receivedHourCount) ? receivedHourCount : sendHourCount;
+							speed = (larger > 0) ? 5000/(larger) : 0;
 							TextView hourSent = (TextView) findViewById(R.id.hoursSent);
-							countUp(hourSent, sendHourCount, 150);
+							countUp(hourSent, sendHourCount, speed);
 
 							TextView hourReceived = (TextView) findViewById(R.id.hoursReceived);
-							countUp(hourReceived, receivedHourCount, 150);
+							countUp(hourReceived, receivedHourCount, speed);
 
 							// Day Row
+							larger = (sendDayCount < receivedDayCount) ? receivedDayCount : sendDayCount;
+							speed = 5500/(larger);
 							TextView daySent = (TextView) findViewById(R.id.daysSent);
-							countUp(daySent, sendDayCount, 150);
+							countUp(daySent, sendDayCount, speed);
 
 							TextView dayReceived = (TextView) findViewById(R.id.daysReceived);
-							countUp(dayReceived, receivedDayCount, 150);
+							countUp(dayReceived, receivedDayCount, speed);
 
 							// Median Row
 							TextView medianSent = (TextView) findViewById(R.id.medianSent);
