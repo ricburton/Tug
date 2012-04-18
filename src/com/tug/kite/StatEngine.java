@@ -109,6 +109,7 @@ public class StatEngine {
 	public void processMessage(String message, int replyTime, int messageStatus) {
 		// messages sent
 		if (messageStatus == 2) {
+			total++;
 			sent++;
 			// length of message
 			sentLengths.add(message.length());
@@ -133,6 +134,7 @@ public class StatEngine {
 			questionsSent = questionsSent + countOccurrences(
 					message, "?");
 			// smiley's sent
+			// TODO: Regex this!
 			String[] smileys = { ":)", ";)", ":P",
 					":D", ";D" };
 			for (int i = 0; i < smileys.length; i++) {
@@ -142,9 +144,12 @@ public class StatEngine {
 
 				}
 			}
-
+			// set the LastMessageStatus for next loop
+			lastMessageStatus = messageStatus;
+			lastMessageTime = replyTime;
 		} else if (messageStatus == 1) { // messages
 											// received
+			total++;
 			received++;
 			receivedLengths.add(message.length());
 			// see if this a reply or a follow-up
@@ -168,6 +173,7 @@ public class StatEngine {
 			questionsReceived = questionsReceived + countOccurrences(
 					message, "?");
 			// smiley's received
+			//TODO: Regex this shit!
 			String[] smileys = { ":)", ";)", ":P",
 					":D", ";D" };
 			for (int i = 0; i < smileys.length; i++) {
@@ -177,15 +183,13 @@ public class StatEngine {
 
 				}
 			}
-
+			// set the LastMessageStatus for next loop
+			lastMessageStatus = messageStatus;
+			lastMessageTime = replyTime;
 		} else {
 
 			Log.d("ENGINE",	"Not sent or received. Odd");
 		}
-
-		// set the LastMessageStatus for next loop
-		lastMessageStatus = messageStatus;
-		lastMessageTime = replyTime;
 
 	}
 	

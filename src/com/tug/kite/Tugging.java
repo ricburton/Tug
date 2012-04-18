@@ -167,6 +167,7 @@ public class Tugging extends Activity {
 		} else {
 			int indexOne = (arrayLength / 2);
 			int indexTwo = arrayLength / 2 + 1;
+			Log.d("MEDIAN", "indexone: " + indexOne + " indexTwo " + indexTwo);
 			double arraysSum = myArray.get(indexOne - 1)
 					+ myArray.get(indexTwo - 1);
 			arrayMedian = arraysSum / 2;
