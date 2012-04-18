@@ -164,6 +164,8 @@ public class Tugging extends Activity {
 		if (arrayLength % 2 != 0) {
 			currentIndex = ((arrayLength / 2) + 1);
 			arrayMedian = myArray.get(currentIndex - 1);
+		} else if (arrayLength == 0) {
+			arrayMedian = 0; //temp fix
 		} else {
 			int indexOne = (arrayLength / 2);
 			int indexTwo = arrayLength / 2 + 1;
@@ -435,7 +437,7 @@ name = cursor.getString(nameIdx);
 						}
 						Log.i("Draft:", draftCount.toString());
 
-						// if there's fewer than 5 messages, throw an error
+						// if there's fewer than 2 messages, throw an error
 						if (total == 0) {
 							Toast.makeText(this, "No messages found.",
 									Toast.LENGTH_LONG).show();
