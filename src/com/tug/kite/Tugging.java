@@ -244,6 +244,12 @@ name = cursor.getString(nameIdx);
 						Log.v(DEBUG_TAG, "Got phone: " + phone);
 						Log.v(DEBUG_TAG, "Got name:" + name);
 						//TODO strip string down to first name
+						int d = name.indexOf(" ");
+						if (d > 0) {
+						name = name.substring(0, d);
+						} else if (name.length() == 0) {
+							name = "NA";
+						}
 						// TODO change rat search into an array to allow for
 						// multiple numbers
 
