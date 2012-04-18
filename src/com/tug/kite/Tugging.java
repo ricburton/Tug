@@ -374,8 +374,8 @@ name = cursor.getString(nameIdx);
 										questionsSent = questionsSent + countOccurrences(
 												message, "?");
 										// smiley's sent
-										String[] smileys = { ":)", ";)", ":P",
-												":D", ";D" };
+										String[] smileys = { ":)", ";)", ":P", ":p",
+												":D", ";D", ":-)", ";-)", ":-P", ":-p", ":-D", ";-D" };
 										for (int i = 0; i < smileys.length; i++) {
 
 											if (message.indexOf(smileys[i]) > 0) {
@@ -410,8 +410,8 @@ name = cursor.getString(nameIdx);
 										questionsReceived = questionsReceived + countOccurrences(
 												message, "?");
 										// smiley's received
-										String[] smileys = { ":)", ";)", ":P",
-												":D", ";D" };
+										String[] smileys = { ":)", ";)", ":P", ":p",
+												":D", ";D", ":-)", ";-)", ":-P", ":-p", ":-D", ";-D" };
 										for (int i = 0; i < smileys.length; i++) {
 
 											if (message.indexOf(smileys[i]) > 0) {
