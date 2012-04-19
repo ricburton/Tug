@@ -498,7 +498,10 @@ name = cursor.getString(nameIdx);
 								}
 
 							}
-
+							
+							Log.i("Reply Speeds", replySpeeds.toString());
+							Log.i("Send Speeds", sendSpeeds.toString());
+							
 							GraphViewSeries seriesReplies = new GraphViewSeries(
 									"Replying speeds", Color.rgb(200, 50, 00),
 									replyData);
@@ -575,8 +578,9 @@ name = cursor.getString(nameIdx);
 							Double medianReceivedSpeedRaw = findMedian(replySpeeds);
 
 							String medianSentSpeed = returnTime(medianSentSpeedRaw);
+							Log.i("Median Send Speed", medianSentSpeedRaw.toString());
 							String medianReceivedSpeed = returnTime(medianReceivedSpeedRaw);
-
+							Log.i("Median Received Speed", medianReceivedSpeedRaw.toString());
 							// Push the data to the view
 
 							// Name of adversary
@@ -585,6 +589,14 @@ name = cursor.getString(nameIdx);
 							
 							int larger;
 							int speed;
+							
+							// Median Row
+							TextView medianSent = (TextView) findViewById(R.id.medianSent);
+							medianSent.setText(medianSentSpeed);
+
+							TextView medianReceived = (TextView) findViewById(R.id.medianReceived);
+							// TODO - fix expanding cell-size on this
+							medianReceived.setText(medianReceivedSpeed);
 
 							// Score-cards!
 							// TODO calculate counter end-times
@@ -660,13 +672,7 @@ name = cursor.getString(nameIdx);
 							TextView dayReceived = (TextView) findViewById(R.id.daysReceived);
 							countUp(dayReceived, receivedDayCount, speed);
 
-							// Median Row
-							TextView medianSent = (TextView) findViewById(R.id.medianSent);
-							medianSent.setText(medianSentSpeed);
-
-							TextView medianReceived = (TextView) findViewById(R.id.medianReceived);
-							// TODO - fix expanding cell-size on this
-							medianReceived.setText(medianReceivedSpeed);
+							
 
 						}
 					}
