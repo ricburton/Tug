@@ -243,7 +243,13 @@ name = cursor.getString(nameIdx);
 						
 						Log.v(DEBUG_TAG, "Got phone: " + phone);
 						Log.v(DEBUG_TAG, "Got name:" + name);
-						//TODO strip string down to first name
+						//strip string down to first name
+						int d = name.indexOf(" ");
+						if (d > 0) {
+						name = name.substring(0, d);
+						} else if (name.length() == 0) {
+							name = "NA";
+						}
 						// TODO change rat search into an array to allow for
 						// multiple numbers
 
@@ -368,8 +374,8 @@ name = cursor.getString(nameIdx);
 										questionsSent = questionsSent + countOccurrences(
 												message, "?");
 										// smiley's sent
-										String[] smileys = { ":)", ";)", ":P",
-												":D", ";D" };
+										String[] smileys = { ":)", ";)", ":P", ":p",
+												":D", ";D", ":-)", ";-)", ":-P", ":-p", ":-D", ";-D" };
 										for (int i = 0; i < smileys.length; i++) {
 
 											if (message.indexOf(smileys[i]) > 0) {
@@ -405,8 +411,8 @@ name = cursor.getString(nameIdx);
 										questionsReceived = questionsReceived + countOccurrences(
 												message, "?");
 										// smiley's received
-										String[] smileys = { ":)", ";)", ":P",
-												":D", ";D" };
+										String[] smileys = { ":)", ";)", ":P", ":p",
+												":D", ";D", ":-)", ";-)", ":-P", ":-p", ":-D", ";-D" };
 										for (int i = 0; i < smileys.length; i++) {
 
 											if (message.indexOf(smileys[i]) > 0) {
@@ -583,6 +589,10 @@ name = cursor.getString(nameIdx);
 							Log.i("Median Received Speed", medianReceivedSpeedRaw.toString());
 							// Push the data to the view
 
+							//Quirky message
+							TextView qMessage = (TextView) findViewById(R.string.main_title);
+							//generate a random number and use it to select a phrase for qMessage
+							
 							// Name of adversary
 							TextView nameOfRat = (TextView) findViewById(R.id.ratName);
 							nameOfRat.setText(name);
@@ -665,7 +675,7 @@ name = cursor.getString(nameIdx);
 
 							// Day Row
 							larger = (sendDayCount < receivedDayCount) ? receivedDayCount : sendDayCount;
-							speed = 5500/(larger);
+							speed = (larger > 0) ? 5500/(larger) : 0;
 							TextView daySent = (TextView) findViewById(R.id.daysSent);
 							countUp(daySent, sendDayCount, speed);
 
