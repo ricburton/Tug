@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.*;
+import java.util.Random;
 
 import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.GraphView;
@@ -37,6 +38,10 @@ public class Tugging extends Activity {
 
 	private static final int CONTACT_PICKER_RESULT = 1001;
 	private static final String DEBUG_TAG = null;
+	private static final String[] ladQuirk = {
+		"Who's winning the game?",
+		//TODO: Insert laddy things here rich!
+		};
 
 	public void doLaunchContactPicker(View view) {
 		Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
@@ -585,8 +590,11 @@ name = cursor.getString(nameIdx);
 							// Push the data to the view
 
 							//Quirky message
-							TextView qMessage = (TextView) findViewById(R.string.main_title);
-							//generate a random number and use it to select a phrase for qMessage
+							TextView qMessage = (TextView) findViewById(R.id.mainTitle);
+							//TODO generate a random number and use it to select a phrase for qMessage
+							Random randNo = new Random();
+							qMessage.setText(ladQuirk[randNo.nextInt(ladQuirk.length)]);
+							
 							
 							// Name of adversary
 							TextView nameOfRat = (TextView) findViewById(R.id.ratName);
