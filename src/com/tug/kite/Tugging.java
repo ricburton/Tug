@@ -584,6 +584,10 @@ name = cursor.getString(nameIdx);
 
 							// Push the data to the view
 
+							//Quirky message
+							TextView qMessage = (TextView) findViewById(R.string.main_title);
+							//generate a random number and use it to select a phrase for qMessage
+							
 							// Name of adversary
 							TextView nameOfRat = (TextView) findViewById(R.id.ratName);
 							nameOfRat.setText(name);
