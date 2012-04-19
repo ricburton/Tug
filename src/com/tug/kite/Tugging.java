@@ -591,10 +591,8 @@ name = cursor.getString(nameIdx);
 
 							//Quirky message
 							TextView qMessage = (TextView) findViewById(R.id.mainTitle);
-							//TODO generate a random number and use it to select a phrase for qMessage
 							Random randNo = new Random();
 							qMessage.setText(ladQuirk[randNo.nextInt(ladQuirk.length)]);
-							
 							
 							// Name of adversary
 							TextView nameOfRat = (TextView) findViewById(R.id.ratName);
