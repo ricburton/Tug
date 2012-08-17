@@ -35,7 +35,7 @@ public class Tugging extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 	}
-
+//A Comment in the same place?
 	private static final int CONTACT_PICKER_RESULT = 1001;
 	private static final String DEBUG_TAG = null;
 	private static final String[] ladQuirk = {
