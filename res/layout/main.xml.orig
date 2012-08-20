@@ -17,9 +17,14 @@
             android:orientation="vertical" >
 
             <TextView
+<<<<<<< HEAD
+                android:layout_width="fill_parent"
+                android:layout_height="0dip"
+=======
                 android:id="@+id/mainTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+>>>>>>> cb868d9183149d6c454496745d6fd6f258cf42bd
                 android:layout_gravity="center"
                 android:layout_marginBottom="15dip"
                 android:layout_marginTop="15dip"
