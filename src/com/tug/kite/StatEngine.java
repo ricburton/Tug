@@ -54,21 +54,55 @@ public class StatEngine {
 	private int receivedWeekPlusCount = 0;
 	public int receivedWeekPlusCount() { return receivedWeekPlusCount; }
 
+	
+	
+	
+	
+	bunch_start_time = nil
+	last_send_response_time = nil
+	last_receive_time = nil
+	last_send_time = nil
+	last_send_response_time = nil
+	last_receive_response_time = nil
+	bunch_message_lengths = []
+	bunch_times_lengths = []
+	bunch_gap_times = []
+	send_double_up_times = []
+	receive_double_up_times = []
+	send_bunch_response_times = []
+	receive_bunch_response_times = []
+	last_message_was_sent = false
+	in_bunch = false
+	
+	
+	
 	// Text-length monitoring
 	private ArrayList<Integer> sentLengths = new ArrayList<Integer>();
 	private ArrayList<Integer> receivedLengths = new ArrayList<Integer>();
 
 	// declare the ArrayList of reply-time integers
 	private int lastMessageStatus = 0; // sent = 2, received = 1
-	private int lastMessageTime = 0;   // these are states of the engine. noone else needs to know
+	private int lastMessageTime = 0;   // these are states of the engine. noone else needs to know previous_time
 	private ArrayList<Integer> replySpeeds = new ArrayList<Integer>(); // Noone needs these arrays, we shall calculate means here
 	private ArrayList<Integer> sendSpeeds = new ArrayList<Integer>();
 
 	// Double-texts
-	private int sentDoubles = 0;
+	private int sentDoubles = 0; //send_double_up_count
 	public int sentDoubles() { return sentDoubles; }
-	private int receivedDoubles = 0;
+	private int receivedDoubles = 0; //receive_double_up_count
 	public int receivedDoubles() { return receivedDoubles; }
+	
+	//bunch engine stuff
+	private boolean in_bunch = false;
+	private int bunch_msg_count = 0;
+	private int send_initiate = 0;
+	public int send_initate() { return send_initiate; }
+	private int receive_initiate = 0;
+	public int receive_initiate() { return receive_initiate; }
+	private int send_ender = 0;
+	public int send_ender() { return send_ender; }
+	private int receive_ender = 0;
+	public int receive_ender() { return receive_ender; }
 	
 	public StatEngine() { //constructor
 	}
