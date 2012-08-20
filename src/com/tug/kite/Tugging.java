@@ -230,7 +230,7 @@ public class Tugging extends Activity {
 					// let's just get the first phone
 					if (cursor.moveToFirst()) {
 						
-name = cursor.getString(nameIdx);
+						name = cursor.getString(nameIdx);
 						
 					//	Toast.makeText(this, "Name: " + name,
 								//Toast.LENGTH_LONG).show();

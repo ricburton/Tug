@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="@drawable/back_repeat"
     android:orientation="vertical"
-    android:padding="3dip" >
+    android:padding="0dip" >
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -17,100 +17,105 @@
             android:orientation="vertical" >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="0dip"
                 android:layout_gravity="center"
-                android:layout_marginBottom="8dip"
+                android:layout_marginBottom="15dip"
                 android:layout_marginTop="15dip"
+                android:layout_weight="0.97"
+                android:gravity="center_horizontal"
                 android:text="@string/main_title"
                 android:textColor="@color/headline"
                 android:textSize="24.5sp" />
-			
-             <TableLayout
+
+            <TableLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >     
-            
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" >
+                android:layout_height="58dp"
+                android:layout_marginBottom="15dip"
+                android:layout_weight="0.09"
+                android:background="@drawable/dark_repeat" >
 
-                <TextView
-                    android:layout_width="100dip"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="8dip"
-                    android:layout_marginTop="10dip"
-                    android:text="You"
-                    android:textStyle="bold"
-                    android:textColor="@color/headline"
-                    android:textSize="24dip" />
+                <TableRow
+                    android:layout_height="fill_parent"
+                    android:gravity="center_horizontal|center_vertical" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="8dip"
-                    android:layout_marginTop="10dip"
-                    android:text="vs."
-                    android:textColor="@color/headline"
-                    android:textSize="20dip" />
+                    <TextView
+                        android:layout_width="100dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dip"
+                        android:layout_marginTop="10dip"
+                        android:text="You"
+                        android:textColor="@color/headline"
+                        android:textSize="24dip"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/ratName" 
-                    android:layout_width="100dip"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="8dip"
-                    android:layout_marginTop="10dip"
-                    android:textStyle="bold"
-                    android:text="who?"
-                    android:textColor="@color/headline"
-                    android:textSize="24dip" />
-            </TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dip"
+                        android:layout_marginTop="10dip"
+                        android:text="vs."
+                        android:textColor="@color/headline"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:id="@+id/ratName"
+                        android:layout_width="100dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dip"
+                        android:layout_marginTop="10dip"
+                        android:text="who?"
+                        android:textColor="@color/headline"
+                        android:textSize="24dip"
+                        android:textStyle="bold" />
+                </TableRow>
+
             </TableLayout>
-            
-            
-            
-                    <TableLayout
+
+            <TableLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
-                 <!-- Mean -->
+
+                <!-- Mean -->
 
                 <TableRow style="@style/title_row" >
 
                     <TextView
                         style="@style/count_title"
-                        
+                        android:layout_marginBottom="5dip"
                         android:text="@string/median" />
-
                 </TableRow>
-                
-                 <!--  <TableRow style="@style/title_row" >
+
+                <!--
+                <TableRow style="@style/title_row" >
 
                     <TextView
                         style="@style/count_title"
                         android:layout_width="fill_parent"
                         android:text="@string/total" />
-                </TableRow>-->
+                </TableRow>
+                -->
 
                 <TableRow android:gravity="center_horizontal" >
 
                     <TextView
                         android:id="@+id/medianReceived"
-                        style="@style/timeboard" 
-                        android:layout_width="130dip"/>
+                        style="@style/timeboard"
+                        android:layout_width="130dip" />
 
                     <TextView
                         android:id="@+id/medianSent"
                         style="@style/timeboard"
-                        android:layout_width="130dip"
-                         />
+                        android:layout_width="130dip" />
                 </TableRow>
 
-               <!--   <TableRow  >
+                <!--
+                <TableRow  >
 
                     <TextView
                         android:id="@+id/medianSent"
@@ -119,12 +124,11 @@
                     <TextView
                         android:id="@+id/medianReceived"
                         style="@style/timeboard" />
-                </TableRow>-->
+                </TableRow>
+                -->
             </TableLayout>
-            
-                
+
             <!--
-          
             <TextView
                     android:id="@+id/TextView04"
                     android:gravity="center"
@@ -207,7 +211,7 @@
                         android:id="@+id/kissesReceived"
                         style="@style/scoreboard" />
                 </TableRow>
-                
+
                 <!-- Smileys -->
 
                 <TableRow style="@style/title_row" >
@@ -227,7 +231,7 @@
                         android:id="@+id/smileysReceived"
                         style="@style/scoreboard" />
                 </TableRow>
-                
+
                 <!-- Doubles -->
 
                 <TableRow style="@style/title_row" >
@@ -247,8 +251,8 @@
                         android:id="@+id/doublesReceived"
                         style="@style/scoreboard" />
                 </TableRow>
-                
-                 <!-- Quarters -->
+
+                <!-- Quarters -->
 
                 <TableRow style="@style/title_row" >
 
@@ -267,7 +271,7 @@
                         android:id="@+id/quartersReceived"
                         style="@style/scoreboard" />
                 </TableRow>
-                
+
                 <!-- Hours -->
 
                 <TableRow style="@style/title_row" >
@@ -287,7 +291,7 @@
                         android:id="@+id/hoursReceived"
                         style="@style/scoreboard" />
                 </TableRow>
-                
+
                 <!-- Days -->
 
                 <TableRow style="@style/title_row" >
@@ -307,9 +311,9 @@
                         android:id="@+id/daysReceived"
                         style="@style/scoreboard" />
                 </TableRow>
-                </TableLayout>	
-                
+            </TableLayout>
         </LinearLayout>
+
     </ScrollView>
 
     <Button
