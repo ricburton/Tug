@@ -53,27 +53,6 @@ public class StatEngine {
 	public int receivedWeekCount() { return receivedWeekCount; }
 	private int receivedWeekPlusCount = 0;
 	public int receivedWeekPlusCount() { return receivedWeekPlusCount; }
-
-	
-	
-	
-	
-	bunch_start_time = nil
-	last_send_response_time = nil
-	last_receive_time = nil
-	last_send_time = nil
-	last_send_response_time = nil
-	last_receive_response_time = nil
-	bunch_message_lengths = []
-	bunch_times_lengths = []
-	bunch_gap_times = []
-	send_double_up_times = []
-	receive_double_up_times = []
-	send_bunch_response_times = []
-	receive_bunch_response_times = []
-	last_message_was_sent = false
-	in_bunch = false
-	
 	
 	
 	// Text-length monitoring
@@ -103,8 +82,36 @@ public class StatEngine {
 	public int send_ender() { return send_ender; }
 	private int receive_ender = 0;
 	public int receive_ender() { return receive_ender; }
+	public int last_send_response_time = nil
+	last_receive_time = nil
+	last_send_time = nil
+	last_send_response_time = nil
+	last_receive_response_time = nil
+	send_double_up_times = []
+	receive_double_up_times = []
+	send_bunch_response_times = []
+	receive_bunch_response_times = []
+	last_message_was_sent = false
+	private Message previous_message;
+	private ArrayList<Bunch> bunches;
+	private Bunch potentialBunch;
 	
 	public StatEngine() { //constructor
+	}
+	
+	private void addBunch(Bunch bnch) {
+		//here do things like increment appropriate counts.
+		self.total_bunch_time += current_bunch.start_time - current_bunch.messages.last.time_created
+	       if previous_bunch
+	         self.total_bunch_gap_time += current_bunch.start_time - previous_bunch.start_time
+	       end
+	       previous_bunch = current_bunch
+	}
+	
+	public void finish() {
+		//check the previous bunch and add it if necessary
+		//calc average bunch time and gap
+		//calc average double up times
 	}
 	
 	// The method below is for counting things like kisses and question-marks
