@@ -38,16 +38,15 @@ public class StatEngine {
 	public int receivedWeekPlusCount = 0;
 
 	// declare the ArrayList of reply-time integers
-	private int lastMessageStatus = 0; // sent = 2, received = 1
-	private int lastMessageTime = 0;   // these are states of the engine. noone else needs to know previous_time
 	private ArrayList<Integer> replySpeeds = new ArrayList<Integer>(); // Noone needs these arrays, we shall calculate means here
 	private ArrayList<Integer> sendSpeeds = new ArrayList<Integer>();
 
-	// Double-texts
+	// Double-texts engine stuff
 	public int sentDoubles = 0; //send_double_up_count
 	public int receivedDoubles = 0; //receive_double_up_count
 	private int total_send_double_up_times = 0;
     private int total_receive_double_up_times = 0;
+    public int average
     
                                
 	//bunch engine stuff
