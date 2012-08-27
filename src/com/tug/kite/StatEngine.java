@@ -10,54 +10,32 @@ public class StatEngine {
 
 	// set the data to be collected
 
-	private int total = 0;
-	public int total() { //we have a getter allowing other people to read this result, but only we can set it
-		return total;
-	}
-	private int sent = 0;
-	public int sent() { return sent; }
-	private int received = 0;
-	public int received() { return received; }
+	public int total = 0;
+	public int sent = 0;
+	public int received = 0;
 
-	private int kissesSent = 0;
-	public int kissesSent() { return kissesSent; }
-	private int kissesReceived = 0;
-	public int kissesReceived() { return kissesReceived; }
-	private int questionsSent = 0;
-	public int questionsSent() { return questionsSent; }
-	private int questionsReceived = 0;
-	public int questionsReceived() { return questionsReceived; }
-	private int smileysSent = 0;
-	public int smileysSent() { return smileysSent; }
-	private int smileyReceived = 0;
-	public int smileyReceived() { return smileyReceived; }
+	public int kissesSent = 0;
+	public int kissesReceived = 0;
+	public int questionsSent = 0;
+	public int questionsReceived = 0;
+	public int smileysSent = 0;
+	public int smileyReceived = 0;
+	private int charsSent = 0;		//for average text length
+	private int charsReceived = 0;
+	public int average_chars_sent = 0;
+	public int average_chars_received = 0;
 
-	private int sendQuarterCount = 0;
-	public int sendQuarterCount() { return sendQuarterCount; }
-	private int sendHourCount = 0;
-	public int sendHourCount() { return sendHourCount; }
-	private int sendDayCount = 0;
-	public int sendDayCount() { return sendDayCount; }
-	private int sendWeekCount = 0;
-	public int sendWeekCount() { return sendWeekCount; }
-	private int sendWeekPlusCount = 0;
-	public int sendWeekPlusCount() { return sendWeekPlusCount; }
+	public int sendQuarterCount = 0;
+	public int sendHourCount = 0;
+	public int sendDayCount = 0;
+	public int sendWeekCount = 0;
+	public int sendWeekPlusCount = 0;
 
-	private int receivedQuarterCount = 0;
-	public int receivedQuarterCount() { return receivedQuarterCount; }
-	private int receivedHourCount = 0;
-	public int receivedHourCount() { return receivedHourCount; }
-	private int receivedDayCount = 0;
-	public int receivedDayCount() { return receivedDayCount; }
-	private int receivedWeekCount = 0;
-	public int receivedWeekCount() { return receivedWeekCount; }
-	private int receivedWeekPlusCount = 0;
-	public int receivedWeekPlusCount() { return receivedWeekPlusCount; }
-	
-	
-	// Text-length monitoring
-	private ArrayList<Integer> sentLengths = new ArrayList<Integer>();
-	private ArrayList<Integer> receivedLengths = new ArrayList<Integer>();
+	public int receivedQuarterCount = 0;
+	public int receivedHourCount = 0;
+	public int receivedDayCount = 0;
+	public int receivedWeekCount = 0;
+	public int receivedWeekPlusCount = 0;
 
 	// declare the ArrayList of reply-time integers
 	private int lastMessageStatus = 0; // sent = 2, received = 1
@@ -66,51 +44,60 @@ public class StatEngine {
 	private ArrayList<Integer> sendSpeeds = new ArrayList<Integer>();
 
 	// Double-texts
-	private int sentDoubles = 0; //send_double_up_count
-	public int sentDoubles() { return sentDoubles; }
-	private int receivedDoubles = 0; //receive_double_up_count
-	public int receivedDoubles() { return receivedDoubles; }
-	
+	public int sentDoubles = 0; //send_double_up_count
+	public int receivedDoubles = 0; //receive_double_up_count
+	private int total_send_double_up_times = 0;
+    private int total_receive_double_up_times = 0;
+    
+                               
 	//bunch engine stuff
-	private boolean in_bunch = false;
-	private int bunch_msg_count = 0;
-	private int send_initiate = 0;
-	public int send_initate() { return send_initiate; }
-	private int receive_initiate = 0;
-	public int receive_initiate() { return receive_initiate; }
-	private int send_ender = 0;
-	public int send_ender() { return send_ender; }
-	private int receive_ender = 0;
-	public int receive_ender() { return receive_ender; }
-	public int last_send_response_time = nil
-	last_receive_time = nil
-	last_send_time = nil
-	last_send_response_time = nil
-	last_receive_response_time = nil
-	send_double_up_times = []
-	receive_double_up_times = []
-	send_bunch_response_times = []
-	receive_bunch_response_times = []
-	last_message_was_sent = false
+	public int send_initate = 0;		//conversations the cat started
+	public int receive_initiate = 0;	//conversations the rat started
+	public int send_ender = 0;			//conversations the cat ended
+	public int receive_ender = 0;		//conversations the rat ended
+	private int total_send_to_receive_response_count = 0;
+	private int total_receive_to_send_response_count = 0;
+	private int total_send_to_receive_response_time = 0;
+	private int total_receive_to_send_response_time = 0;
+	public int average_send_to_receive_response_time = 0; //importantly, this is only calculated while in a conversation, so this removes outliers
+	public int average_receive_to_send_response_time = 0;
+	private int total_bunch_time = 0;		//for avg conversation duration/time
+	private int total_bunch_gap_time = 0;	//for avg time between conversationss
+	private int total_bunch_messages = 0;	//for avg conversation length
+	public int average_bunch_time = 0;
+	public int average_bunch_gap_time = 0;
+	public int average_bunch_length = 0;
 	private Message previous_message;
 	private ArrayList<Bunch> bunches;
-	private Bunch potentialBunch;
+	private Bunch potentialBunch; //for adding, to allow the gap times to be calcd
+	private Bunch previous_bunch;
 	
 	public StatEngine() { //constructor
 	}
 	
 	private void addBunch(Bunch bnch) {
-		//here do things like increment appropriate counts.
-		self.total_bunch_time += current_bunch.start_time - current_bunch.messages.last.time_created
-	       if previous_bunch
-	         self.total_bunch_gap_time += current_bunch.start_time - previous_bunch.start_time
-	       end
-	       previous_bunch = current_bunch
+        //here do things like increment appropriate counts.
+        total_bunch_time += bnch.duration();
+        total_bunch_messages += bnch.length();
+        total_send_to_receive_response_time += bnch.total_send_to_receive_response_time;
+        total_send_to_receive_response_count += bnch.send_to_receive_response_count;
+        total_receive_to_send_response_time += bnch.total_receive_to_send_response_time;
+        total_receive_to_send_response_count += bnch.receive_to_send_response_count;
+		if (previous_bunch != null) {
+			total_bunch_gap_time += Bunch.getTimeGap(bnch, previous_bunch);
+		}
+		if (bnch.send_initiate()) { send_initate++; } else { receive_initiate++; }
+		if (bnch.send_ender()) { send_ender++; } else { receive_ender++; }
+		
+		previous_bunch = bnch;
 	}
 	
 	public void finish() {
-		//check the previous bunch and add it if necessary
-		//calc average bunch time and gap
+		//check the potential bunch and add it if necessary
+		if (potentialBunch.isValid()) {
+			addBunch(potentialBunch);
+		}
+		//calc average bunch time and gap and avg bunch length
 		//calc average double up times
 	}
 	

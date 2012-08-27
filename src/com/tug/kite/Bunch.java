@@ -52,12 +52,17 @@ public class Bunch {
 		return pMessages.size();
 	}
 
-	public boolean local_initiate() {
+	public boolean send_initiate() {
 		return pMessages.get(0).isSent();
 	}
 	
-	public boolean local_end() {
+	public boolean send_ender() {
 		return pMessages.get(pMessages.size() - 1).isSent();
-	}	
+	}
 	
+	public static int getTimeGap(Bunch newerBunch, Bunch olderBunch) {
+		//get the time difference between the first message of the newer bunch
+		// and the last message of the older bunch...
+		return (newerBunch.pMessages.get(0).time - olderBunch.pMessages.get(olderBunch.pMessages.size()-1).time);
+	}
 }
