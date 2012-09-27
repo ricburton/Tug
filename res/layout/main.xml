@@ -76,13 +76,15 @@
                         android:textStyle="bold" />
                 </TableRow>
             </TableLayout>
-
+            
+            <!-- Median -->
+<!-- 
             <TableLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
-                <!-- Mean -->
+                
 
                 <TableRow style="@style/title_row" >
 
@@ -92,15 +94,6 @@
                         android:text="@string/median" />
                 </TableRow>
 
-                <!--
-                <TableRow style="@style/title_row" >
-
-                    <TextView
-                        style="@style/count_title"
-                        android:layout_width="fill_parent"
-                        android:text="@string/total" />
-                </TableRow>
-                -->
 
                 <TableRow android:gravity="center_horizontal" >
 
@@ -115,20 +108,9 @@
                         android:layout_width="130dip" />
                 </TableRow>
 
-                <!--
-                <TableRow  >
 
-                    <TextView
-                        android:id="@+id/medianSent"
-                        style="@style/timeboard" />
-
-                    <TextView
-                        android:id="@+id/medianReceived"
-                        style="@style/timeboard" />
-                </TableRow>
-                -->
             </TableLayout>
-
+-->
             <TableLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >

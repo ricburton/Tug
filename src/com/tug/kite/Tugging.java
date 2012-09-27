@@ -341,7 +341,7 @@ public class Tugging extends Activity {
 							
 							int larger;
 							int speed;
-							
+							/*
 							// Median Row
 							TextView medianSent = (TextView) findViewById(R.id.medianSent);
 							medianSent.setText(returnTime(engine.medianSentSpeedRaw));
@@ -349,7 +349,7 @@ public class Tugging extends Activity {
 							TextView medianReceived = (TextView) findViewById(R.id.medianReceived);
 							// TODO - fix expanding cell-size on this
 							medianReceived.setText(returnTime(engine.medianReceivedSpeedRaw));
-							
+							*/
 							// Mean Row
 							TextView meanSent = (TextView) findViewById(R.id.meanSent);
 							meanSent.setText(returnTime(engine.average_receive_to_send_response_time));
