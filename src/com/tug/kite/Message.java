@@ -2,8 +2,14 @@ package com.tug.kite;
 
 public class Message {
 	public String text;
-	public int time;
+	public long time;
 	public int messageStatus;
+	
+	Message(String txt, long t, int stat) {
+		text = txt;
+		time = t;
+		messageStatus = stat;
+	}
 	
 	public boolean isSent() {
 		if (messageStatus == 2) {

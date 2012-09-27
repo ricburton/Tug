@@ -2,14 +2,16 @@ package com.tug.kite;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 public class Bunch {
-	private ArrayList<Message> pMessages = new ArrayList<Message>();
+	private ArrayList<Message> pMessages = new ArrayList<Message>(); //could probably get away without storing these...
 	public int send_to_receive_response_count = 0;
 	public int receive_to_send_response_count = 0;
 	public int total_send_to_receive_response_time = 0;
 	public int total_receive_to_send_response_time = 0;
 	
-	public final int time_gap = 3600;
+	public static final int time_gap = 3600;
 
 	public void addMessage(Message msg) {
 		pMessages.add(msg);
@@ -45,7 +47,7 @@ public class Bunch {
 	}
 	
 	public int duration() {
-		return (pMessages.get(pMessages.size()-1).time - pMessages.get(0).time);
+		return (int) (pMessages.get(pMessages.size()-1).time - pMessages.get(0).time);
 	}
 	
 	public int length() {
@@ -63,6 +65,6 @@ public class Bunch {
 	public static int getTimeGap(Bunch newerBunch, Bunch olderBunch) {
 		//get the time difference between the first message of the newer bunch
 		// and the last message of the older bunch...
-		return (newerBunch.pMessages.get(0).time - olderBunch.pMessages.get(olderBunch.pMessages.size()-1).time);
+		return (int) (newerBunch.pMessages.get(0).time - olderBunch.pMessages.get(olderBunch.pMessages.size()-1).time);
 	}
 }

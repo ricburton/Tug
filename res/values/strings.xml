@@ -10,11 +10,20 @@
     <string name="questions">Question marks</string>
     <string name="kisses">Kisses</string>
     <string name="smileys">Smileys</string>
+    
+    <string name="convoAvg">Avg Coversation</string>
+    <string name="convoAvgFill">messages over</string>
+    <string name="convStart">Convos Started</string>
+    <string name="convEnd">Convos Ended</string>
+    
     <string name="doubles">Double-texts</string>
+    <string name="double_times">Avg Double-text time</string>
     
     <string name="quarters">Reply in 15 mins</string>
     <string name="hours">Reply in 15&#8211;60 mins</string>
     <string name="days">Reply in 1&#8211;24 hours</string>
+    <string name="daysplus">Reply in > 24 hours</string>
     <string name="median">Median reply speed</string>
+    <string name="mean">Average reply speed</string>
 
 </resources>
