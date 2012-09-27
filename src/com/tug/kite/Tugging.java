@@ -59,47 +59,11 @@ public class Tugging extends Activity {
 		return inputString.substring(startIndex);
 	}
 
-	// The method below is for counting things like kisses and question-marks
-	public static int countOccurrences(String base, String searchFor) {
-
-		int len = searchFor.length();
-		int result = 0;
-		if (len > 0) {
-			int start = base.indexOf(searchFor);
-			while (start != -1) {
-				result++;
-				start = base.indexOf(searchFor, start + len);
-			}
-		}
-		
-		return result;
-
-	}
-
-	public static int countKisses(String searchText) {
-		int kisses = 0;
-		Pattern patternOneKiss = Pattern.compile("(\\p{Punct}|\\s)(?i)x(\\s|$)"); // (punctuation or whitespace) followed by x followed by (whitespace or end of line)
-		Pattern patternManyKiss = Pattern.compile("(?i)x{2,}"); // 2 or more 'x's after each other
-		Matcher matcherOneKiss = patternOneKiss.matcher(searchText);
-		Matcher matcherManyKiss = patternManyKiss.matcher(searchText);
-		
-		while (matcherOneKiss.find()) {
-		  kisses++;
-		}
-		while (matcherManyKiss.find()) {
-		  kisses = kisses + matcherManyKiss.end() - matcherManyKiss.start();
-		}
-		return kisses;
-	}
-	
 	// The method below creates the counter and pushes it to the view as a
 	// separate, runnable thread
-	public void countUp(final TextView flipScore, final int topNum,
-			final int speedNum) {
-
+	public void countUp(final TextView flipScore, final int topNum, final int speedNum) {
 		new Thread(new Runnable() {
 			int counter = 0;
-
 			public void run() {
 				flipScore.post(new Runnable() {
 					public void run() {
@@ -112,39 +76,25 @@ public class Tugging extends Activity {
 					try {
 						Thread.sleep(speedNum);
 					} catch (InterruptedException e) {
-
 						e.printStackTrace();
 					}
 					flipScore.post(new Runnable() {
 
 						public void run() {
-
 							// change font-size for ridic numbers
 							// TODO fix distortion
-							if (counter > 99) {
-								flipScore.setTextSize(45);
-							}
-							if (counter > 999) {
-								flipScore.setTextSize(35);
-							}
-
+							if (counter > 99) { flipScore.setTextSize(45); }
+							if (counter > 999) { flipScore.setTextSize(35);	}
 							flipScore.setText("" + counter);
-
 						}
-
 					});
 					counter++;
 				}
 				flipScore.post(new Runnable() { 
-					public void run() {
-						flipScore.setTextColor(Color.BLACK);
-					}
+					public void run() {	flipScore.setTextColor(Color.BLACK); }
 				});
-
 			}
-
 		}).start();
-
 	}
 
 	// This method calculates the mean
@@ -182,25 +132,32 @@ public class Tugging extends Activity {
 		return arrayMedian;
 	}
 
-	// this method converts milliseconds into a nice string that can be printed
-	public static String returnTime(Double milliSeconds) {
+	// this method converts seconds into a nice string that can be printed
+	public static String returnTime(Double seconds) {
 
-		Double pure = milliSeconds;
+		if (seconds < 0 ) { return "N/A"; }
+		Double pure = seconds;
 		Integer diff = (int) Math.round(pure);
 
-		Integer diffSecs = diff / 1000;
-		Integer diffMin = diff / (60 * 1000); // minutes
-		Integer diffHours = diff / (60 * 60 * 1000); // hours
-		Integer diffDays = diff / (24 * 60 * 60 * 1000);
+		Integer diffSecs = diff;
+		Integer diffMin = diff / (60); // minutes
+		Integer diffHours = diff / (60 * 60); // hours
+		Integer diffDays = diff / (24 * 60 * 60);
 
 		String naturalTime = "";
 
 		if (diffSecs < 60) {
 			naturalTime = diffSecs.toString() + " secs";
+		} else if (diffMin == 1 && diffHours < 1) {
+			naturalTime = diffMin.toString() + " min";
 		} else if (diffMin > 1 && diffHours < 1) {
 			naturalTime = diffMin.toString() + " mins";
+		} else if (diffHours == 1 && diffDays < 1) {
+			naturalTime = diffHours.toString() + " hour";
 		} else if (diffHours > 1 && diffDays < 1) {
 			naturalTime = diffHours.toString() + " hrs";
+		} else if (diffDays == 1) {
+			naturalTime = diffDays.toString() + " day";
 		} else if (diffDays > 1) {
 			naturalTime = diffDays.toString() + " days";
 		}
@@ -277,322 +234,101 @@ public class Tugging extends Activity {
 					} else {
 
 						// START THE STAT ENGINE!
+						StatEngine engine = new StatEngine();
 						Uri uriSMSURI = Uri.parse("content://sms"); // access
 																	// the
 																	// sms db
 						Cursor cur = getContentResolver().query(uriSMSURI,
-								null, null, null, null);
-
+								null, null, null, "date ASC");
+						cur.moveToFirst();
 						// set the data to be collected
-
-						Integer total = 0;
-						Integer sent = 0;
-						Integer received = 0;
-
-						Integer kissesSent = 0;
-						Integer kissesReceived = 0;
-						Integer questionsSent = 0;
-						Integer questionsReceived = 0;
-						Integer smileysSent = 0;
-						Integer smileyReceived = 0;
-
-						Integer sendQuarterCount = 0;
-						Integer sendHourCount = 0;
-						Integer sendDayCount = 0;
-						Integer sendWeekCount = 0;
-						Integer sendWeekPlusCount = 0;
-
-						Integer receivedQuarterCount = 0;
-						Integer receivedHourCount = 0;
-						Integer receivedDayCount = 0;
-						Integer receivedWeekCount = 0;
-						Integer receivedWeekPlusCount = 0;
-
-						// Text-length monitoring
-						ArrayList<Integer> sentLengths = new ArrayList<Integer>();
-						ArrayList<Integer> receivedLengths = new ArrayList<Integer>();
-
-						// declare the ArrayList of reply-time integers
-						Integer lastMessageStatus = 0; // sent = 2, received = 1
-						Integer lastMessageTime = 0;
-						ArrayList<Integer> replySpeeds = new ArrayList<Integer>();
-						ArrayList<Integer> sendSpeeds = new ArrayList<Integer>();
-
-						// Double-texts
-						Integer sentDoubles = 0;
-						Integer receivedDoubles = 0;
-
 						Integer timesRun = 0;
 						Integer draftCount = 0;
-
 						String cleanPhone = getLastnCharacters(phone, 7);
-
 						while (cur.moveToNext()) {
-
 							// Number-matching is done from end to beginning
 							// with 7 figures
-
 							// Log.i("Number of message/draft", num.toString());
-							if (cur.getString(2) != null) { // catch drafts this
-															// way?
-
-								String num = cur.getString(2);
+							if (cur.getString(cur.getColumnIndexOrThrow("address")) != null) { // catch drafts this way?
+								String num = cur.getString(cur.getColumnIndexOrThrow("address"));
 								// TODO fix draft-handling
-								Integer messageStat = cur.getInt(8);
-								Log.d("message-type", messageStat.toString());
-
 								String cleanNum = getLastnCharacters(num, 7);
 
 								Log.d(phone, "Debug: " + cleanPhone.toString()
 										+ " == " + cleanNum.toString());
 
 								if (cleanNum.equals(cleanPhone)) {
-									Integer messageStatus = cur.getInt(8);
-									Integer replyTime = cur.getInt(4);
-									String message = cur.getString(11);
-									total++;
+									//make a message object here
+									Integer messageStatus = cur.getInt(cur.getColumnIndexOrThrow("type"));
+									long replyTime = cur.getLong(cur.getColumnIndexOrThrow("date"))/1000;
+									String message = cur.getString(cur.getColumnIndexOrThrow("body")); //cur.getString(11);
+									Message msg = new Message(cur.getString(cur.getColumnIndexOrThrow("body")), replyTime, messageStatus);
+									/*Log.d("Tugger",
+											  " 0: " + cur.getColumnName(0) + " > " + cur.getString(0)
+											+ " 1: " + cur.getColumnName(1) + " > " + cur.getString(1)
+											+ " 2: " + cur.getColumnName(2) + " > " + cur.getString(2)
+											+ " 3: " + cur.getColumnName(3) + " > " + cur.getString(3)
+											+ " 4: " + cur.getColumnName(4) + " > " + cur.getString(4)
+											+ " 5: " + cur.getColumnName(5) + " > " + cur.getString(5)
+											+ " 6: " + cur.getColumnName(6) + " > " + cur.getString(6)
+											+ " 7: " + cur.getColumnName(7) + " > " + cur.getString(7)
+											+ " 8: " + cur.getColumnName(8) + " > " + cur.getString(8)
+											+ " 9: " + cur.getColumnName(9) + " > " + cur.getString(9)
+											+ " 10: " + cur.getColumnName(10) + " > " + cur.getString(10)
+											+ " 11: " + cur.getColumnName(11) + " > " + cur.getString(11)
+											+ " 12: " + cur.getColumnName(12) + " > " + cur.getString(12)
+											+ " 13: " + cur.getColumnName(13) + " > " + cur.getString(13)
+											+ " 14: " + cur.getColumnName(14) + " > " + cur.getString(14)
+											+ " 15: " + cur.getColumnName(15) + " > " + cur.getString(15)
+											+ " 16: " + cur.getColumnName(16) + " > " + cur.getString(16)
+											+ " try: " + replyTime
+									        + " try: " + cur.getString(cur.getColumnIndexOrThrow("date"))
+											+ " try: " + cur.getString(cur.getColumnIndexOrThrow("body"))
+											);*/
+									//feed the engine with the message object
+									engine.processMessage(msg);
 
-									// messages sent
-									if (messageStatus == 2) {
-										sent++;
-										// length of message
-										sentLengths.add(message.length());
-
-										Log.d(phone, "Message Sent: " + message);
-
-										// see if this is a reply or a double
-
-										if (lastMessageStatus == 2) {
-											sentDoubles++;
-										} else if (lastMessageStatus == 1) {
-											Integer sendDiff = lastMessageTime
-													- replyTime;
-											sendSpeeds.add(sendDiff);
-											Log.d("Difference in time",
-													sendDiff.toString());
-										}
-
-										// kisses sent
-										//kissesSent = kissesSent + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
-										kissesSent = kissesSent + countKisses(message);
-
-										questionsSent = questionsSent + countOccurrences(
-												message, "?");
-										// smiley's sent
-										String[] smileys = { ":)", ";)", ":P", ":p",
-												":D", ";D", ":-)", ";-)", ":-P", ":-p", ":-D", ";-D" };
-										for (int i = 0; i < smileys.length; i++) {
-
-											if (message.indexOf(smileys[i]) > 0) {
-												smileysSent++;
-
-											}
-										}
-
-									} else if (messageStatus == 1) { // messages
-																		// received
-										received++;
-										receivedLengths.add(message.length());
-										// see if this a reply or a follow-up
-										// text
-										if (lastMessageStatus == 1) {
-											receivedDoubles++;
-										} else if (lastMessageStatus == 2) {
-											Integer replyDiff = lastMessageTime
-													- replyTime;
-											replySpeeds.add(replyDiff);
-											Log.d("Difference in time",
-													replyDiff.toString());
-										}
-
-										Log.d(phone, "Message Received: "
-												+ message);
-										// kisses received
-										//kissesReceived = kissesReceived + countOccurrences(message, " x") + countOccurrences(message, " x ") + countOccurrences(message, "xx");
-										kissesReceived = kissesReceived + countKisses(message);
-
-										
-										
-										questionsReceived = questionsReceived + countOccurrences(
-												message, "?");
-										// smiley's received
-										String[] smileys = { ":)", ";)", ":P", ":p",
-												":D", ";D", ":-)", ";-)", ":-P", ":-p", ":-D", ";-D" };
-										for (int i = 0; i < smileys.length; i++) {
-
-											if (message.indexOf(smileys[i]) > 0) {
-												smileyReceived++;
-
-											}
-										}
-
-									} else {
-
-										Log.d(phone,
-												"Not sent or received. Odd");
-									}
-
-									// set the LastMessageStatus for next loop
-									lastMessageStatus = messageStatus;
-									lastMessageTime = replyTime;
 								} else {
 									// log no texts match to person here
 									Log.d(phone, "Not a match to rat.");
 								}
 
 							} else {
-								Log.i("DRAFT", "This is a draft.");
+								Log.i("DRAFT", "This is a draft: " + cur.getString(cur.getColumnIndexOrThrow("body")));
 
 								draftCount++;
 							}
 
 						}
+						//finish the engine here
+						engine.finish();
 						Log.i("Draft:", draftCount.toString());
 
 						// if there's fewer than 2 messages, throw an error
-						if (total == 0) {
+						if (engine.total == 0) {
 							Toast.makeText(this, "No messages found.",
 									Toast.LENGTH_LONG).show();
-						} else if (total == 1) {
+						} else if (engine.total == 1) {
 							Toast.makeText(this, "1 message is not enough",
 									Toast.LENGTH_LONG).show();
-						} else if (total == 2) {
+						} else if (engine.total == 2) {
 							Toast.makeText(this, "2 messages are not enough",
 									Toast.LENGTH_LONG).show();
 
 							// TODO handle small sent or received better in
 							// graphing array
 							
-						} else if (sent == 0) {
+						} else if (engine.cat.count == 0) {
 							Toast.makeText(this, "You have sent no messages",
 									Toast.LENGTH_LONG).show();
-						} else if (received == 0) {
+						} else if (engine.rat.count == 0) {
 							Toast.makeText(this, "You have received no messages",
 									Toast.LENGTH_LONG).show();
 						} else {
-
 							timesRun++;
-
-							// GRAPHING TIME
-
-							// replySpeeds
-
-							Integer replyNum = replySpeeds.size();
-							GraphViewData[] replyData = new GraphViewData[replyNum];
-
-							Log.i("About to spin data in", "DATA GOING IN");
-							for (int i = 0; i < replyNum; i++) {
-
-								// push data into graph's line array
-								replyData[i] = new GraphViewData(i,
-										replySpeeds.get(i));
-								Log.i("pushing reply data", replySpeeds.get(i)
-										.toString());
-
-								// count delay categories
-								Integer diff = (int) Math.round(replySpeeds
-										.get(i));
-								Integer diffMin = diff / (60 * 1000); // minutes
-								Integer diffHours = diff / (60 * 60 * 1000); // hours
-								Integer diffDays = diff / (24 * 60 * 60 * 1000);
-
-								if (diffMin < 15) {
-									receivedQuarterCount++;
-								} else if (diffMin > 15 && diffMin < 60) {
-									receivedHourCount++;
-								} else if (diffHours > 1 && diffHours < 24) {
-									receivedDayCount++;
-								} else if (diffDays > 1 && diffDays < 7) {
-									receivedWeekCount++;
-								} else if (diffDays > 7) {
-									receivedWeekPlusCount++;
-								}
-
-							}
-							
-							Log.i("Reply Speeds", replySpeeds.toString());
-							Log.i("Send Speeds", sendSpeeds.toString());
-							
-							GraphViewSeries seriesReplies = new GraphViewSeries(
-									"Replying speeds", Color.rgb(200, 50, 00),
-									replyData);
-
-							// sendSpeeds
-							Integer sendNum = sendSpeeds.size();
-							GraphViewData[] sendData = new GraphViewData[sendNum];
-
-							for (int i = 0; i < sendNum; i++) {
-								// push data into graph's array
-								sendData[i] = new GraphViewData(i,
-										sendSpeeds.get(i));
-								Log.i("pushing send data", sendSpeeds.get(i)
-										.toString());
-
-								// count delay categories
-								Integer diff = (int) Math.round(sendSpeeds
-										.get(i));
-								Integer diffMin = diff / (60 * 1000); // minutes
-								Integer diffHours = diff / (60 * 60 * 1000); // hours
-								Integer diffDays = diff / (24 * 60 * 60 * 1000);
-
-								if (diffMin < 15) {
-									sendQuarterCount++;
-								} else if (diffMin > 15 && diffMin < 60) {
-									sendHourCount++;
-								} else if (diffHours > 1 && diffHours < 24) {
-									sendDayCount++;
-								} else if (diffDays > 1 && diffDays < 7) {
-									sendWeekCount++;
-								} else if (diffDays > 7) {
-									sendWeekPlusCount++;
-								}
-
-							}
-
-							GraphViewSeries seriesSent = new GraphViewSeries(
-									"Sending speeds", Color.rgb(0, 184, 0),
-									sendData);
-
-							// LinearLayout graphBox = (LinearLayout)
-							// findViewById(R.id.graph1);
-
-							GraphView graphView = new BarGraphView(this,
-									"Reply Speeds");
-
 							if (timesRun > 1) {
 								// graphBox.removeAllViews();
 							}
-
-							graphView.addSeries(seriesReplies);
-							graphView.addSeries(seriesSent);
-							// set legend
-							graphView.setShowLegend(true);
-							graphView.setLegendAlign(LegendAlign.BOTTOM);
-							graphView.setLegendWidth(200);
-
-							Log.d("Update Graph", "About to update...");
-
-							// graphBox.addView(graphView); // TODO fix graph
-							// updating
-
-							// Average Calculating
-							Double averageSentSpeedRaw = findMean(sendSpeeds);
-							Double averageReceivedSpeedRaw = findMean(replySpeeds);
-
-							String averageSentSpeed = returnTime(averageSentSpeedRaw);
-							String averageReceivedSpeed = returnTime(averageReceivedSpeedRaw);
-
-							// Median Calculating
-
-							// TODO fix calculations on small number of results
-							Double medianSentSpeedRaw = findMedian(sendSpeeds);
-							Double medianReceivedSpeedRaw = findMedian(replySpeeds);
-
-							String medianSentSpeed = returnTime(medianSentSpeedRaw);
-							Log.i("Median Send Speed", medianSentSpeedRaw.toString());
-							String medianReceivedSpeed = returnTime(medianReceivedSpeedRaw);
-							Log.i("Median Received Speed", medianReceivedSpeedRaw.toString());
-							// Push the data to the view
 
 							//Quirky message
 							TextView qMessage = (TextView) findViewById(R.id.mainTitle);
@@ -608,88 +344,132 @@ public class Tugging extends Activity {
 							
 							// Median Row
 							TextView medianSent = (TextView) findViewById(R.id.medianSent);
-							medianSent.setText(medianSentSpeed);
+							medianSent.setText(returnTime(engine.medianSentSpeedRaw));
 
 							TextView medianReceived = (TextView) findViewById(R.id.medianReceived);
 							// TODO - fix expanding cell-size on this
-							medianReceived.setText(medianReceivedSpeed);
+							medianReceived.setText(returnTime(engine.medianReceivedSpeedRaw));
+							
+							// Mean Row
+							TextView meanSent = (TextView) findViewById(R.id.meanSent);
+							meanSent.setText(returnTime(engine.average_receive_to_send_response_time));
+
+							TextView meanReceived = (TextView) findViewById(R.id.meanReceived);
+							// TODO - fix expanding cell-size on this
+							meanReceived.setText(returnTime(engine.average_send_to_receive_response_time));
 
 							// Score-cards!
 							// TODO calculate counter end-times
-							larger = (sent < received) ? received : sent;
+							larger = (engine.cat.count < engine.rat.count) ? engine.rat.count : engine.cat.count;
 							speed = (larger > 0) ? 2000/(larger) : 0;
 							final TextView sentScore = (TextView) findViewById(R.id.sentScore);
-							countUp(sentScore, sent, speed);
+							countUp(sentScore, engine.cat.count, speed);
 
 							final TextView receivedScore = (TextView) findViewById(R.id.receivedScore);
-							countUp(receivedScore, received, speed);
+							countUp(receivedScore, engine.rat.count, speed);
 
 							// Questions Row
-							larger = (questionsSent < questionsReceived) ? questionsReceived : questionsSent;
+							larger = (engine.cat.questions < engine.rat.questions) ? engine.rat.questions : engine.cat.questions;
 							speed = (larger > 0) ? 2500/(larger) : 0;
 							TextView questionsSentCounter = (TextView) findViewById(R.id.questionsSent);
-							countUp(questionsSentCounter, questionsSent, speed);
+							countUp(questionsSentCounter, engine.cat.questions, speed);
 
 							TextView questionsReceivedCounter = (TextView) findViewById(R.id.questionsReceived);
-							countUp(questionsReceivedCounter, questionsReceived, speed);
+							countUp(questionsReceivedCounter, engine.rat.questions, speed);
 
 							// Kisses Row
-							larger = (kissesSent < kissesReceived) ? kissesReceived : kissesSent;
+							larger = (engine.cat.kisses < engine.rat.kisses) ? engine.rat.kisses : engine.cat.kisses;
 							speed = (larger > 0) ? 3000/(larger) : 0;
 							TextView kissesSentCounter = (TextView) findViewById(R.id.kissesSent);
-							countUp(kissesSentCounter, kissesSent, speed);
+							countUp(kissesSentCounter, engine.cat.kisses, speed);
 
 							TextView kissesReceivedCounter = (TextView) findViewById(R.id.kissesReceived);
-							countUp(kissesReceivedCounter, kissesReceived, speed);
+							countUp(kissesReceivedCounter, engine.rat.kisses, speed);
 
 							// Smileys Row
-							larger = (smileysSent < smileyReceived) ? smileyReceived : smileysSent;
+							larger = (engine.cat.smileys < engine.rat.smileys) ? engine.rat.smileys : engine.cat.smileys;
 							speed = (larger > 0) ? 3500/(larger) : 0;
 							TextView smileysSentCounter = (TextView) findViewById(R.id.smileysSent);
-							countUp(smileysSentCounter, smileysSent, speed);
+							countUp(smileysSentCounter, engine.cat.smileys, speed);
 
 							TextView smileysReceivedCounter = (TextView) findViewById(R.id.smileysReceived);
-							countUp(smileysReceivedCounter, smileyReceived, speed);
+							countUp(smileysReceivedCounter, engine.rat.smileys, speed);
+							
+							// Convo lengths times Row
+							TextView convoLength = (TextView) findViewById(R.id.convoLength);
+							convoLength.setText(engine.average_bunch_length + " " + getString(R.string.convoAvgFill) + " " + returnTime(engine.average_bunch_time));
+							
+							// Convo start Row
+							larger = (engine.send_initate < engine.receive_initiate) ? engine.receive_initiate : engine.send_initate;
+							speed = (larger > 0) ? 3500/(larger) : 0;
+							TextView sendStart = (TextView) findViewById(R.id.sendStart);
+							countUp(sendStart, engine.send_initate, speed);
+
+							TextView receiveStart = (TextView) findViewById(R.id.receiveStart);
+							countUp(receiveStart, engine.receive_initiate, speed);
+							
+							// Convo End Row
+							larger = (engine.send_ender < engine.receive_ender) ? engine.receive_ender : engine.send_ender;
+							speed = (larger > 0) ? 3500/(larger) : 0;
+							TextView sendEnd = (TextView) findViewById(R.id.sendEnd);
+							countUp(sendEnd, engine.send_ender, speed);
+
+							TextView receiveEnd = (TextView) findViewById(R.id.receiveEnd);
+							countUp(receiveEnd, engine.receive_ender, speed);
 
 							// Doubles Row
-							larger = (sentDoubles < receivedDoubles) ? receivedDoubles : sentDoubles;
+							larger = (engine.cat.doubles < engine.rat.doubles) ? engine.rat.doubles : engine.cat.doubles;
 							speed = (larger > 0) ? 4000/(larger) : 0;
 							TextView doublesSentCounter = (TextView) findViewById(R.id.doublesSent);
-							countUp(doublesSentCounter, sentDoubles, speed);
+							countUp(doublesSentCounter, engine.cat.doubles, speed);
 
 							TextView doublesReceivedCounter = (TextView) findViewById(R.id.doublesReceived);
-							countUp(doublesReceivedCounter, receivedDoubles,
+							countUp(doublesReceivedCounter, engine.rat.doubles,
 									speed);
+							
+							// Avg double times Row
+							TextView doubleSentTime = (TextView) findViewById(R.id.doubleSentTime);
+							doubleSentTime.setText(returnTime(engine.average_send_double_up_time));
+
+							TextView doublesReceivedTime = (TextView) findViewById(R.id.doubleReceivedTime);
+							// TODO - fix expanding cell-size on this
+							doublesReceivedTime.setText(returnTime(engine.average_receive_double_up_time));
 
 							// Quarter Row
-							larger = (sendQuarterCount < receivedQuarterCount) ? receivedQuarterCount : sendQuarterCount;
+							larger = (engine.sendQuarterCount < engine.receivedQuarterCount) ? engine.receivedQuarterCount : engine.sendQuarterCount;
 							speed = (larger > 0) ? 4500/(larger) : 0;
 							TextView quarterSent = (TextView) findViewById(R.id.quartersSent);
-							countUp(quarterSent, sendQuarterCount, speed);
+							countUp(quarterSent, engine.sendQuarterCount, speed);
 
 							TextView quarterReceived = (TextView) findViewById(R.id.quartersReceived);
-							countUp(quarterReceived, receivedQuarterCount, speed);
+							countUp(quarterReceived, engine.receivedQuarterCount, speed);
 
 							// Hour Row
-							larger = (sendHourCount < receivedHourCount) ? receivedHourCount : sendHourCount;
+							larger = (engine.sendHourCount < engine.receivedHourCount) ? engine.receivedHourCount : engine.sendHourCount;
 							speed = (larger > 0) ? 5000/(larger) : 0;
 							TextView hourSent = (TextView) findViewById(R.id.hoursSent);
-							countUp(hourSent, sendHourCount, speed);
+							countUp(hourSent, engine.sendHourCount, speed);
 
 							TextView hourReceived = (TextView) findViewById(R.id.hoursReceived);
-							countUp(hourReceived, receivedHourCount, speed);
+							countUp(hourReceived, engine.receivedHourCount, speed);
 
 							// Day Row
-							larger = (sendDayCount < receivedDayCount) ? receivedDayCount : sendDayCount;
+							larger = (engine.sendDayCount < engine.receivedDayCount) ? engine.receivedDayCount : engine.sendDayCount;
 							speed = (larger > 0) ? 5500/(larger) : 0;
 							TextView daySent = (TextView) findViewById(R.id.daysSent);
-							countUp(daySent, sendDayCount, speed);
+							countUp(daySent, engine.sendDayCount, speed);
 
 							TextView dayReceived = (TextView) findViewById(R.id.daysReceived);
-							countUp(dayReceived, receivedDayCount, speed);
-
+							countUp(dayReceived, engine.receivedDayCount, speed);
 							
+							// Days plus Row
+							larger = (engine.sendDayPlusCount() < engine.receivedDayPlusCount()) ? engine.receivedDayPlusCount() : engine.sendDayPlusCount();
+							speed = (larger > 0) ? 5500/(larger) : 0;
+							TextView dayplusSent = (TextView) findViewById(R.id.daysplusSent);
+							countUp(dayplusSent, engine.sendDayPlusCount(), speed);
 
+							TextView dayplusReceived = (TextView) findViewById(R.id.daysplusReceived);
+							countUp(dayplusReceived, engine.receivedDayPlusCount(), speed);
 						}
 					}
 				}

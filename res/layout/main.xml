@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/back_repeat"
@@ -74,7 +75,6 @@
                         android:textSize="24dip"
                         android:textStyle="bold" />
                 </TableRow>
-
             </TableLayout>
 
             <TableLayout
@@ -105,12 +105,12 @@
                 <TableRow android:gravity="center_horizontal" >
 
                     <TextView
-                        android:id="@+id/medianReceived"
+                        android:id="@+id/medianSent"
                         style="@style/timeboard"
                         android:layout_width="130dip" />
 
                     <TextView
-                        android:id="@+id/medianSent"
+                        android:id="@+id/medianReceived"
                         style="@style/timeboard"
                         android:layout_width="130dip" />
                 </TableRow>
@@ -127,6 +127,34 @@
                         style="@style/timeboard" />
                 </TableRow>
                 -->
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <!-- Mean -->
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:layout_marginBottom="5dip"
+                        android:text="@string/mean" />
+                </TableRow>
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/meanSent"
+                        style="@style/timeboard"
+                        android:layout_width="130dip" />
+
+                    <TextView
+                        android:id="@+id/meanReceived"
+                        style="@style/timeboard"
+                        android:layout_width="130dip" />
+                </TableRow>
             </TableLayout>
 
             <!--
@@ -233,6 +261,65 @@
                         style="@style/scoreboard" />
                 </TableRow>
 
+                <!-- Convo Length -->
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:layout_marginBottom="5dip"
+                        android:text="@string/convoAvg" />
+                </TableRow>
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        android:id="@+id/convoLength"
+                        style="@style/timeboard"
+                        android:layout_width="130dip"
+                        android:layout_span="8" />
+                </TableRow>
+
+                <!-- Convo Start -->
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:text="@string/convStart" />
+                </TableRow>
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/sendStart"
+                        style="@style/scoreboard" />
+
+                    <TextView
+                        android:id="@+id/receiveStart"
+                        style="@style/scoreboard" />
+                </TableRow>
+
+                <!-- Convo End -->
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:text="@string/convEnd" />
+                </TableRow>
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/sendEnd"
+                        style="@style/scoreboard" />
+
+                    <TextView
+                        android:id="@+id/receiveEnd"
+                        style="@style/scoreboard" />
+                </TableRow>
+
                 <!-- Doubles -->
 
                 <TableRow style="@style/title_row" >
@@ -251,6 +338,29 @@
                     <TextView
                         android:id="@+id/doublesReceived"
                         style="@style/scoreboard" />
+                </TableRow>
+
+                <!-- Double times -->
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:layout_marginBottom="5dip"
+                        android:text="@string/double_times" />
+                </TableRow>
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/doubleSentTime"
+                        style="@style/timeboard"
+                        android:layout_width="130dip" />
+
+                    <TextView
+                        android:id="@+id/doubleReceivedTime"
+                        style="@style/timeboard"
+                        android:layout_width="130dip" />
                 </TableRow>
 
                 <!-- Quarters -->
@@ -312,9 +422,28 @@
                         android:id="@+id/daysReceived"
                         style="@style/scoreboard" />
                 </TableRow>
+
+                <!-- Weeks -->
+
+                <TableRow style="@style/title_row" >
+
+                    <TextView
+                        style="@style/count_title"
+                        android:text="@string/daysplus" />
+                </TableRow>
+
+                <TableRow android:gravity="center_horizontal" >
+
+                    <TextView
+                        android:id="@+id/daysplusSent"
+                        style="@style/scoreboard" />
+
+                    <TextView
+                        android:id="@+id/daysplusReceived"
+                        style="@style/scoreboard" />
+                </TableRow>
             </TableLayout>
         </LinearLayout>
-
     </ScrollView>
 
     <Button
@@ -324,5 +453,14 @@
         android:layout_marginTop="5dip"
         android:onClick="doLaunchContactPicker"
         android:text="@string/pick_a_contact" />
+    
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="a15061c781e0c18"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="TEST_EMULATOR, KUYV-6LCB-WEZQ-J" />
 
 </LinearLayout>
