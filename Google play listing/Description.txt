@@ -1,0 +1,1 @@
+Tug analyses your SMS history to see who is tugging who. It scans your messages for reply-speed, kisses, question-marks and smilies. Using Tug you can see who is more interested.

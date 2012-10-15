@@ -1,4 +1,4 @@
-package com.tug.kite;
+package com.kite.tug;
 
 public class Message {
 	public String text;
