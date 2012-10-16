@@ -24,6 +24,7 @@ import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.CommonDataKinds.Nickname;
 import android.util.Log;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -470,6 +471,7 @@ public class Tugging extends Activity {
 
 							TextView dayplusReceived = (TextView) findViewById(R.id.daysplusReceived);
 							countUp(dayplusReceived, engine.receivedDayPlusCount(), speed);
+							((ScrollView) findViewById(R.id.content_scroller)).fling(-3000);
 						}
 					}
 				}

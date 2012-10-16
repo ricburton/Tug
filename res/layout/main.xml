@@ -8,9 +8,13 @@
     android:padding="0dip" >
 
     <ScrollView
+        android:id="@+id/content_scroller"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="15dp"
+        android:overScrollMode="always" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -162,7 +166,8 @@
             <TableLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="15dp" >
 
                 <!-- Totals -->
 
@@ -432,7 +437,7 @@
         android:id="@+id/do_contact_picker"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
+        android:layout_marginTop="0dip"
         android:onClick="doLaunchContactPicker"
         android:text="@string/pick_a_contact" />
     
@@ -441,7 +446,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         ads:adSize="BANNER"
-        ads:adUnitId="a15061c781e0c18"
+        ads:adUnitId="a1507d5d6f7efae"
         ads:loadAdOnCreate="true"
         ads:testDevices="TEST_EMULATOR, KUYV-6LCB-WEZQ-J" />
 
