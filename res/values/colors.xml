@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background">#ffffff</color>
+    <color name="dark_highlight">#99000000</color>
     <color name="headline">#ffffff</color>
     <color name="stars">#000000</color>
 </resources>

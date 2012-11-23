@@ -93,7 +93,7 @@ public class StatEngine {
 		} else {
 			int indexOne = (arrayLength / 2);
 			int indexTwo = arrayLength / 2 + 1;
-			Log.d("MEDIAN", "indexone: " + indexOne + " indexTwo " + indexTwo);
+			if (Tugging.DEBUG) Log.d("MEDIAN", "indexone: " + indexOne + " indexTwo " + indexTwo);
 			double arraysSum = myArray.get(indexOne - 1)
 			+ myArray.get(indexTwo - 1);
 			arrayMedian = arraysSum / 2;
@@ -174,7 +174,7 @@ public class StatEngine {
 			average_bunch_length = total_bunch_messages / bunches.size();
 		}
 		//calc average send and receive times within bunches
-		Log.d("Engine", "total receive to send response count: " + total_receive_to_send_response_count);
+		if (Tugging.DEBUG) Log.d("Engine", "total receive to send response count: " + total_receive_to_send_response_count);
 		if (total_receive_to_send_response_count > 0) {
 			average_receive_to_send_response_time = total_receive_to_send_response_time / total_receive_to_send_response_count;
 		}
@@ -239,9 +239,9 @@ public class StatEngine {
 			person = rat;	
 		}
 		person.count++;
-		Log.d("StatEngine", "The person chars is: " + person.chars);
-		Log.d("StatEngine", "The msg is: " + message);
-		Log.d("StatEngine", "The msg txt is: " + message.text);
+		if (Tugging.DEBUG) Log.d("StatEngine", "The person chars is: " + person.chars);
+		if (Tugging.DEBUG) Log.d("StatEngine", "The msg is: " + message);
+		if (Tugging.DEBUG) Log.d("StatEngine", "The msg txt is: " + message.text);
 
 		person.chars += message.text.length();						//length of message
 
@@ -254,7 +254,7 @@ public class StatEngine {
 			if (time_gap < Bunch.time_gap) { //if the messages are close enough together (need a variable in Bunch class)
 				potentialBunch.addMessage(message); //then start collecting into a potential bunch
 			} else { //if the messages are not close enough together then end the bunch 
-				Log.d("Engine", "about to check if potential is valid");
+				if (Tugging.DEBUG) Log.d("Engine", "about to check if potential is valid");
 				if (potentialBunch.isValid()) { //if the bunch contains both sent and received messages then it is saved and added
 					addBunch(potentialBunch);
 				}
@@ -262,8 +262,10 @@ public class StatEngine {
 			}
 			// see if this is a reply or a double
 			if (previous_message.isSent() == message.isSent()) { //double up
-				person.doubles++;
-				person.total_double_up_times += time_gap;
+				if ((message.time - previous_message.time) > 60) { //takes account of quick follow up messages
+					person.doubles++;
+					person.total_double_up_times += time_gap;
+				}
 			} else {
 				person.replyTimes.add(time_gap);
 			}
