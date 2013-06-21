@@ -251,7 +251,7 @@ public class StatEngine {
 
 		if (previous_message != null) {
 			int time_gap = (int) (message.time - previous_message.time);
-			if (time_gap < Bunch.time_gap) { //if the messages are close enough together (need a variable in Bunch class)
+			if ((time_gap < Bunch.max_time_gap) && (time_gap > Bunch.min_time_gap)) { //if the messages are close enough together
 				potentialBunch.addMessage(message); //then start collecting into a potential bunch
 			} else { //if the messages are not close enough together then end the bunch 
 				if (Tugging.DEBUG) Log.d("Engine", "about to check if potential is valid");

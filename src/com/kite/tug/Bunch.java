@@ -11,7 +11,8 @@ public class Bunch {
 	public int total_send_to_receive_response_time = 0;
 	public int total_receive_to_send_response_time = 0;
 	
-	public static final int time_gap = 3600;
+	public static final int max_time_gap = 3600;
+	public static final int min_time_gap = 15;
 
 	public void addMessage(Message msg) {
 		pMessages.add(msg);

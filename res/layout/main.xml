@@ -438,16 +438,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dip"
-        android:onClick="doLaunchContactPicker"
+        android:onClick="doLaunchContactPicker1"
         android:text="@string/pick_a_contact" />
     
     <com.google.ads.AdView
         android:id="@+id/adView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        ads:adSize="BANNER"
+        ads:adSize="SMART_BANNER"
         ads:adUnitId="a1507d5d6f7efae"
         ads:loadAdOnCreate="true"
-        ads:testDevices="TEST_EMULATOR, KUYV-6LCB-WEZQ-J" />
+        ads:testDevices="TEST_EMULATOR, KUYV-6LCB-WEZQ-J, 3FE4B61A384EC3225BD558F2FDB98D94" />
+    
 
 </LinearLayout>
